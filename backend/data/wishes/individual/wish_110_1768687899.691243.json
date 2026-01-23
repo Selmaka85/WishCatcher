@@ -1,0 +1,56 @@
+{
+  "id": "wish_110_1768687899.691243",
+  "intent": "Serviciu pentru țigări țigări bucată ureche",
+  "domain": "other",
+  "score": 0.6,
+  "business_score": 0.33999999999999997,
+  "technologies": [],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": null,
+      "text": null,
+      "confidence": 0.3
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": 0.0,
+      "intensity": 0
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "youtube",
+  "timestamp": "2026-01-17T04:31:00",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  },
+  "intent_full": "Utilizatorii doresc țigări țigări bucată ureche. Soluția ar trebui să includă: țigări la bucată după ureche. Funcționalități cheie: țigări la bucată după ureche.",
+  "structured": {
+    "what": "țigări țigări bucată ureche",
+    "why": "Necesitate identificată din context",
+    "who": "general users",
+    "when": "Când apare nevoia",
+    "how": "țigări la bucată după ureche",
+    "problem": "Problema identificată din context",
+    "solution_type": "service",
+    "key_features": [
+      "țigări la bucată după ureche"
+    ],
+    "pain_points": []
+  }
+}

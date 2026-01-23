@@ -1,0 +1,59 @@
+{
+  "id": "wish_78_1768687883.258737",
+  "intent": "Platformă/aplicație pentru videoclipuri ralph loop inlocui programatorii agi ralph loop modul inseamna",
+  "domain": "software",
+  "score": 0.8,
+  "business_score": 0.33999999999999997,
+  "technologies": [],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": null,
+      "text": null,
+      "confidence": 0.3
+    },
+    "frustration": {
+      "expressions": [
+        "hardware, totusi atunci cand o sa fie aceste zeci de datacentere ce consuma energie cat orase intregi + au nevoi"
+      ],
+      "sentiment": -0.2,
+      "intensity": 0.2
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "youtube",
+  "timestamp": "2026-01-17T17:43:29",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  },
+  "intent_full": "Utilizatorii doresc videoclipuri ralph loop inlocui programatorii agi ralph loop modul inseamna. Problema apare când hardware, totusi atunci cand o sa fie aceste zeci de datacentere ce consuma energie cat orase intregi + au nevoi. Soluția ar trebui să includă: ralph loop se vor inlocui programatorii, ca e agi, etc. pretul tokenilor. Funcționalități cheie: Ralph Loop se vor inlocui programatorii, pretul tokenilor.",
+  "structured": {
+    "what": "videoclipuri Ralph Loop inlocui programatorii AGI Ralph Loop modul inseamna",
+    "why": "hardware, totusi atunci cand o sa fie aceste zeci de datacentere ce consuma energie cat orase intregi + au nevoi",
+    "who": "Programator",
+    "when": "Când apare nevoia",
+    "how": "Ralph Loop se vor inlocui programatorii, ca e AGI, etc. pretul tokenilor",
+    "problem": "hardware, totusi atunci cand o sa fie aceste zeci de datacentere ce consuma energie cat orase intregi + au nevoi",
+    "solution_type": "software",
+    "key_features": [
+      "Ralph Loop se vor inlocui programatorii",
+      "pretul tokenilor"
+    ],
+    "pain_points": []
+  }
+}

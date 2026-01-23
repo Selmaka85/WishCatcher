@@ -1,0 +1,56 @@
+{
+  "id": "wish_20_1768687841.531809",
+  "intent": "Serviciu pentru luati lei piept pui luati stiu aveti observat naspa luat",
+  "domain": "other",
+  "score": 0.6,
+  "business_score": 0.33999999999999997,
+  "technologies": [],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": null,
+      "text": null,
+      "confidence": 0.3
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": -0.2,
+      "intensity": 0.2
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "youtube",
+  "timestamp": "2026-01-17T21:42:21",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  },
+  "intent_full": "Utilizatorii doresc luati lei piept pui luati stiu aveti observat naspa luat. Problema apare când , intr adevar le gateste repede dar  problema e alta : nu au gust, sau poate m am obisnuit eu cu mancarea facuta in mult ulei, dar la airfryer au gust. Soluția ar trebui să includă: mancarea facuta in mult ulei, dar la airfryer au gust de plastic. Funcționalități cheie: mancarea facuta in mult ulei.",
+  "structured": {
+    "what": "luati lei piept pui luati stiu aveti observat naspa luat",
+    "why": "alta : nu au gust, sau poate m am obisnuit eu cu mancarea facuta in mult ulei, dar la airfryer au gu",
+    "who": "general users",
+    "when": "Când apare nevoia",
+    "how": "mancarea facuta in mult ulei, dar la airfryer au gust de plastic",
+    "problem": ", intr adevar le gateste repede DAR  problema e alta : nu au gust, sau poate m am obisnuit eu cu mancarea facuta in mult ulei, dar la airfryer au gust",
+    "solution_type": "service",
+    "key_features": [
+      "mancarea facuta in mult ulei"
+    ],
+    "pain_points": []
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "id": "wish_3_1768675284.249688",
+  "intent": "han a tech solution that level of availability is too expensive for most people even weekly coaching",
+  "domain": "software",
+  "score": 0.85,
+  "business_score": 0.33999999999999997,
+  "technologies": [
+    "mobile",
+    "web",
+    "database"
+  ],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": "event",
+      "text": "agnosis, and have shipped several iterations of ADHD support since then (1:1 coaching, web tools, body doubling, and AI-assisted coaching).<p>Across these launches and 80k coaching sessions, we kept r",
+      "confidence": 0.8
+    },
+    "frustration": {
+      "expressions": [
+        "harder problem is actually doing it consistently over time, especially when attention, motivation, and emotional state fluctuate.<p>That maps to a useful distinction that is explored in the literature (e.g. <a href=\"https:&#x2F;&#x2F;pmc.ncbi.n",
+        "hard into managing the latter. Productivity apps push execution, general chatbots give advice, but neither re"
+      ],
+      "sentiment": 0.2,
+      "intensity": 0
+    },
+    "pain_points": [
+      {
+        "text": "loser to these goals<p><i>Daily + weekly check-ins</i>: users engage in short, low-friction chat flows to set their priorities for the day (most popular use case is brain dumping priorities then having Indy help sort through them). The system does not assume consistency or linear progress, and adapts prompts based on prior behavior rather than enforcing a fixed routine.<p><i>Longitudinal insights</i>: over time, Indy surfaces patterns across inputs so users can see trends in effort, focus, and blockers. This",
+        "type": "time",
+        "severity": "low"
+      },
+      {
+        "text": "spend less time on devices. Go analogue. Pen and paper.\nThe best tool that I have found is the Bullet Journal Metho",
+        "type": "time",
+        "severity": "low"
+      },
+      {
+        "text": "problem for people with ADHD. The harder problem is actually doing it consistently over time, especially when attention, motivation, and emotional state fluctuate.<p>That maps to a useful distinction that is explored in the literature (e.g. <a href=\"https:&#x2F;&#x2F;pm",
+        "type": "time",
+        "severity": "medium"
+      },
+      {
+        "text": "Problem-solving when stuck</i>: when users report feeling blocked, Indy uses structured, behavior-change-informed prompts to help identify what is actually getting in the way (e.g. energy, clarity, emotional load, environment) and narrow toward a concrete next step<p><i>Progress that includes effort</i>: Indy tracks wins, effort, and insights separately, and helps users draw out po",
+        "type": "effort",
+        "severity": "medium"
+      },
+      {
+        "text": "problem solving, and accountability, while keeping agency with the user and clear boundaries around non-medical use.<p>Indy is free to try: <a href=\"https:&#x2F;&#x2F;www.shimmer.care&#x2F;indy\">https:&#x2F;&#x2F;www.shimmer.care&#x2F;indy</a><p>If you’re building in applied AI, and&#x2F;or if you have ADHD, we’d love to know: - what other AI tools you’ve tried for ADHD and things you liked vs. felt missing; -how you think about the role of AI vs. human support for ADHD in your life; - how the onboarding and first-use feels and any positive or critical feedback you have.<p>I’d love to hear your (ADHD) experiences or feedback on Indy. I need assistance with task retrieval, time management, and working memory. I do not need an app that makes me feel guilty, and quantifies it with pretty charts. We are not lacking in knowledge, and tr",
+        "type": "time",
+        "severity": "high"
+      }
+    ],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "youtube",
+  "timestamp": "2026-01-16T16:20:21",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  }
+}

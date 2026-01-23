@@ -1,0 +1,59 @@
+{
+  "id": "wish_103_1768687897.259115",
+  "intent": "Platformă/aplicație pentru să comand de la restaurant și am gastrită sau mai rău, ce ar trebui să comand și ce ar trebui să evi...",
+  "domain": "software",
+  "score": 0.9,
+  "business_score": 0.33999999999999997,
+  "technologies": [
+    "api",
+    "desktop"
+  ],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": null,
+      "text": null,
+      "confidence": 0.3
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": 0.2,
+      "intensity": 0
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "youtube",
+  "timestamp": "2026-01-16T22:10:05",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  },
+  "intent_full": "Utilizatorii doresc să comand de la restaurant și am gastrită sau mai rău, ce ar trebui să comand și ce ar trebui să evi.... Situația apare îmi comand de obicei îmi pică rău la stomac/sistemul digestiv. Soluția ar trebui să includă: comand și ce ar trebui să evit. alte cuvinte dacă vreau să comand de la restaurant și am gastrită sau mai rău, ce ar trebui să comand și ce ar trebui să evit. specific indian sau asiatic etc. Funcționalități cheie: specific indian sau asiatic etc.",
+  "structured": {
+    "what": "să comand de la restaurant și am gastrită sau mai rău, ce ar trebui să comand și ce ar trebui să evi...",
+    "why": "Necesitate identificată din context",
+    "who": "general users",
+    "when": "îmi comand de obicei îmi pică rău la stomac/sistemul digestiv",
+    "how": "comand și ce ar trebui să evit. alte cuvinte dacă vreau să comand de la restaurant și am gastrită sau mai rău, ce ar trebui să comand și ce ar trebui să evit. specific indian sau asiatic etc",
+    "problem": "Problema identificată din context",
+    "solution_type": "software",
+    "key_features": [
+      "specific indian sau asiatic etc"
+    ],
+    "pain_points": []
+  }
+}

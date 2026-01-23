@@ -1,0 +1,58 @@
+{
+  "id": "wish_35_1768687860.334783",
+  "intent": "Serviciu pentru lva rămas pană idei titluri 🥲 mijlocul târgu jiului pui",
+  "domain": "other",
+  "score": 0.9,
+  "business_score": 0.33999999999999997,
+  "technologies": [
+    "api"
+  ],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": null,
+      "text": null,
+      "confidence": 0.3
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": 0.2,
+      "intensity": 0
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "youtube",
+  "timestamp": "2026-01-17T19:10:39",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  },
+  "intent_full": "Utilizatorii doresc lva rămas pană idei titluri 🥲 mijlocul târgu jiului pui. Situația apare vor crește temperaturile. Soluția ar trebui să includă: fața mașinilor, se cred la patinoar pe un lac înghețat care se află la câțiva metri de locul unde stau ei, care într-o zi le va aduce sfârșitul dacă vor reuși să rămână în viață până când vor crește temperaturile. adăposturi private sau sanctuare. intermediul cărora am salvat zeci de câini. Funcționalități cheie: adăposturi private sau sanctuare.",
+  "structured": {
+    "what": "lva rămas pană idei titluri 🥲 mijlocul Târgu Jiului pui",
+    "why": "Necesitate identificată din context",
+    "who": "general users",
+    "when": "vor crește temperaturile",
+    "how": "fața mașinilor, se cred la patinoar pe un lac înghețat care se află la câțiva metri de locul unde stau ei, care într-o zi le va aduce sfârșitul dacă vor reuși să rămână în viață până când vor crește temperaturile. adăposturi private sau sanctuare. intermediul cărora am salvat zeci de câini",
+    "problem": "Problema identificată din context",
+    "solution_type": "service",
+    "key_features": [
+      "adăposturi private sau sanctuare"
+    ],
+    "pain_points": []
+  }
+}

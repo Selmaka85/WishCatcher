@@ -1,0 +1,54 @@
+{
+  "id": "wish_25_1768687847.711599",
+  "intent": "Serviciu pentru 🌟 🌟 🌟 🌟 🌟 🌟 stele review tudor doza",
+  "domain": "other",
+  "score": 0.6,
+  "business_score": 0.33999999999999997,
+  "technologies": [],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": null,
+      "text": null,
+      "confidence": 0.3
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": 0.0,
+      "intensity": 0
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "youtube",
+  "timestamp": "2026-01-17T21:30:15",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  },
+  "intent_full": "Utilizatorii doresc 🌟 🌟 🌟 🌟 🌟 🌟 stele review tudor doza. Motivul este că analizele arătau deficit. 🌟 🌟 🌟 🌟 🌟 🌟 stele review Tudor Doza Problema identificată din context",
+  "structured": {
+    "what": "🌟 🌟 🌟 🌟 🌟 🌟 stele review Tudor Doza",
+    "why": "analizele arătau deficit",
+    "who": "general users",
+    "when": "Când apare nevoia",
+    "how": "Soluție bazată pe nevoile identificate",
+    "problem": "Problema identificată din context",
+    "solution_type": "service",
+    "key_features": [],
+    "pain_points": []
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "id": "wish_4_1768691525.544322",
+  "intent": "Serviciu pentru să știu unde le pot printa la un preț decent salut",
+  "domain": "other",
+  "score": 0.9,
+  "business_score": 0.33999999999999997,
+  "technologies": [],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": null,
+      "text": null,
+      "confidence": 0.3
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": 0.0,
+      "intensity": 0
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "youtube",
+  "timestamp": "2026-01-17T21:41:17",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  },
+  "intent_full": "Utilizatorii doresc să știu unde le pot printa la un preț decent salut. Soluția ar trebui să includă: filme a3 și aș vrea să știu unde le pot printa la un preț decent salut. filme a3 și aș vrea să știu unde le pot printa la un preț decent și calitate ok. să știu unde le pot printa la un preț decent Salut Problema identificată din context",
+  "structured": {
+    "what": "să știu unde le pot printa la un preț decent Salut",
+    "why": "Necesitate identificată din context",
+    "who": "general users",
+    "when": "Când apare nevoia",
+    "how": "filme a3 și aș vrea să știu unde le pot printa la un preț decent Salut. filme A3 și aș vrea să știu unde le pot printa la un preț decent și calitate ok",
+    "problem": "Problema identificată din context",
+    "solution_type": "service",
+    "key_features": [],
+    "pain_points": []
+  }
+}

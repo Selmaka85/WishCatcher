@@ -1,0 +1,59 @@
+{
+  "id": "wish_86_1768687891.238743",
+  "intent": "Platformă/aplicație pentru solida ani experienta solida produse clienti ani joburile veneau fast",
+  "domain": "software",
+  "score": 0.9,
+  "business_score": 0.33999999999999997,
+  "technologies": [
+    "mobile",
+    "web",
+    "database",
+    "desktop"
+  ],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": null,
+      "text": null,
+      "confidence": 0.3
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": 0.0,
+      "intensity": 0
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "youtube",
+  "timestamp": "2026-01-17T00:11:18",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  },
+  "intent_full": "Utilizatorii doresc solida ani experienta solida produse clienti ani joburile veneau fast. Soluția ar trebui să includă: „unfortunately we’ll not be moving forward with your application”. ai pentru fiecare job description\n* scrisorile de intentie sunt generate pentru fiecare rol bazate pe experienta si skillurile care trebuie evidentiate\n* exista matching intre candidat si job (skill-uri vs cerinte)\n* focusul este pe joburi remote\n\ninitial am facut-o doar sa ma descurc eu in piata asta. solida ani Experienta solida produse clienti ani joburile veneau Fast Problema identificată din context",
+  "structured": {
+    "what": "solida ani Experienta solida produse clienti ani joburile veneau Fast",
+    "why": "Necesitate identificată din context",
+    "who": "Developer",
+    "when": "Când apare nevoia",
+    "how": "„unfortunately we’ll not be moving forward with your application”. AI pentru fiecare job description\n* scrisorile de intentie sunt generate pentru fiecare rol bazate pe experienta si skillurile care trebuie evidentiate\n* exista matching intre candidat si job (skill-uri vs cerinte)\n* focusul este pe joburi remote\n\nInitial am facut-o doar sa ma descurc eu in piata asta",
+    "problem": "Problema identificată din context",
+    "solution_type": "software",
+    "key_features": [],
+    "pain_points": []
+  }
+}

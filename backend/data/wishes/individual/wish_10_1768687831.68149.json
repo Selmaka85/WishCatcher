@@ -1,0 +1,63 @@
+{
+  "id": "wish_10_1768687831.68149",
+  "intent": "Serviciu pentru copii",
+  "domain": "finance",
+  "score": 0.85,
+  "business_score": 0.45999999999999996,
+  "technologies": [
+    "desktop"
+  ],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": "event",
+      "text": "entul sexual, așa că, în momentul în care întâlnesc un bărbat care le stârnește interesul din punct de vedere intim, își frământă trupurile cu el fără nicio obligație; există pornografia, care este un",
+      "confidence": 0.8
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": 0.2,
+      "intensity": 0
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.6
+  },
+  "source": "youtube",
+  "timestamp": "2026-01-14T16:50:01",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "subscription",
+    "estimated_price": "€5-15/mo",
+    "potential_revenue": "€50K-200K/an"
+  },
+  "intent_full": "Utilizatorii doresc copii. Motivul este că și câteva din lucrurile pe care noi le țineam sub cheie, în alte vremuri, nu mai au aceeași valoare . Situația apare entul sexual, așa că, în momentul în care întâlnesc un bărbat care le stârnește interesul din punct . Soluția ar trebui să includă: el fără nicio obligație; există pornografia, care este un flagel din punctul meu de vedere, dar, din păcate, este o soluție foarte la îndemână pentru bărbați. lipsa obligațiilor. urmare, tot mai mulți bărbați – și femei, dar aici vorbim despre bărbați – nu își mai doresc copii. Funcționalități cheie: el fără nicio obligație; există pornografia, lipsa obligațiilor, femeile care, noi ca și cum am fi doamna vieții lui, defecte și calități.",
+  "structured": {
+    "what": "copii",
+    "why": "și câteva din lucrurile pe care noi le țineam sub cheie, în alte vremuri, nu mai au aceeași valoare ",
+    "who": "general users",
+    "when": "entul sexual, așa că, în momentul în care întâlnesc un bărbat care le stârnește interesul din punct ",
+    "how": "el fără nicio obligație; există pornografia, care este un flagel din punctul meu de vedere, dar, din păcate, este o soluție foarte la îndemână pentru bărbați. lipsa obligațiilor. urmare, tot mai mulți bărbați – și femei, dar aici vorbim despre bărbați – nu își mai doresc copii",
+    "problem": "Problema identificată din context",
+    "solution_type": "service",
+    "key_features": [
+      "el fără nicio obligație; există pornografia",
+      "lipsa obligațiilor",
+      "femeile care",
+      "noi ca și cum am fi doamna vieții lui",
+      "defecte și calități",
+      "el fără nicio obligație; există pornografia"
+    ],
+    "pain_points": []
+  }
+}

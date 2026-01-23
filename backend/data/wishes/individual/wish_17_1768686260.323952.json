@@ -1,0 +1,44 @@
+{
+  "id": "wish_17_1768686260.323952",
+  "intent": "activa 🌟 5",
+  "domain": "other",
+  "score": 0.6,
+  "business_score": 0.33999999999999997,
+  "technologies": [
+    "desktop"
+  ],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": "event",
+      "text": "vate par să fie mai eficiente decât vitaminele B simple pe care le luam înainte. Le iau dimineața cu un pahar de apă și nu mi-au dat niciun fel de probleme la stomac. Raport calitate preț excelent.",
+      "confidence": 0.8
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": -0.2,
+      "intensity": 0.2
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "anpc",
+  "timestamp": "2026-01-17T19:52:12",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  }
+}

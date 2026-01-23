@@ -1,0 +1,44 @@
+{
+  "id": "wish_78_1768685909.240446",
+  "intent": "jura legendă urbană HR poreclită Lăptăreasa",
+  "domain": "other",
+  "score": 0.6,
+  "business_score": 0.33999999999999997,
+  "technologies": [
+    "api"
+  ],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": "event",
+      "text": "realizat același lucru: nu ne lăsase nimănui nici măcar un strop. De atunci, numele a rămas, deși explicațiile s-au ramificat în zeci de variante, fiecare mai improbabilă decât cealaltă.\n\nLăptăreasa",
+      "confidence": 0.8
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": 0.2,
+      "intensity": 0
+    },
+    "pain_points": [],
+    "context": {
+      "role": "angajat",
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "anpc",
+  "timestamp": "2026-01-17T05:35:24",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": "angajat",
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  }
+}

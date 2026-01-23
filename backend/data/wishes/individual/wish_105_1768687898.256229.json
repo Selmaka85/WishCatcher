@@ -1,0 +1,58 @@
+{
+  "id": "wish_105_1768687898.256229",
+  "intent": "Serviciu pentru auzi album ratacit drumul auzit om scapa https://m.youtube.com/watch?v=ckdxpgzti\\_e postare facebook",
+  "domain": "other",
+  "score": 0.6,
+  "business_score": 0.33999999999999997,
+  "technologies": [],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": null,
+      "text": null,
+      "confidence": 0.3
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": 0.0,
+      "intensity": 0
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "youtube",
+  "timestamp": "2026-01-17T20:06:32",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  },
+  "intent_full": "Utilizatorii doresc auzi album ratacit drumul auzit om scapa https://m.youtube.com/watch?v=ckdxpgzti\\_e postare facebook. Soluția ar trebui să includă: el si daca il mai listez sau nu. un an greu si aglomerat in viata persoanala dar, bine, fie, albumul de pe 2017 este acum pe tub. mult peste ce a fost pana acum, sper sa nu apara si acelea la un an distanta :d \". Funcționalități cheie: el si daca il mai listez sau nu, un an greu si aglomerat in viata persoanala dar, mult peste ce a fost pana acum.",
+  "structured": {
+    "what": "auzi album Ratacit drumul auzit om scapa https://m.youtube.com/watch?v=CKDxPGZtI\\_E postare Facebook",
+    "why": "Necesitate identificată din context",
+    "who": "general users",
+    "when": "Când apare nevoia",
+    "how": "el si daca il mai listez sau nu. un an greu si aglomerat in viata persoanala dar, bine, fie, albumul de pe 2017 este acum pe tub. mult peste ce a fost pana acum, sper sa nu apara si acelea la un an distanta :D \"",
+    "problem": "Problema identificată din context",
+    "solution_type": "service",
+    "key_features": [
+      "el si daca il mai listez sau nu",
+      "un an greu si aglomerat in viata persoanala dar",
+      "mult peste ce a fost pana acum"
+    ],
+    "pain_points": []
+  }
+}

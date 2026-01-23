@@ -1,0 +1,77 @@
+{
+  "id": "wish_10_1768691015.387303",
+  "intent": "Platform/application for maths writingtheseexamplesyourselfwillmeanthatthatarewritteninawaywhichyouspecificallycanunderstandsoitsavestimeoverall watch5 months months agoa level maths maths q&a",
+  "domain": "software",
+  "score": 1.0,
+  "business_score": 0.33999999999999997,
+  "technologies": [
+    "mobile",
+    "api"
+  ],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": "event",
+      "text": "se,somakeuseofYouTubeandgraphingsoftwareslikeDesmos.Visualisingthemoreabstracttopicsreallyhelpsunderstanding.2.ThereisalotmorecontentinALevelFurtherMaths,anditisalotharder.Havenotesready(eitherhandwri",
+      "confidence": 0.8
+    },
+    "frustration": {
+      "expressions": [
+        "difficultquestiontypeswhichyoucanreferbacktoifyouarestrugglingwiththattopiclaterintheyear.Writingtheseexamplesyourselfwillmeanthatthatarewritten",
+        "difficultquestionsineachchapterandtalkthroughthemwithyourfriends/teachers.Theyareusuallytheonesworthalotofmarksneartheendofpapersandyoudon’twanttomissoutonthosemarks!4.Makesureyouknowwhichformulaeyouneedto",
+        "hardtoconceptualise,somakeuseofYouTubeandgraphingsoftwareslikeDesmos.Visualisingthemoreabstracttopicsreall",
+        "harder.Havenotesready(eitherhandwrittenorpremade),andfollowyourspecificationtoensureyoudon'tmissoutonanything.3.Usepastpapersfromdifferentexamboardsifyourunoutofpracticequestions",
+        "difficultquestiontypeswhichyoucanreferbacktoifyouarestrugglingwiththattopiclaterintheyear.Writingtheseexamplesyourselfwillmeanthatthatarewritten",
+        "difficultquestionsineachchapterandtalkthroughthemwithyourfriends/teachers.Theyareusuallytheonesworthalotofmarksneartheendofpapersandyoudon’twanttomissoutonthosemarks!4.Makesureyouknowwhichformulaeyouneedto",
+        "hardtoconceptualise,somakeuseofYouTubeandgraphingsoftwareslikeDesmos.Visualisingthemoreabstracttopicsreall",
+        "harder.Havenotesready(eitherhandwrittenorpremade),andfollowyourspecificationtoensureyoudon'tmissoutonanything.3.Usepastpapersfromdifferentexamboardsifyourunoutofpracticequestions"
+      ],
+      "sentiment": -0.2,
+      "intensity": 0.2
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "anpc",
+  "timestamp": "2026-01-17T23:02:41.968595",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  },
+  "intent_full": "Users want maths writingtheseexamplesyourselfwillmeanthatthatarewritteninawaywhichyouspecificallycanunderstandsoitsavestimeoverall watch5 months months agoa level maths maths q&a. The problem occurs when difficultquestiontypeswhichyoucanreferbacktoifyouarestrugglingwiththattopiclaterintheyear.writingtheseexamplesyourselfwillmeanthatthatarewritten. difficultquestionsineachchapterandtalkthroughthemwithyourfriends/teachers.theyareusuallytheonesworthalotofmarksneartheendofpapersandyoudon’twanttomissoutonthosemarks!4.makesureyouknowwhichformulaeyouneedto. The situation occurs se,somakeuseofyoutubeandgraphingsoftwareslikedesmos. The solution should include: maths writingtheseexamplesyourselfwillmeanthatthatarewritteninawaywhichyouspecificallycanunderstandsoitsavestimeoverall doasmanyexamquestionsasyoucan watch5 months, agoa level maths, further maths, tipsstudy23!study forum, -levelmathematics/furthermathematics?ifyouarehereareourtoptipsforthissubject:1.writeoutsomeneatworkedexamplesofsomeofthemoredifficultquestiontypeswhichyoucanreferbacktoifyouarestrugglingwiththattopiclaterintheyear. Key features: maths writingtheseexamplesyourselfwillmeanthatthatarewritteninawaywhichyouspecificallycanunderstandsoitsavestimeoverall doasmanyexamquestionsasyoucan watch5 months, agoA Level Maths, Further Maths, Tipsstudy23!Study Forum, -LevelMathematics/FurtherMathematics?Ifyouarehereareourtoptipsforthissubject:1.Writeoutsomeneatworkedexamplesofsomeofthemoredifficultquestiontypeswhichyoucanreferbacktoifyouarestrugglingwiththattopiclaterintheyear.",
+  "structured": {
+    "what": "maths writingtheseexamplesyourselfwillmeanthatthatarewritteninawaywhichyouspecificallycanunderstandsoitsavestimeoverall watch5 months months agoA Level Maths Maths Q&A",
+    "why": "difficultquestiontypeswhichyoucanreferbacktoifyouarestrugglingwiththattopiclaterintheyear.Writingtheseexamplesyourselfwillmeanthatthatarewritten. difficultquestionsineachchapterandtalkthroughthemwithyourfriends/teachers.Theyareusuallytheonesworthalotofmarksneartheendofpapersandyoudon’twanttomissoutonthosemarks!4.Makesureyouknowwhichformulaeyouneedto",
+    "who": "general users",
+    "when": "se,somakeuseofYouTubeandgraphingsoftwareslikeDesmos",
+    "how": "maths writingtheseexamplesyourselfwillmeanthatthatarewritteninawaywhichyouspecificallycanunderstandsoitsavestimeoverall doasmanyexamquestionsasyoucan watch5 months, agoA Level Maths, Further Maths, Tipsstudy23!Study Forum, -LevelMathematics/FurtherMathematics?Ifyouarehereareourtoptipsforthissubject:1.Writeoutsomeneatworkedexamplesofsomeofthemoredifficultquestiontypeswhichyoucanreferbacktoifyouarestrugglingwiththattopiclaterintheyear",
+    "problem": "difficultquestiontypeswhichyoucanreferbacktoifyouarestrugglingwiththattopiclaterintheyear.Writingtheseexamplesyourselfwillmeanthatthatarewritten. difficultquestionsineachchapterandtalkthroughthemwithyourfriends/teachers.Theyareusuallytheonesworthalotofmarksneartheendofpapersandyoudon’twanttomissoutonthosemarks!4.Makesureyouknowwhichformulaeyouneedto",
+    "solution_type": "software",
+    "key_features": [
+      "maths writingtheseexamplesyourselfwillmeanthatthatarewritteninawaywhichyouspecificallycanunderstandsoitsavestimeoverall doasmanyexamquestionsasyoucan watch5 months",
+      "agoA Level Maths",
+      "Further Maths",
+      "Tipsstudy23!Study Forum",
+      "-LevelMathematics/FurtherMathematics?Ifyouarehereareourtoptipsforthissubject:1.Writeoutsomeneatworkedexamplesofsomeofthemoredifficultquestiontypeswhichyoucanreferbacktoifyouarestrugglingwiththattopiclaterintheyear",
+      "Writingtheseexamplesyourselfwillmeanthatthatarewritteninawaywhichyouspecificallycanunderstandsoitsavestimeoverall.2.Doasmanyexamquestionsasyoucan",
+      "asregularlyasyoucan!Don'tjustfocusonthetopicswhichyouhavejustcoveredinclass",
+      "frequentlygobackovercontentfromearlierintheyeartoidentifywhichtopicsyouneedtogooveragainforyourrevision.3.Activelyseekoutthemostdifficultquestionsineachchapterandtalkthroughthemwithyourfriends/teachers",
+      "Theyareusuallytheonesworthalotofmarksneartheendofpapersandyoudon’twanttomissoutonthosemarks!4.Makesureyouknowwhichformulaeyouneedtomemorise!Mathsasawholeisasubjectwhereyouhavetopracticetoimprove",
+      "howeverifyoudon'tremembertheformulacorrectlyintheexamyouwillnotpickupthosemarks"
+    ],
+    "pain_points": []
+  }
+}

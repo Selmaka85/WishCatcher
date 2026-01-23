@@ -1,0 +1,3 @@
+PDF export pentru bp_wish_0_1769096157.520716_1769097227
+Pentru generare PDF reală, folosește: markdown-pdf sau weasyprint
+Markdown source: data\business_plans\individual\bp_wish_0_1769096157.520716_1769097227.md

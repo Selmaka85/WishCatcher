@@ -1,0 +1,59 @@
+{
+  "id": "wish_0_1768691011.995457",
+  "intent": "Service for pack seat saturday night saturday night district line packed people",
+  "domain": "other",
+  "score": 0.6,
+  "business_score": 0.33999999999999997,
+  "technologies": [],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": null,
+      "text": null,
+      "confidence": 0.3
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": 0.0,
+      "intensity": 0
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "anpc",
+  "timestamp": "2026-01-17T22:46:40",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  },
+  "intent_full": "Users want pack seat saturday night saturday night district line packed people. The problem occurs when problema identificată din context. The situation occurs când apare nevoia. The solution should include: pack seat, district line, a seat, priorities. Key features: pack seat, District line, a seat, Priorities.",
+  "structured": {
+    "what": "pack seat Saturday night Saturday night District line packed People",
+    "why": "Necesitate identificată din context",
+    "who": "general users",
+    "when": "Când apare nevoia",
+    "how": "pack seat, District line, a seat, Priorities",
+    "problem": "Problema identificată din context",
+    "solution_type": "service",
+    "key_features": [
+      "pack seat",
+      "District line",
+      "a seat",
+      "Priorities"
+    ],
+    "pain_points": []
+  }
+}

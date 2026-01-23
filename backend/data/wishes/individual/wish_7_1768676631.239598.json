@@ -1,0 +1,52 @@
+{
+  "id": "wish_7_1768676631.239598",
+  "intent": "sublime started then hard",
+  "domain": "software",
+  "score": 1.0,
+  "business_score": 0.48,
+  "technologies": [
+    "mobile",
+    "web",
+    "api",
+    "database",
+    "desktop"
+  ],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": "event",
+      "text": "ng so much babysitting. We started trusting it with more: building features end to end, adding tests, refactors. Stuff you&#x27;d normally hand off to a developer. We started running 3-4 at once. Then",
+      "confidence": 0.8
+    },
+    "frustration": {
+      "expressions": [
+        "annoying: too many terminals, hard to track what&#x27;s where, diffs scattered everywhere.<p>So we built 1Code.dev, an app to run your Claude Code agents in parallel that works on Mac and Web. On Mac: run locally, with or without worktrees. On Web: run in remote sandbox",
+        "hard to track what&#x27;s where, diffs scattered everywhere.<p>So we built 1Code.dev, an app to run your Cl",
+        "hard to tell what's going on when it zooms right in every time you click something, and it's so fast it act"
+      ],
+      "sentiment": -0.4,
+      "intensity": 0.4
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.7
+  },
+  "source": "youtube",
+  "timestamp": "2026-01-15T19:20:48",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "subscription",
+    "estimated_price": "€5-15/mo",
+    "potential_revenue": "€50K-200K/an"
+  }
+}

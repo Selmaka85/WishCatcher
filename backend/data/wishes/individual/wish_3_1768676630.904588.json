@@ -1,0 +1,45 @@
+{
+  "id": "wish_3_1768676630.904588",
+  "intent": "iscovery moderation protocol limitations i may be missing any architectural red flags code pre testf",
+  "domain": "software",
+  "score": 0.85,
+  "business_score": 0.33999999999999997,
+  "technologies": [
+    "mobile",
+    "database"
+  ],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": "event",
+      "text": "scroll up then back down, I get a white gradient at the bottom of the screen that goes away after a few seconds\n- I’d like to be able to expand the description text, but clicking it didn’t do anythin",
+      "confidence": 0.8
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": 0.0,
+      "intensity": 0
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "youtube",
+  "timestamp": "2026-01-13T17:14:14",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  }
+}

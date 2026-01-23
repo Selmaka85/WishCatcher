@@ -1,0 +1,67 @@
+{
+  "id": "wish_1_1768691012.225498",
+  "intent": "Service for know trip saudi uk saudi m musician families taking trip",
+  "domain": "other",
+  "score": 0.6,
+  "business_score": 0.33999999999999997,
+  "technologies": [
+    "api"
+  ],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": null,
+      "text": null,
+      "confidence": 0.3
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": 0.2,
+      "intensity": 0
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "anpc",
+  "timestamp": "2026-01-17T22:31:16",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  },
+  "intent_full": "Users want know trip saudi uk saudi m musician families taking trip. The problem occurs when problema identificată din context. The situation occurs când apare nevoia. The solution should include: saudi uk, an alt musician, my families, a trip, the uk. Key features: Saudi uk, an alt musician, my families, a trip, the uk.",
+  "structured": {
+    "what": "know trip Saudi uk Saudi m musician families taking trip",
+    "why": "well but would anyone have any good suggestions for cheap vinyl places or any alt clothing stores et",
+    "who": "general users",
+    "when": "Când apare nevoia",
+    "how": "Saudi uk, an alt musician, my families, a trip, the uk",
+    "problem": "Problema identificată din context",
+    "solution_type": "service",
+    "key_features": [
+      "Saudi uk",
+      "an alt musician",
+      "my families",
+      "a trip",
+      "the uk",
+      "Braintree",
+      "the nearest big city",
+      "London",
+      "anyone",
+      "any good suggestions"
+    ],
+    "pain_points": []
+  }
+}

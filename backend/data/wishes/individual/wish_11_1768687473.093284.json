@@ -1,0 +1,44 @@
+{
+  "id": "wish_11_1768687473.093284",
+  "intent": "Platformă/aplicație pentru patriot român sau maghiar mai bun pe întreg pământul decât mine",
+  "domain": "finance",
+  "score": 0.85,
+  "business_score": 0.33999999999999997,
+  "technologies": [
+    "mobile"
+  ],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": "event",
+      "text": "erei superioare a Parlamentului Maghiar. A rămas celebru discursul lui de atunci din parlament: \n\n&gt;Providența divină, Însuși Dumnezeul popoarelor lumii, a stabilit un destin pentru națiunile maghia",
+      "confidence": 0.8
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": 0.2,
+      "intensity": 0
+    },
+    "pain_points": [],
+    "context": {
+      "role": "student",
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "youtube",
+  "timestamp": "2026-01-14T09:39:45",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": "student",
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  }
+}

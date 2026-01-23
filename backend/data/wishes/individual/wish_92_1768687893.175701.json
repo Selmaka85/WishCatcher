@@ -1,0 +1,56 @@
+{
+  "id": "wish_92_1768687893.175701",
+  "intent": "Platformă/aplicație pentru aplicație apărut aplicație primi € înscrierea durează minute costă lăsați",
+  "domain": "software",
+  "score": 0.6,
+  "business_score": 0.33999999999999997,
+  "technologies": [
+    "api"
+  ],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": null,
+      "text": null,
+      "confidence": 0.3
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": 0.0,
+      "intensity": 0
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "youtube",
+  "timestamp": "2026-01-17T18:21:06",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  },
+  "intent_full": "Utilizatorii doresc aplicație apărut aplicație primi € înscrierea durează minute costă lăsați. Soluția ar trebui să includă: care poți primi 50€ gratuit \n\nînscrierea e rapidă, durează câteva minute și nu costă nimic. aplicație apărut aplicație primi € Înscrierea durează minute costă lăsați Problema identificată din context",
+  "structured": {
+    "what": "aplicație apărut aplicație primi € Înscrierea durează minute costă lăsați",
+    "why": "Necesitate identificată din context",
+    "who": "general users",
+    "when": "Când apare nevoia",
+    "how": "care poți primi 50€ gratuit \n\nÎnscrierea e rapidă, durează câteva minute și nu costă nimic",
+    "problem": "Problema identificată din context",
+    "solution_type": "software",
+    "key_features": [],
+    "pain_points": []
+  }
+}

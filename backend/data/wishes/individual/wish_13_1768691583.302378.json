@@ -1,0 +1,57 @@
+{
+  "id": "wish_13_1768691583.302378",
+  "intent": "Platformă/aplicație pentru posta an https://www.reddit.com/r/programare/comments/1ivg6p8/big\\_data\\_job\\_in\\_crowdstrikeremote/](https://www.reddit.com/r/programare/comments/1ivg6p8/big_data_job_in_crowdstrikeremote/ salut postat an anunt https://www.reddit.com/r/programare/comments/1ivg6p8/big\\_data\\_job\\_in\\_crowdstrikeremote/](https://www.reddit.com/r/programare/comments/1ivg6p8/big_data_job_in_crowdstrikeremote/ pozitii data",
+  "domain": "software",
+  "score": 0.6,
+  "business_score": 0.33999999999999997,
+  "technologies": [],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": null,
+      "text": null,
+      "confidence": 0.3
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": -0.2,
+      "intensity": 0.2
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "youtube",
+  "timestamp": "2026-01-17T14:30:02",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  },
+  "intent_full": "Utilizatorii doresc posta an https://www.reddit.com/r/programare/comments/1ivg6p8/big\\_data\\_job\\_in\\_crowdstrikeremote/](https://www.reddit.com/r/programare/comments/1ivg6p8/big_data_job_in_crowdstrikeremote/ salut postat an anunt https://www.reddit.com/r/programare/comments/1ivg6p8/big\\_data\\_job\\_in\\_crowdstrikeremote/](https://www.reddit.com/r/programare/comments/1ivg6p8/big_data_job_in_crowdstrikeremote/ pozitii data. Problema apare când procesul de interviu este descris in vechiul post dar il pun aici din nou  - 2 interviuri care implica discutii tehnice + o problema (scris cod, gen l. Soluția ar trebui să includă: volume mari/foarte mari de date. managerul direct (behavioral interview). Funcționalități cheie: volume mari/foarte mari de date, managerul direct (behavioral interview).",
+  "structured": {
+    "what": "posta an https://www.reddit.com/r/programare/comments/1ivg6p8/big\\_data\\_job\\_in\\_crowdstrikeremote/](https://www.reddit.com/r/programare/comments/1ivg6p8/big_data_job_in_crowdstrikeremote/ Salut postat an anunt https://www.reddit.com/r/programare/comments/1ivg6p8/big\\_data\\_job\\_in\\_crowdstrikeremote/](https://www.reddit.com/r/programare/comments/1ivg6p8/big_data_job_in_crowdstrikeremote/ pozitii data",
+    "why": "Necesitate identificată din context",
+    "who": "general users",
+    "when": "Când apare nevoia",
+    "how": "volume mari/foarte mari de date. managerul direct (behavioral interview)",
+    "problem": "Procesul de interviu este descris in vechiul post dar il pun aici din nou  - 2 interviuri care implica discutii tehnice + o problema (scris cod, gen l",
+    "solution_type": "software",
+    "key_features": [
+      "volume mari/foarte mari de date",
+      "managerul direct (behavioral interview)"
+    ],
+    "pain_points": []
+  }
+}

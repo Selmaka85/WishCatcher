@@ -1,0 +1,44 @@
+{
+  "id": "wish_3_1768680843.795309",
+  "intent": "the unplug plug so many of you entrepreneurs are looking for an angle here is one that will continue",
+  "domain": "other",
+  "score": 0.9,
+  "business_score": 0.33999999999999997,
+  "technologies": [
+    "desktop"
+  ],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": null,
+      "text": null,
+      "confidence": 0.3
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": 0.0,
+      "intensity": 0
+    },
+    "pain_points": [],
+    "context": {
+      "role": "entrepreneur",
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "anpc",
+  "timestamp": "2026-01-17T20:12:37.052759",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": "entrepreneur",
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  }
+}

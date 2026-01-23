@@ -1,0 +1,167 @@
+[
+  {
+    "id": "bp_wish_0_1769096157.520716_1769097227",
+    "wish_id": "wish_0_1769096157.520716",
+    "executive_summary": {
+      "idea": "Service for gromit what's got your goat this week",
+      "idea_full": "Users want gromit what's got your goat this week. The problem occurs when problema identificată din context. The situation occurs când apare nevoia. The solution should include: a rolling pin. Key features: a rolling pin, Gromit, your goat, anyone, the head.",
+      "value_proposition": "Soluție pentru gromit what's got your goat this week",
+      "market_opportunity": "Market small în regional",
+      "target_audience": "general users",
+      "revenue_model": "one-time",
+      "key_metrics": {
+        "estimated_price": "€10-20 one-time",
+        "potential_revenue": "€50K-200K/an",
+        "time_to_market": "2-3 months",
+        "initial_investment": "medium"
+      },
+      "trigger": null
+    },
+    "market_analysis": {
+      "target_market": {
+        "size": "small",
+        "demographic": null,
+        "geographic": "regional"
+      },
+      "market_size_estimate": "€100K-500K",
+      "competition_analysis": {
+        "level": "medium",
+        "differentiation": "Focus pe simplitate și UX"
+      },
+      "customer_pain_points": [],
+      "emotional_triggers": []
+    },
+    "product_description": {
+      "name": "ServiceForGromit",
+      "description": "Users want gromit what's got your goat this week. The problem occurs when problema identificată din context. The situation occurs când apare nevoia. The solution should include: a rolling pin. Key features: a rolling pin, Gromit, your goat, anyone, the head.",
+      "description_short": "Service for gromit what's got your goat this week",
+      "key_features": [
+        "a rolling pin",
+        "Gromit",
+        "your goat",
+        "anyone",
+        "the head",
+        "your chest"
+      ],
+      "value_proposition": "Soluție pentru gromit what's got your goat this week",
+      "target_users": "general users",
+      "use_case": "",
+      "problem_solved": "Problema identificată din context",
+      "solution_approach": "a rolling pin",
+      "technology_stack": []
+    },
+    "business_model": {
+      "revenue_streams": [
+        {
+          "type": "one-time",
+          "description": "Abonament lunar/anual",
+          "pricing": "€10-20 one-time",
+          "target_customers": null
+        }
+      ],
+      "pricing_strategy": {
+        "model": "one-time",
+        "price_range": "€10-20 one-time",
+        "rationale": "Urgență medie + 0 pain points"
+      },
+      "cost_structure": {
+        "development": "medium",
+        "operational": "€500-2000/mo",
+        "marketing": "€1000-5000/mo"
+      },
+      "unit_economics": {
+        "cac": "€20-50",
+        "ltv": "€200-500",
+        "ltv_cac_ratio": "4-10x"
+      }
+    },
+    "go_to_market": {
+      "marketing_channels": [
+        "Social Media",
+        "Content Marketing",
+        "SEO",
+        "Paid Ads"
+      ],
+      "sales_strategy": "Self-service cu suport opțional",
+      "marketing_messages": [
+        "Soluție pentru Service for gromit what's got your goat this week"
+      ],
+      "customer_acquisition": {
+        "channels": [
+          "social_media",
+          "content_marketing",
+          "partnerships"
+        ],
+        "cost_per_acquisition": "€20-50",
+        "lifetime_value": "€200-500"
+      },
+      "launch_plan": {
+        "phase_1": "MVP launch",
+        "phase_2": "Beta testing",
+        "phase_3": "Public launch"
+      }
+    },
+    "financial_projections": {
+      "year_1": {
+        "revenue": "€50K-200K/an",
+        "costs": "€20K-50K",
+        "break_even": "6-12 months"
+      },
+      "year_2": {
+        "revenue": "€100K-400K",
+        "growth": "50-100%"
+      },
+      "year_3": {
+        "revenue": "€200K-800K",
+        "growth": "30-50%"
+      },
+      "roi_estimate": "200-500% în 3 ani"
+    },
+    "implementation_plan": {
+      "timeline": "2-3 months",
+      "phases": [
+        {
+          "phase": "Research & Planning",
+          "duration": "2-4 weeks"
+        },
+        {
+          "phase": "Development",
+          "duration": "2-3 months"
+        },
+        {
+          "phase": "Testing & Launch",
+          "duration": "2-4 weeks"
+        }
+      ],
+      "resources_needed": {
+        "team_size": "1-3 people",
+        "skills": [
+          "Development",
+          "Design",
+          "Marketing"
+        ],
+        "budget": "medium"
+      },
+      "cost_breakdown": {
+        "development": "medium",
+        "operational": "€500-2000/mo",
+        "marketing": "€1000-5000/mo"
+      },
+      "milestones": [
+        "MVP complet",
+        "Beta launch",
+        "100 users",
+        "Break-even"
+      ]
+    },
+    "generated_at": "2026-01-22 15:53:47.125404",
+    "version": 1,
+    "versions": [
+      {
+        "version": 1,
+        "generated_at": "2026-01-22 15:53:47.125404",
+        "timestamp": "2026-01-22T15:53:47.125404"
+      }
+    ]
+  }
+]

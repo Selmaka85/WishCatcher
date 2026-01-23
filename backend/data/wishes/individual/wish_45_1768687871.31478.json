@@ -1,0 +1,57 @@
+{
+  "id": "wish_45_1768687871.31478",
+  "intent": "Produs: prefer ani prefer ani treabă(bac examen Joc jocuri(pe telefon lucruri",
+  "domain": "other",
+  "score": 0.6,
+  "business_score": 0.33999999999999997,
+  "technologies": [
+    "mobile",
+    "api"
+  ],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": null,
+      "text": null,
+      "confidence": 0.3
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": 0.0,
+      "intensity": 0
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "youtube",
+  "timestamp": "2026-01-17T19:24:37",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  },
+  "intent_full": "Utilizatorii doresc prefer ani prefer ani treabă(bac examen joc jocuri(pe telefon lucruri. Motivul este că cei mai mari au treabă(bac, examen, servici,etc). prefer ani prefer ani treabă(bac examen Joc jocuri(pe telefon lucruri Problema identificată din context",
+  "structured": {
+    "what": "prefer ani prefer ani treabă(bac examen Joc jocuri(pe telefon lucruri",
+    "why": "cei mai mari au treabă(bac, examen, servici,etc)",
+    "who": "general users",
+    "when": "Când apare nevoia",
+    "how": "Soluție bazată pe nevoile identificate",
+    "problem": "Problema identificată din context",
+    "solution_type": "physical_product",
+    "key_features": [],
+    "pain_points": []
+  }
+}

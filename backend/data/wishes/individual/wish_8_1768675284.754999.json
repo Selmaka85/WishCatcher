@@ -1,0 +1,63 @@
+{
+  "id": "wish_8_1768675284.754999",
+  "intent": "ven x27 t performed a like for like test and that would be interesting but has anyone else noticed t",
+  "domain": "software",
+  "score": 0.9,
+  "business_score": 0.33999999999999997,
+  "technologies": [
+    "mobile",
+    "api"
+  ],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": "event",
+      "text": "am using Opus at night (Eastern US), I am seeing it go down extreme rabbit holes on the same types of requests I am putting through on a regular basis. It is more likely to undertake refactors that b",
+      "confidence": 0.8
+    },
+    "frustration": {
+      "expressions": [
+        "can't speak for Claude, but Gemini definitely has variable quality at different times, though I've never bothered to try to find a specific time-of-day pattern to it.The most reliable time to see it fall apart is whe"
+      ],
+      "sentiment": 0.2,
+      "intensity": 0
+    },
+    "pain_points": [
+      {
+        "text": "lose all of its context (even on a new chat) or just start failing at the UI level by not bothering to finish answers, etc.The sort of obvious likely reason for this is when the models are under high load they probably engage in a type of dynamic load balancing where they fall back to lighter models or limit the amount of time/resources allowed for any particular prompt. I do think Claude does jiggery pokery with its model q",
+        "type": "time",
+        "severity": "low"
+      },
+      {
+        "text": "lose out my day. My limited understanding here is that usage loads impact model outputs to make them less deterministic (and likely degrading in quality). See: https://thinkingmachines.ai/blog/defeating-nondeterminism-in... The math is obvious on this one. It's super well-documented that model performance on complex tasks scales (to some asymptote) with the amount of inference-time compute allocated.LLM providers must dynamically scale inference-time compute based on current load",
+        "type": "time",
+        "severity": "low"
+      },
+      {
+        "text": "lose to this) It’s possible that they could be using fallback models during peak load times (west coast mid day). I assume your traffic would be routed to an east coast data center though. B",
+        "type": "time",
+        "severity": "low"
+      }
+    ],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "youtube",
+  "timestamp": "2026-01-16T17:15:10",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "id": "wish_90_1768687892.35635",
+  "intent": "Serviciu pentru îmbogăți ghiozdan îmbogățiți garderoba pret puteti set camasi https://www.vinted.ro/items/7826720426-set-9-camasi-400-ron-valoare-totala](https://www.vinted.ro/items/7826720426-set-9-camasi-400-ron-valoare-totala calcare",
+  "domain": "other",
+  "score": 0.6,
+  "business_score": 0.33999999999999997,
+  "technologies": [],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": null,
+      "text": null,
+      "confidence": 0.3
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": 0.0,
+      "intensity": 0
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "youtube",
+  "timestamp": "2026-01-17T19:48:35",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  },
+  "intent_full": "Utilizatorii doresc îmbogăți ghiozdan îmbogățiți garderoba pret puteti set camasi https://www.vinted.ro/items/7826720426-set-9-camasi-400-ron-valoare-totala](https://www.vinted.ro/items/7826720426-set-9-camasi-400-ron-valoare-totala calcare. Soluția ar trebui să includă: acest set de camasi:\n\n[https://www. o calcare arata ca noi ✨\n\nde asemenea, mai incerc sa vand in ghiozdan hales in conditie foarte buna la doar 150 ron si o geaca de iarna (75 ron) -&gt; vedeti celelalte articole postate. Funcționalități cheie: acest set de camasi:\n\n[https://www, o calcare arata ca noi ✨\n\nDe asemenea.",
+  "structured": {
+    "what": "îmbogăți ghiozdan îmbogățiți garderoba pret puteti set camasi https://www.vinted.ro/items/7826720426-set-9-camasi-400-ron-valoare-totala](https://www.vinted.ro/items/7826720426-set-9-camasi-400-ron-valoare-totala calcare",
+    "why": "Necesitate identificată din context",
+    "who": "general users",
+    "when": "Când apare nevoia",
+    "how": "acest set de camasi:\n\n[https://www. o calcare arata ca noi ✨\n\nDe asemenea, mai incerc sa vand in ghiozdan hales in conditie foarte buna la doar 150 Ron si o geaca de iarna (75 Ron) -&gt; Vedeti celelalte articole postate",
+    "problem": "Problema identificată din context",
+    "solution_type": "service",
+    "key_features": [
+      "acest set de camasi:\n\n[https://www",
+      "o calcare arata ca noi ✨\n\nDe asemenea"
+    ],
+    "pain_points": []
+  }
+}

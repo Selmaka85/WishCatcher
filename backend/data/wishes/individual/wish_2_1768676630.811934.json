@@ -1,0 +1,50 @@
+{
+  "id": "wish_2_1768676630.811934",
+  "intent": "et has survived after all these years and i truly hope it will always stay this way thanks hn",
+  "domain": "software",
+  "score": 0.9,
+  "business_score": 0.45999999999999996,
+  "technologies": [
+    "mobile"
+  ],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": "event",
+      "text": "ng just 10 karma, you become almost a full user - free to participate, contribute, and enjoy the platform. Hacker News is a place that survived the revolution of the modern internet and remained true",
+      "confidence": 0.8
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": 0.2,
+      "intensity": 0
+    },
+    "pain_points": [
+      {
+        "text": "spend a long time building followers, or buy a checkmark, just to get access to recommendations. On Hacker News, ever",
+        "type": "time",
+        "severity": "low"
+      }
+    ],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.6
+  },
+  "source": "youtube",
+  "timestamp": "2026-01-17T17:41:11",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "subscription",
+    "estimated_price": "€5-15/mo",
+    "potential_revenue": "€50K-200K/an"
+  }
+}

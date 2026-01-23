@@ -1,0 +1,59 @@
+{
+  "id": "wish_65_1768687878.173677",
+  "intent": "Serviciu pentru stau salut stau salut stau bloc etaje etaj langa ior",
+  "domain": "other",
+  "score": 0.6,
+  "business_score": 0.33999999999999997,
+  "technologies": [
+    "api"
+  ],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": null,
+      "text": null,
+      "confidence": 0.3
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": -0.2,
+      "intensity": 0.2
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "youtube",
+  "timestamp": "2026-01-17T07:31:39",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  },
+  "intent_full": "Utilizatorii doresc stau salut stau salut stau bloc etaje etaj langa ior. Soluția ar trebui să includă: apa calda si caldura, dar acum suntem ok cu apa calda, nu mai aparem nici pe aplicatie, dar e frig de mori in casa. Funcționalități cheie: apa calda si caldura, apa calda.",
+  "structured": {
+    "what": "Stau Salut Stau Salut Stau bloc etaje etaj langa IOR",
+    "why": "Necesitate identificată din context",
+    "who": "general users",
+    "when": "Când apare nevoia",
+    "how": "apa calda si caldura, dar acum suntem ok cu apa calda, nu mai aparem nici pe aplicatie, dar E FRIG DE MORI IN CASA",
+    "problem": "Problema identificată din context",
+    "solution_type": "service",
+    "key_features": [
+      "apa calda si caldura",
+      "apa calda"
+    ],
+    "pain_points": []
+  }
+}

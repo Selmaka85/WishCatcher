@@ -1,0 +1,60 @@
+{
+  "id": "wish_85_1768687890.125471",
+  "intent": "Serviciu pentru hr poreclită lăptăreasa firmă ani legendă angajata hr poreclită lăptăreasa",
+  "domain": "other",
+  "score": 0.6,
+  "business_score": 0.33999999999999997,
+  "technologies": [
+    "api"
+  ],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": "event",
+      "text": "realizat același lucru: nu ne lăsase nimănui nici măcar un strop. De atunci, numele a rămas, deși explicațiile s-au ramificat în zeci de variante, fiecare mai improbabilă decât cealaltă.\n\nLăptăreasa",
+      "confidence": 0.8
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": 0.2,
+      "intensity": 0
+    },
+    "pain_points": [],
+    "context": {
+      "role": "angajat",
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "youtube",
+  "timestamp": "2026-01-17T05:35:24",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": "angajat",
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  },
+  "intent_full": "Utilizatorii doresc hr poreclită lăptăreasa firmă ani legendă angajata hr poreclită lăptăreasa. Motivul este că e vie: angajata de la hr poreclită lăptăreasa. Situația apare realizat același lucru: nu ne lăsase nimănui nici măcar un strop. Soluția ar trebui să includă: două plase pline de sticle de lapte bio, artizanal, de la o fermă despre care vorbea cu un entuziasm aproape mistic. o voce prea calmă pentru context:\n\n\\- la ce lucrezi. restul departamentului hr. Funcționalități cheie: două plase pline de sticle de lapte bio, un entuziasm aproape mistic, restul departamentului HR.",
+  "structured": {
+    "what": "HR poreclită Lăptăreasa firmă ani legendă angajata HR poreclită Lăptăreasa",
+    "why": "e vie: angajata de la HR poreclită Lăptăreasa",
+    "who": "general users",
+    "when": "realizat același lucru: nu ne lăsase nimănui nici măcar un strop",
+    "how": "două plase pline de sticle de lapte bio, artizanal, de la o fermă despre care vorbea cu un entuziasm aproape mistic. o voce prea calmă pentru context:\n\n\\- La ce lucrezi. restul departamentului HR",
+    "problem": "Problema identificată din context",
+    "solution_type": "service",
+    "key_features": [
+      "două plase pline de sticle de lapte bio",
+      "un entuziasm aproape mistic",
+      "restul departamentului HR"
+    ],
+    "pain_points": []
+  }
+}

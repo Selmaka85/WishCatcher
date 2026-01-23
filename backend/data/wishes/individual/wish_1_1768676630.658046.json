@@ -1,0 +1,46 @@
+{
+  "id": "wish_1_1768676630.658046",
+  "intent": "s 3 x2f 3 resolved p it aggregates ci status classifies review comments actionable vs noise and trac",
+  "domain": "software",
+  "score": 0.8,
+  "business_score": 0.33999999999999997,
+  "technologies": [
+    "mobile",
+    "api",
+    "database"
+  ],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": "event",
+      "text": "t was done.<p>It would poll CI in loops. Miss actionable comments buried among 15 CodeRabbit suggestions. Or declare victory while threads were still unresolved.<p>The core problem: no deterministic w",
+      "confidence": 0.8
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": 0.2,
+      "intensity": 0
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "youtube",
+  "timestamp": "2026-01-17T09:55:56",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  }
+}

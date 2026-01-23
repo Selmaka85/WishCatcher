@@ -1,0 +1,62 @@
+{
+  "id": "wish_38_1768687863.428168",
+  "intent": "Serviciu pentru femeile copii si căsnicii: **1",
+  "domain": "finance",
+  "score": 0.85,
+  "business_score": 0.33999999999999997,
+  "technologies": [
+    "api"
+  ],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": null,
+      "text": null,
+      "confidence": 0.3
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": -0.2,
+      "intensity": 0.2
+    },
+    "pain_points": [],
+    "context": {
+      "role": "parent",
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "youtube",
+  "timestamp": "2026-01-17T13:33:01",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": "parent",
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  },
+  "intent_full": "Utilizatorii doresc femeile copii si căsnicii: **1. Motivul este că viața ei, după plecarea lui, înseamnă copii și, printre picături, restul. Situația apare am avut cu cine – a știut el mai bine care îmi va fi orânduiala și scopul în lume. Soluția ar trebui să includă: cine – a știut el mai bine care îmi va fi orânduiala și scopul în lume. o tipă de o empatie ieșită din comun – *regretful parents* se numește, vi-l recomand cu căldură. ea în caz că partenerul pleacă. Funcționalități cheie: căldură, ea în caz că partenerul pleacă, a abandona.",
+  "structured": {
+    "what": "femeile copii si căsnicii: **1",
+    "why": "viața ei, după plecarea lui, înseamnă copii și, printre picături, restul",
+    "who": "general users",
+    "when": "am avut cu cine – a știut el mai bine care îmi va fi orânduiala și scopul în lume",
+    "how": "cine – a știut el mai bine care îmi va fi orânduiala și scopul în lume. o tipă de o empatie ieșită din comun – *Regretful Parents* se numește, vi-l recomand cu căldură. ea în caz că partenerul pleacă",
+    "problem": "Problema identificată din context",
+    "solution_type": "service",
+    "key_features": [
+      "căldură",
+      "ea în caz că partenerul pleacă",
+      "a abandona"
+    ],
+    "pain_points": [
+      "opțiunea de a abandona"
+    ]
+  }
+}

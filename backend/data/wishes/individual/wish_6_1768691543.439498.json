@@ -1,0 +1,56 @@
+{
+  "id": "wish_6_1768691543.439498",
+  "intent": "Serviciu pentru ani ani ani ani vândut mașină vecin acte mână facem",
+  "domain": "other",
+  "score": 0.6,
+  "business_score": 0.33999999999999997,
+  "technologies": [],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": "event",
+      "text": "20 ani am vândut o mașină către un vecin, pe acte de mână, fără sa mai facem actele la modul oficial. Bineînțeles, la momentul respectiv i-am dat și toate actele mașinii. Timpul a trecut, el s-a muta",
+      "confidence": 0.8
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": 0.2,
+      "intensity": 0
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "youtube",
+  "timestamp": "2026-01-17T11:54:55",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  },
+  "intent_full": "Utilizatorii doresc ani ani ani ani vândut mașină vecin acte mână facem. Situația apare 20 ani am vândut o mașină către un vecin, pe acte de mână, fără sa mai facem actele la modul oficial. Soluția ar trebui să includă: deschidere proces si hotărâre judecătorească. fi procedura ca sa scot masina de pe numele meu. Funcționalități cheie: deschidere proces si hotărâre judecătorească.",
+  "structured": {
+    "what": "ani ani ani ani vândut mașină vecin acte mână facem",
+    "why": "Necesitate identificată din context",
+    "who": "general users",
+    "when": "20 ani am vândut o mașină către un vecin, pe acte de mână, fără sa mai facem actele la modul oficial",
+    "how": "deschidere proces si hotărâre judecătorească. fi procedura ca sa scot masina de pe numele meu",
+    "problem": "Problema identificată din context",
+    "solution_type": "service",
+    "key_features": [
+      "deschidere proces si hotărâre judecătorească"
+    ],
+    "pain_points": []
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "id": "wish_29_1768687854.045632",
+  "intent": "Serviciu pentru capsulele 🌟 🌟 🌟 🌟 🌟 stele review tudor vitamina",
+  "domain": "health",
+  "score": 0.8,
+  "business_score": 0.33999999999999997,
+  "technologies": [],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": null,
+      "text": null,
+      "confidence": 0.3
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": 0.0,
+      "intensity": 0
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "youtube",
+  "timestamp": "2026-01-17T21:28:48",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  },
+  "intent_full": "Utilizatorii doresc capsulele 🌟 🌟 🌟 🌟 🌟 stele review tudor vitamina. Soluția ar trebui să includă: k2 pentru ca calciul să se fixeze bine în oase și nu în artere. capsulele 🌟 🌟 🌟 🌟 🌟 stele review Tudor Vitamina Problema identificată din context",
+  "structured": {
+    "what": "capsulele 🌟 🌟 🌟 🌟 🌟 stele review Tudor Vitamina",
+    "why": "Necesitate identificată din context",
+    "who": "general users",
+    "when": "Când apare nevoia",
+    "how": "K2 pentru ca calciul să se fixeze bine în oase și nu în artere",
+    "problem": "Problema identificată din context",
+    "solution_type": "service",
+    "key_features": [],
+    "pain_points": []
+  }
+}

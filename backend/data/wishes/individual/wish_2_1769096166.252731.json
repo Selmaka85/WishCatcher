@@ -1,0 +1,73 @@
+{
+  "id": "wish_2_1769096166.252731",
+  "intent": "Service for write policy barry brooksby months barry brooksby accommodating months barry",
+  "domain": "other",
+  "score": 0.6,
+  "business_score": 0.5,
+  "technologies": [],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": "event",
+      "text": "nitial policy we needed to take a loan and he was STILL accessible. We have since had B...See more",
+      "confidence": 0.8
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": 0.0,
+      "intensity": 0
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "petitiideclic",
+  "timestamp": "2026-01-22T15:35:31.241009",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  },
+  "intent_full": "Users want write policy barry brooksby months barry brooksby accommodating months barry. The problem occurs when problema identificată din context. The situation occurs nitial policy we needed to take a loan and he was still accessible. The solution should include: several months barry brooksby is professional, informative, and incredibly accommodating. Key features: write policy Barry Brooksby, Barry Brooksby, our initial policy, a loan, more nitial policy.",
+  "structured": {
+    "what": "write policy Barry Brooksby months Barry Brooksby accommodating months Barry",
+    "why": "STILL accessible",
+    "who": "general users",
+    "when": "nitial policy we needed to take a loan and he was STILL accessible",
+    "how": "Several months Barry Brooksby is professional, informative, and incredibly accommodating",
+    "problem": "Problema identificată din context",
+    "solution_type": "service",
+    "key_features": [
+      "write policy Barry Brooksby",
+      "Barry Brooksby",
+      "our initial policy",
+      "a loan",
+      "more nitial policy"
+    ],
+    "pain_points": []
+  },
+  "priority_score": 0.535,
+  "urgency": "low",
+  "timing": "not_now",
+  "market_readiness": "almost",
+  "market_validation": {
+    "is_valid": true,
+    "trending": null,
+    "market_size": null,
+    "competition": null,
+    "similar_startups": null,
+    "confidence": 0.5,
+    "evidence": {}
+  }
+}

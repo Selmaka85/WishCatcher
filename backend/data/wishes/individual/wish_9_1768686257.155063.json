@@ -1,0 +1,44 @@
+{
+  "id": "wish_9_1768686257.155063",
+  "intent": "ependență duce",
+  "domain": "finance",
+  "score": 0.85,
+  "business_score": 0.45999999999999996,
+  "technologies": [
+    "desktop"
+  ],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": "event",
+      "text": "entul sexual, așa că, în momentul în care întâlnesc un bărbat care le stârnește interesul din punct de vedere intim, își frământă trupurile cu el fără nicio obligație; există pornografia, care este un",
+      "confidence": 0.8
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": 0.2,
+      "intensity": 0
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.6
+  },
+  "source": "anpc",
+  "timestamp": "2026-01-14T16:50:01",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "subscription",
+    "estimated_price": "€5-15/mo",
+    "potential_revenue": "€50K-200K/an"
+  }
+}

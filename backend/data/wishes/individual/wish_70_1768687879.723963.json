@@ -1,0 +1,54 @@
+{
+  "id": "wish_70_1768687879.723963",
+  "intent": "Serviciu pentru clubul sims moxa salut eveniment clubul moxa parere aveti club",
+  "domain": "other",
+  "score": 0.6,
+  "business_score": 0.33999999999999997,
+  "technologies": [],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": null,
+      "text": null,
+      "confidence": 0.3
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": 0.0,
+      "intensity": 0
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "youtube",
+  "timestamp": "2026-01-16T17:44:36",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  },
+  "intent_full": "Utilizatorii doresc clubul sims moxa salut eveniment clubul moxa parere aveti club. clubul Sims Moxa Salut eveniment clubul Moxa parere aveti club Problema identificată din context",
+  "structured": {
+    "what": "clubul Sims Moxa Salut eveniment clubul Moxa parere aveti club",
+    "why": "Necesitate identificată din context",
+    "who": "general users",
+    "when": "Când apare nevoia",
+    "how": "Soluție bazată pe nevoile identificate",
+    "problem": "Problema identificată din context",
+    "solution_type": "service",
+    "key_features": [],
+    "pain_points": []
+  }
+}

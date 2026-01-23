@@ -1,0 +1,61 @@
+{
+  "id": "wish_8_1768691015.052263",
+  "intent": "Platform/application for poststhatbreaktheseruleswillberemove months agoa level watch3 months agoa level mathematics study",
+  "domain": "other",
+  "score": 0.6,
+  "business_score": 0.33999999999999997,
+  "technologies": [],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": "event",
+      "text": "tgetstough!Justremember,it’sagainstthesiterulestoaskfororofferanycopyrightedpapersandtorequestoffsitechat.Poststhatbreaktheseruleswillberemoved.Afewpossibleicebreakerquestionsare:Whatexamboardareyouwi",
+      "confidence": 0.8
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": 0.2,
+      "intensity": 0
+    },
+    "pain_points": [],
+    "context": {
+      "role": "student",
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "anpc",
+  "timestamp": "2026-01-17T23:02:39.816608",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": "student",
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  },
+  "intent_full": "Users want poststhatbreaktheseruleswillberemove months agoa level watch3 months agoa level mathematics study. The problem occurs when problema identificată din context. The situation occurs tgetstough!justremember,it’sagainstthesiterulestoaskfororofferanycopyrightedpapersandtorequestoffsit. The solution should include: offersupporttoothers, shareyoursuccesses, orjusthavemoanwhenitgetstough!justremember, afewpossibleicebreakerquestionsare, whatexamboardareyouwith?whatdoyouenjoymostaboutmathematics?whatareadoyoustrugglewithmost?whydidyouchoosetostudymathematics?0reportreply tgetstough!justremember. Key features: offersupporttoothers, shareyoursuccesses, orjusthavemoanwhenitgetstough!Justremember, Afewpossibleicebreakerquestionsare, Whatexamboardareyouwith?WhatdoyouenjoymostaboutMathematics?Whatareadoyoustrugglewithmost?WhydidyouchoosetostudyMathematics?0ReportReply tgetstough!Justremember.",
+  "structured": {
+    "what": "poststhatbreaktheseruleswillberemove months agoA Level Watch3 months agoA Level Mathematics Study",
+    "why": "Necesitate identificată din context",
+    "who": "Student",
+    "when": "tgetstough!Justremember,it’sagainstthesiterulestoaskfororofferanycopyrightedpapersandtorequestoffsit",
+    "how": "offersupporttoothers, shareyoursuccesses, orjusthavemoanwhenitgetstough!Justremember, Afewpossibleicebreakerquestionsare, Whatexamboardareyouwith?WhatdoyouenjoymostaboutMathematics?Whatareadoyoustrugglewithmost?WhydidyouchoosetostudyMathematics?0ReportReply tgetstough!Justremember",
+    "problem": "Problema identificată din context",
+    "solution_type": "software",
+    "key_features": [
+      "offersupporttoothers",
+      "shareyoursuccesses",
+      "orjusthavemoanwhenitgetstough!Justremember",
+      "Afewpossibleicebreakerquestionsare",
+      "Whatexamboardareyouwith?WhatdoyouenjoymostaboutMathematics?Whatareadoyoustrugglewithmost?WhydidyouchoosetostudyMathematics?0ReportReply tgetstough!Justremember",
+      "Whatexamboardareyouwi"
+    ],
+    "pain_points": []
+  }
+}

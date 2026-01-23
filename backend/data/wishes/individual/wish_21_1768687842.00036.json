@@ -1,0 +1,57 @@
+{
+  "id": "wish_21_1768687842.00036",
+  "intent": "Produs: descoperi 🌟 🌟 🌟 🌟 🌟 🌟 stele review Tudor",
+  "domain": "other",
+  "score": 0.6,
+  "business_score": 0.33999999999999997,
+  "technologies": [
+    "web",
+    "api"
+  ],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": null,
+      "text": null,
+      "confidence": 0.3
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": -0.2,
+      "intensity": 0.2
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "youtube",
+  "timestamp": "2026-01-17T21:32:17",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  },
+  "intent_full": "Utilizatorii doresc descoperi 🌟 🌟 🌟 🌟 🌟 🌟 stele review tudor. Situația apare am avut nevoie să schimb ceva la comandă m-au ajutat fără probleme. Soluția ar trebui să includă: mare încredere pentru cine caută suplimente de calitate premium.",
+  "structured": {
+    "what": "descoperi 🌟 🌟 🌟 🌟 🌟 🌟 stele review Tudor",
+    "why": "Necesitate identificată din context",
+    "who": "general users",
+    "when": "am avut nevoie să schimb ceva la comandă m-au ajutat fără probleme",
+    "how": "mare încredere pentru cine caută suplimente de calitate premium",
+    "problem": "Problema identificată din context",
+    "solution_type": "physical_product",
+    "key_features": [],
+    "pain_points": []
+  }
+}

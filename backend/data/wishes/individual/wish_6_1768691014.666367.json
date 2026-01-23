@@ -1,0 +1,62 @@
+{
+  "id": "wish_6_1768691014.666367",
+  "intent": "Platform/application for share loneliness andrew huberman andrew huberman shares check ins tool",
+  "domain": "other",
+  "score": 0.6,
+  "business_score": 0.33999999999999997,
+  "technologies": [],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": "event",
+      "text": "ness crisis.He explains that yo...",
+      "confidence": 0.8
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": 0.0,
+      "intensity": 0
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "anpc",
+  "timestamp": "2026-01-17T23:02:29.876720",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  },
+  "intent_full": "Users want share loneliness andrew huberman andrew huberman shares check ins tool. The problem occurs when problema identificată din context. The situation occurs ness crisis. The solution should include: loneliness andrew huberman, daily andrew huberman, simple daily check-ins, a powerful tool, loneliness. Key features: loneliness Andrew Huberman, daily Andrew Huberman, simple daily check-ins, a powerful tool, loneliness.",
+  "structured": {
+    "what": "share loneliness Andrew Huberman Andrew Huberman shares check ins tool",
+    "why": "Necesitate identificată din context",
+    "who": "general users",
+    "when": "ness crisis",
+    "how": "loneliness Andrew Huberman, daily Andrew Huberman, simple daily check-ins, a powerful tool, loneliness",
+    "problem": "Problema identificată din context",
+    "solution_type": "software",
+    "key_features": [
+      "loneliness Andrew Huberman",
+      "daily Andrew Huberman",
+      "simple daily check-ins",
+      "a powerful tool",
+      "loneliness",
+      "today’s male loneliness crisis",
+      "ness crisis"
+    ],
+    "pain_points": []
+  }
+}

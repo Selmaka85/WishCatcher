@@ -1,0 +1,62 @@
+{
+  "id": "wish_11_1768687833.426722",
+  "intent": "Platformă/aplicație pentru patriot român sau maghiar mai bun pe întreg pământul decât mine",
+  "domain": "finance",
+  "score": 0.85,
+  "business_score": 0.33999999999999997,
+  "technologies": [
+    "mobile"
+  ],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": "event",
+      "text": "erei superioare a Parlamentului Maghiar. A rămas celebru discursul lui de atunci din parlament: \n\n&gt;Providența divină, Însuși Dumnezeul popoarelor lumii, a stabilit un destin pentru națiunile maghia",
+      "confidence": 0.8
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": 0.2,
+      "intensity": 0
+    },
+    "pain_points": [],
+    "context": {
+      "role": "student",
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "youtube",
+  "timestamp": "2026-01-14T09:39:45",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": "student",
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  },
+  "intent_full": "Utilizatorii doresc patriot român sau maghiar mai bun pe întreg pământul decât mine. Problema apare când gojdu i-a dat o replică lui babeș, îndemnând la conciliere: \n\n&gt;  \ndeclar întregii lumi că nu există un patriot român sau maghiar mai bun pe întreg . Situația apare erei superioare a parlamentului maghiar. Soluția ar trebui să includă: anii 1830, românul gojdu ajunsese unul dintre cei mai șmecheri avocați din budapesta. care s-au războit oamenii lui avram iancu. statul român în 1952. Funcționalități cheie: care s-au războit oamenii lui Avram Iancu, statul român în 1952.",
+  "structured": {
+    "what": "patriot român sau maghiar mai bun pe întreg pământul decât mine",
+    "why": "dacă maghiarul este pierdut astăzi, românul va fi pierdut mâine",
+    "who": "Student",
+    "when": "erei superioare a Parlamentului Maghiar",
+    "how": "anii 1830, românul Gojdu ajunsese unul dintre cei mai șmecheri avocați din Budapesta. care s-au războit oamenii lui Avram Iancu. statul român în 1952",
+    "problem": "Gojdu i-a dat o replică lui Babeș, îndemnând la conciliere: \n\n&gt;  \nDeclar întregii lumi că nu există un patriot român sau maghiar mai bun pe întreg ",
+    "solution_type": "software",
+    "key_features": [
+      "care s-au războit oamenii lui Avram Iancu",
+      "statul român în 1952"
+    ],
+    "pain_points": [
+      "ca scop discreditarea în vreun fel a marelui Gojdu, ba dimpotrivă",
+      "un patriot român sau maghiar mai bun pe întreg pământul decât mine"
+    ]
+  }
+}

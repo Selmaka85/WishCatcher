@@ -1,0 +1,45 @@
+{
+  "id": "wish_7_1768675284.67376",
+  "intent": "hub repo or configuring a static site generator p i wanted something dead simple upload markdown gt ",
+  "domain": "other",
+  "score": 0.9,
+  "business_score": 0.33999999999999997,
+  "technologies": [
+    "web",
+    "database"
+  ],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": "event",
+      "text": "ng.<p>It&#x27;s free to use. I’d love to hear your feedback! In https://mdview.io/  I implemented sharing via url encoding so no server is needed, thou big files are not supported because of the url l",
+      "confidence": 0.8
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": 0.0,
+      "intensity": 0
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "youtube",
+  "timestamp": "2026-01-16T12:58:40",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  }
+}

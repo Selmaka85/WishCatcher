@@ -1,0 +1,57 @@
+{
+  "id": "wish_20_1768691601.017461",
+  "intent": "Produs: Observ saptamana Salutare putea ajuta idei sfaturi privinta achizitiei dus",
+  "domain": "finance",
+  "score": 0.6,
+  "business_score": 0.33999999999999997,
+  "technologies": [],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": null,
+      "text": null,
+      "confidence": 0.3
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": 0.0,
+      "intensity": 0
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "youtube",
+  "timestamp": "2026-01-16T20:25:49",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  },
+  "intent_full": "Utilizatorii doresc observ saptamana salutare putea ajuta idei sfaturi privinta achizitiei dus. Soluția ar trebui să includă: ceva idei, sfaturi in privinta achizitiei unui dus bucal cat de cat ok dpdv calitativ si la un pret decent. toate incheieturile cand il porneam :). produsul lidl sa impartasiti. Funcționalități cheie: ceva idei, produsul Lidl sa impartasiti.",
+  "structured": {
+    "what": "Observ saptamana Salutare putea ajuta idei sfaturi privinta achizitiei dus",
+    "why": "Necesitate identificată din context",
+    "who": "general users",
+    "when": "Când apare nevoia",
+    "how": "ceva idei, sfaturi in privinta achizitiei unui dus bucal cat de cat ok dpdv calitativ si la un pret decent. toate incheieturile cand il porneam :). produsul Lidl sa impartasiti",
+    "problem": "Problema identificată din context",
+    "solution_type": "physical_product",
+    "key_features": [
+      "ceva idei",
+      "produsul Lidl sa impartasiti"
+    ],
+    "pain_points": []
+  }
+}

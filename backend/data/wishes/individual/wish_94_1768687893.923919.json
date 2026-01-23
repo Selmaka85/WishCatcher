@@ -1,0 +1,56 @@
+{
+  "id": "wish_94_1768687893.923919",
+  "intent": "Produs: cumpăra haine cumpărat retail RO we have Temu at home",
+  "domain": "other",
+  "score": 0.6,
+  "business_score": 0.33999999999999997,
+  "technologies": [],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": null,
+      "text": null,
+      "confidence": 0.3
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": -0.2,
+      "intensity": 0.2
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "youtube",
+  "timestamp": "2026-01-17T17:15:01",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  },
+  "intent_full": "Utilizatorii doresc cumpăra haine cumpărat retail ro we have temu at home. Problema apare când și problema este că, având încă lucruri cumpărate în liceu de la magazinele fast fashion şi 10+ ani mai târziu încă arată bine, mă face să cred că toț. Soluția ar trebui să includă: casă (să îmi înlocuiesc cârpele deja uzate de care am tras ani la rând) și tot ce pot spune este că, a fost o dezamăgire totală pentru produsele comandate. haine de la shein și temu etc…\n\nps: sinsay. Funcționalități cheie: haine de la Shein și Temu etc…\n\nPS: Sinsay.",
+  "structured": {
+    "what": "cumpăra haine cumpărat retail RO we have Temu at home",
+    "why": "că, având încă lucruri cumpărate în liceu de la magazinele fast fashion şi 10+ ani mai târziu încă a",
+    "who": "general users",
+    "when": "Când apare nevoia",
+    "how": "casă (să îmi înlocuiesc cârpele deja uzate de care am tras ani la rând) și tot ce pot spune este că, a fost o dezamăgire totală pentru produsele comandate. haine de la Shein și Temu etc…\n\nPS: Sinsay",
+    "problem": "Și problema este că, având încă lucruri cumpărate în liceu de la magazinele fast fashion şi 10+ ani mai târziu încă arată bine, mă face să cred că toț",
+    "solution_type": "physical_product",
+    "key_features": [
+      "haine de la Shein și Temu etc…\n\nPS: Sinsay"
+    ],
+    "pain_points": []
+  }
+}

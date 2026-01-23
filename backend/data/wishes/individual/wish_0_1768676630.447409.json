@@ -1,0 +1,49 @@
+{
+  "id": "wish_0_1768676630.447409",
+  "intent": "really permissions solve",
+  "domain": "software",
+  "score": 1.0,
+  "business_score": 0.33999999999999997,
+  "technologies": [
+    "mobile",
+    "web",
+    "database",
+    "desktop"
+  ],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": "event",
+      "text": "ch gives me more space to manage my apps and files, I decided to tackle the macOS big boss: the menu bar.<p>I spend ~40% of my day context-switching between apps — Zoom meetings, \nSlack channels, Code",
+      "confidence": 0.8
+    },
+    "frustration": {
+      "expressions": [
+        "hard to figure out which ones do which things. If you included a comparison features chart it might be help"
+      ],
+      "sentiment": 0.2,
+      "intensity": 0
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "youtube",
+  "timestamp": "2026-01-17T17:31:21",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  }
+}

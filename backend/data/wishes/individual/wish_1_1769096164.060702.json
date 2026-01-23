@@ -1,0 +1,78 @@
+{
+  "id": "wish_1_1769096164.060702",
+  "intent": "Platform/application for poststhatbreaktheseruleswillberemove months months months months agogcse mathematics study groupcaitlynevane2welcometothegcsefurthermathematicssubjectstudygroup!thisiswhereyoucanchatwithotherstudentsstudyingthesamesubjectsasyouandsupporteachotherasyouheadtowardsyourexamsyoucanpostanyusefultipsandresourcesthatyoucomeacross offersupporttoothers",
+  "domain": "education",
+  "score": 0.6,
+  "business_score": 0.5,
+  "technologies": [],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": "event",
+      "text": "tgetstough!Justremember,it’sagainstthesiterulestoaskfororofferanycopyrightedpapersandtorequestoffsitechat.Poststhatbreaktheseruleswillberemoved.Afewpossibleicebreakerquestionsare:Whatexamboardareyouwi",
+      "confidence": 0.8
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": 0.2,
+      "intensity": 0
+    },
+    "pain_points": [],
+    "context": {
+      "role": "student",
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "petitiideclic",
+  "timestamp": "2026-01-22T15:35:14.898992",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": "student",
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  },
+  "intent_full": "Users want poststhatbreaktheseruleswillberemove months months months months agogcse mathematics study groupcaitlynevane2welcometothegcsefurthermathematicssubjectstudygroup!thisiswhereyoucanchatwithotherstudentsstudyingthesamesubjectsasyouandsupporteachotherasyouheadtowardsyourexamsyoucanpostanyusefultipsandresourcesthatyoucomeacross offersupporttoothers. The problem occurs when problema identificată din context. The situation occurs tgetstough!justremember,it’sagainstthesiterulestoaskfororofferanycopyrightedpapersandtorequestoffsit. The solution should include: poststhatbreaktheseruleswillberemove months months, agogcse further mathematics study groupcaitlynevane2welcometothegcsefurthermathematicssubjectstudygroup!thisiswhereyoucanchatwithotherstudentsstudyingthesamesubjectsasyouandsupporteachotherasyouheadtowardsyourexamsyoucanpostanyusefultipsandresourcesthatyoucomeacross, offersupporttoothers, shareyoursuccesses, orjusthavemoanwhenitgetstough!justremember. Key features: poststhatbreaktheseruleswillberemove months months, agoGCSE Further Mathematics Study GroupCaitlynEvane2WelcometotheGCSEFurtherMathematicsSubjectStudyGroup!ThisiswhereyoucanchatwithotherstudentsstudyingthesamesubjectsasyouandsupporteachotherasyouheadtowardsyourexamsYoucanpostanyusefultipsandresourcesthatyoucomeacross, offersupporttoothers, shareyoursuccesses, orjusthavemoanwhenitgetstough!Justremember.",
+  "structured": {
+    "what": "poststhatbreaktheseruleswillberemove months months months months agoGCSE Mathematics Study GroupCaitlynEvane2WelcometotheGCSEFurtherMathematicsSubjectStudyGroup!ThisiswhereyoucanchatwithotherstudentsstudyingthesamesubjectsasyouandsupporteachotherasyouheadtowardsyourexamsYoucanpostanyusefultipsandresourcesthatyoucomeacross offersupporttoothers",
+    "why": "Necesitate identificată din context",
+    "who": "Student",
+    "when": "tgetstough!Justremember,it’sagainstthesiterulestoaskfororofferanycopyrightedpapersandtorequestoffsit",
+    "how": "poststhatbreaktheseruleswillberemove months months, agoGCSE Further Mathematics Study GroupCaitlynEvane2WelcometotheGCSEFurtherMathematicsSubjectStudyGroup!ThisiswhereyoucanchatwithotherstudentsstudyingthesamesubjectsasyouandsupporteachotherasyouheadtowardsyourexamsYoucanpostanyusefultipsandresourcesthatyoucomeacross, offersupporttoothers, shareyoursuccesses, orjusthavemoanwhenitgetstough!Justremember",
+    "problem": "Problema identificată din context",
+    "solution_type": "software",
+    "key_features": [
+      "poststhatbreaktheseruleswillberemove months months",
+      "agoGCSE Further Mathematics Study GroupCaitlynEvane2WelcometotheGCSEFurtherMathematicsSubjectStudyGroup!ThisiswhereyoucanchatwithotherstudentsstudyingthesamesubjectsasyouandsupporteachotherasyouheadtowardsyourexamsYoucanpostanyusefultipsandresourcesthatyoucomeacross",
+      "offersupporttoothers",
+      "shareyoursuccesses",
+      "orjusthavemoanwhenitgetstough!Justremember",
+      "it’sagainstthesiterulestoaskfororofferanycopyrightedpapersandtorequestoffsitechat",
+      "Afewpossibleicebreakerquestionsare",
+      "Whatexamboardareyouwith?Whatdoyouenjoymostaboutthissubject/course?Whatareadoyoustrugglewithinthissubject",
+      "3 months ago)0ReportReply tgetstough!Justremember",
+      "Whatexamboardareyouwi"
+    ],
+    "pain_points": []
+  },
+  "priority_score": 0.535,
+  "urgency": "low",
+  "timing": "not_now",
+  "market_readiness": "almost",
+  "market_validation": {
+    "is_valid": true,
+    "trending": null,
+    "market_size": null,
+    "competition": null,
+    "similar_startups": null,
+    "confidence": 0.5,
+    "evidence": {}
+  }
+}

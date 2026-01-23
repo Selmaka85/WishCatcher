@@ -1,0 +1,8 @@
+# Backend
+cd backend
+uvicorn app.main:app --reload
+
+# Frontend (în alt terminal)
+cd frontend
+npm install
+npm run dev

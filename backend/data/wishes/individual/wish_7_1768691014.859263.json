@@ -1,0 +1,62 @@
+{
+  "id": "wish_7_1768691014.859263",
+  "intent": "Service for reaimingforinyourexams generalinformationdate time watch8 months agoedexcel igcse mathematics b tier",
+  "domain": "other",
+  "score": 0.8,
+  "business_score": 0.33999999999999997,
+  "technologies": [
+    "api"
+  ],
+  "feasibility": "medium",
+  "trigger_analysis": {
+    "trigger": {
+      "type": null,
+      "text": null,
+      "confidence": 0.3
+    },
+    "frustration": {
+      "expressions": [],
+      "sentiment": 0.2,
+      "intensity": 0
+    },
+    "pain_points": [],
+    "context": {
+      "role": null,
+      "situation": null,
+      "constraints": []
+    },
+    "emotional_intensity": 0.0
+  },
+  "source": "anpc",
+  "timestamp": "2026-01-17T23:02:37.358085",
+  "frequency": 1,
+  "market_analysis": {
+    "market_size": "small",
+    "target_demographic": null,
+    "geographic_scope": "regional",
+    "competition": "medium"
+  },
+  "monetization": {
+    "model": "one-time",
+    "estimated_price": "€10-20 one-time",
+    "potential_revenue": "€50K-200K/an"
+  },
+  "intent_full": "Users want reaimingforinyourexams generalinformationdate time watch8 months agoedexcel igcse mathematics b tier. The problem occurs when problema identificată din context. The situation occurs când apare nevoia. The solution should include: reaimingforinyourexams, agoedexcel, [exam chat]talkative toadvolunteer team22edexceligcsemathematicsbhighertierpaper1(4mb102)-11thjune2025[exam chat]welcometotheexamdiscussionthreadforthisexam.introduceyourself!letothersknowwhatyou'reaimingforinyourexams, wishingyouallthebestofluck, generalinformationdate/time:11thjune/amlength:2hr30mgoodluck!clickheretofindexamdiscussionsforothergcsesubjects(edited. Key features: reaimingforinyourexams, agoEdexcel, [Exam Chat]Talkative ToadVolunteer Team22EdexcelIGCSEMathematicsBHigherTierpaper1(4MB102)-11thJune2025[Exam Chat]Welcometotheexamdiscussionthreadforthisexam.Introduceyourself!Letothersknowwhatyou'reaimingforinyourexams, Wishingyouallthebestofluck, GeneralInformationDate/Time:11thJune/AMLength:2hr30mGoodluck!ClickheretofindexamdiscussionsforotherGCSEsubjects(edited.",
+  "structured": {
+    "what": "reaimingforinyourexams generalinformationdate time Watch8 months agoEdexcel IGCSE Mathematics B Tier",
+    "why": "Necesitate identificată din context",
+    "who": "general users",
+    "when": "Când apare nevoia",
+    "how": "reaimingforinyourexams, agoEdexcel, [Exam Chat]Talkative ToadVolunteer Team22EdexcelIGCSEMathematicsBHigherTierpaper1(4MB102)-11thJune2025[Exam Chat]Welcometotheexamdiscussionthreadforthisexam.Introduceyourself!Letothersknowwhatyou'reaimingforinyourexams, Wishingyouallthebestofluck, GeneralInformationDate/Time:11thJune/AMLength:2hr30mGoodluck!ClickheretofindexamdiscussionsforotherGCSEsubjects(edited",
+    "problem": "Problema identificată din context",
+    "solution_type": "service",
+    "key_features": [
+      "reaimingforinyourexams",
+      "agoEdexcel",
+      "[Exam Chat]Talkative ToadVolunteer Team22EdexcelIGCSEMathematicsBHigherTierpaper1(4MB102)-11thJune2025[Exam Chat]Welcometotheexamdiscussionthreadforthisexam.Introduceyourself!Letothersknowwhatyou'reaimingforinyourexams",
+      "Wishingyouallthebestofluck",
+      "GeneralInformationDate/Time:11thJune/AMLength:2hr30mGoodluck!ClickheretofindexamdiscussionsforotherGCSEsubjects(edited"
+    ],
+    "pain_points": []
+  }
+}
