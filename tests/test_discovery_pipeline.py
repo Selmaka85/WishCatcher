@@ -159,6 +159,26 @@ class ClusterTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(again["inserted"], 0)
         self.assertEqual(len(self.index.clusters()), 1)
 
+    async def test_second_poll_skips_existing_context_before_llm_inference(self):
+        class SpyResolver:
+            def __init__(self):
+                self.calls = 0
+                self.base = ConversationContextResolver()
+            async def resolve(self, context):
+                self.calls += 1
+                return await self.base.resolve(context)
+
+        source = FakeSource([record("alice", "once")])
+        spy = SpyResolver()
+        runner = DiscoveryRunner(index=self.index, resolver=spy,
+                                 sources={"hn_ask": source})
+        first = await runner.run(["hn_ask"])
+        second = await runner.run(["hn_ask"])
+        self.assertEqual(first["inserted"], 1)
+        self.assertEqual(second["inserted"], 0)
+        self.assertEqual(second["skipped"], 1)
+        self.assertEqual(spy.calls, 1)
+
     async def test_multiple_actors_in_one_thread_not_independent_threads(self):
         a = record("alice", "hn:one:actor:alice", thread_id="hn:one")
         b = record("bob", "hn:one:actor:bob", thread_id="hn:one")
