@@ -14,6 +14,7 @@ services:
       WISHCATCHER_RAG_DB: /data/knowledge.sqlite3
       WISHCATCHER_WISH_DIR: /data/wishes
       WISHCATCHER_DISCOVERY_DB: /data/discovery.sqlite3
+      WISHCATCHER_DISCOVERY_PERSIST_RAG: ${WISHCATCHER_DISCOVERY_PERSIST_RAG:-1}
       WISHCATCHER_SEARCH_DISCOVERY_ENABLED: ${WISHCATCHER_SEARCH_DISCOVERY_ENABLED:-0}
       WISHCATCHER_RSS_APPROVED: ${WISHCATCHER_RSS_APPROVED:-0}
       WISHCATCHER_APPROVED_RSS_URL: ${WISHCATCHER_APPROVED_RSS_URL:-}
@@ -32,7 +33,9 @@ services:
       WISHCATCHER_MCP_SEARCH_TOOL: ${WISHCATCHER_MCP_SEARCH_TOOL:-search}
       WISHCATCHER_MCP_READ_ONLY_TOOLS: ${WISHCATCHER_MCP_READ_ONLY_TOOLS:-search,search_web}
       WISHCATCHER_MCP_ALLOW_REMOTE: ${WISHCATCHER_MCP_ALLOW_REMOTE:-0}
-    volumes: [wishcatcher_rag:/data]
+    volumes:
+      - wishcatcher_rag:/data
+      - ./imports:/imports:ro
     healthcheck:
       test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"]
       interval: 30s
@@ -68,6 +71,7 @@ services:
       WISHCATCHER_DISCOVERY_PER_SOURCE: ${WISHCATCHER_DISCOVERY_PER_SOURCE:-3}
       WISHCATCHER_DISCOVERY_MAX_CONTEXTS: ${WISHCATCHER_DISCOVERY_MAX_CONTEXTS:-20}
       WISHCATCHER_DISCOVERY_DB: /data/discovery.sqlite3
+      WISHCATCHER_DISCOVERY_PERSIST_RAG: ${WISHCATCHER_DISCOVERY_PERSIST_RAG:-1}
       WISHCATCHER_RAG_DB: /data/knowledge.sqlite3
       WISHCATCHER_CONTEXT_LLM_ENABLED: ${WISHCATCHER_CONTEXT_LLM_ENABLED:-0}
       WISHCATCHER_CONTEXT_LLM_URL: ${WISHCATCHER_CONTEXT_LLM_URL:-http://host.docker.internal:11434/v1/chat/completions}
@@ -80,7 +84,9 @@ services:
       WISHCATCHER_APPROVED_RSS_URL: ${WISHCATCHER_APPROVED_RSS_URL:-}
       WISHCATCHER_IMPORTED_DATA_APPROVED: ${WISHCATCHER_IMPORTED_DATA_APPROVED:-0}
       WISHCATCHER_IMPORT_JSONL: ${WISHCATCHER_IMPORT_JSONL:-}
-    volumes: [wishcatcher_rag:/data]
+    volumes:
+      - wishcatcher_rag:/data
+      - ./imports:/imports:ro
     depends_on:
       context-api:
         condition: service_healthy
