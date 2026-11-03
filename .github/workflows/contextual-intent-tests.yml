@@ -28,6 +28,10 @@ jobs:
         env:
           WISHCATCHER_CONTEXT_LLM_ENABLED: "0"
         run: python -m unittest discover -s tests -v
+      - name: Synthetic RO/EN intent-quality comparison
+        env:
+          WISHCATCHER_CONTEXT_LLM_ENABLED: "0"
+        run: python scripts/evaluate_context.py --dataset benchmarks/context_gold_v1.jsonl
 
 
   studio-build:
