@@ -40,6 +40,7 @@ class ActualPluginAPITests(unittest.IsolatedAsyncioTestCase):
             "WISHCATCHER_PLUGIN_ACCESS_TOKEN": "test_only_secret_from_env",
             "WISHCATCHER_RAG_DB": str(Path(self.temp.name) / "rag.sqlite3"),
             "WISHCATCHER_WISH_DIR": str(Path(self.temp.name) / "wishes"),
+            "WISHCATCHER_DISCOVERY_DB": str(Path(self.temp.name) / "discovery.sqlite3"),
             "WISHCATCHER_CONTEXT_LLM_ENABLED": "0",
             "WISHCATCHER_WEB_SEARCH_ENABLED": "0",
             "WISHCATCHER_MCP_ENABLED": "0",
@@ -140,6 +141,56 @@ class ActualPluginAPITests(unittest.IsolatedAsyncioTestCase):
                 "/api/context/config", headers={"X-WishCatcher-Key": "REPLACE_ME_WITH_SECRET"}
             )
             self.assertEqual(response.status_code, 503)
+
+    async def test_discovery_http_end_to_end_mock_source_and_clusters(self):
+        from app.wishcatcher.discovery.sources import SourceConversation
+
+        class ApprovedSourceFixture:
+            async def fetch(self, limit=5):
+                return [
+                    SourceConversation(
+                        source="hackernews", source_id=f"hn:thread:{n}",
+                        url=f"https://news.ycombinator.com/item?id={n}",
+                        conversation={
+                            "post_id": f"hn:{n}", "post_author": f"user{n}",
+                            "post_text": "I tried three accounting apps. They are too expensive.",
+                            "comments": [
+                                {"id": f"reply:{n}", "author": f"user{n}",
+                                 "text": "I want invoice automation without losing hours every day."},
+                            ],
+                        },
+                    ) for n in (101, 102)
+                ]
+
+        with patch("app.wishcatcher.discovery.pipeline.configured_source",
+                   return_value=ApprovedSourceFixture()):
+            result = await self.client.post(
+                "/api/context/discovery/run", headers=self.auth,
+                json={"sources": ["hn_ask"], "max_per_source": 2, "max_contexts": 10},
+            )
+        self.assertEqual(result.status_code, 200, result.text)
+        self.assertEqual(result.json()["inserted"], 2)
+        clusters = await self.client.get("/api/context/discovery/clusters", headers=self.auth)
+        self.assertEqual(clusters.status_code, 200, clusters.text)
+        self.assertEqual(len(clusters.json()["clusters"]), 1)
+        group = clusters.json()["clusters"][0]
+        self.assertEqual(group["status"], "CORROBORATED_NEED_HYPOTHESIS")
+        self.assertEqual(group["unique_threads"], 2)
+        self.assertEqual(group["market_demand"], "UNKNOWN")
+        history = await self.client.get("/api/context/discovery/runs", headers=self.auth)
+        self.assertEqual(history.status_code, 200)
+        self.assertEqual(history.json()["runs"][0]["inserted"], 2)
+
+    async def test_discovery_requires_operator_auth_and_rejects_unknown_sources(self):
+        forbidden = await self.client.post(
+            "/api/context/discovery/run", json={"sources": ["hn_ask"]}
+        )
+        self.assertEqual(forbidden.status_code, 401)
+        invalid = await self.client.post(
+            "/api/context/discovery/run", headers=self.auth,
+            json={"sources": ["facebook_private"]},
+        )
+        self.assertEqual(invalid.status_code, 400)
 
     async def test_document_ingestion_graph_and_search(self):
         for item in (
