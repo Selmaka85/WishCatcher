@@ -152,6 +152,33 @@ class ContextResolverTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(len(frame.evidence), 4)
         self.assertEqual(frame.epistemic_status, "inferred")
 
+    async def test_llm_abstention_overrides_permissive_rule_guess(self):
+        data = accounting_thread()
+        model = StubInterpreter({
+            "actionable": False,
+            "confidence": 0.8,
+            "evidence_ids": ["t1", "c1", "c2"],
+            "intent": "No reliable commercial intent",
+            "problem": "The discussion is ambiguous",
+            "epistemic_status": "inferred",
+        })
+        frame = await ConversationContextResolver(model).resolve(data)
+        self.assertFalse(frame.actionable)
+        self.assertEqual(frame.confidence, 0.0)
+        self.assertTrue(frame.needs_review)
+        self.assertEqual(frame.interpretation_method, "llm_contextual")
+
+    async def test_clarification_respects_timestamps_over_thread_display_order(self):
+        data = accounting_thread()
+        data["comments"].extend([
+            {"id": "latest", "author": "owner", "timestamp": 100.0,
+             "text": "De fapt, vreau un program offline; nu vreau integrare cu banca."},
+            {"id": "earlier", "author": "owner", "timestamp": 6.0,
+             "text": "Vreau integrare bancara automatizata."},
+        ])
+        frame = await self.resolver.resolve(data)
+        self.assertIn("offline", frame.desired_outcome)
+
     async def test_llm_cannot_assert_other_speakers_intent(self):
         data = {
             "post_id": "t1", "post_author": "alex",
