@@ -209,5 +209,84 @@ class ContextResolverTests(unittest.IsolatedAsyncioTestCase):
                          {str(i) for i in range(90)})
 
 
+class ProviderTransportContracts(unittest.IsolatedAsyncioTestCase):
+    async def test_real_openai_compatible_request_contract_uses_local_mock(self):
+        import json
+        import os
+        from unittest.mock import patch
+        from app.wishcatcher.contextual.context_resolver import (
+            ContextMessage, OpenAICompatibleContextInterpreter,
+        )
+
+        class MockResponse:
+            def raise_for_status(self):
+                return None
+
+            def json(self):
+                return {"choices": [{"message": {"content": json.dumps({
+                    "problem": "Accounting applications fail user constraints",
+                    "desired_outcome": "Finish invoicing quickly",
+                    "intent": "Reduce administrative time",
+                    "epistemic_status": "inferred",
+                    "confidence": 0.85,
+                    "actionable": True,
+                    "evidence_ids": ["p1", "c1"],
+                })}}]}
+
+        class MockHTTPClient:
+            def __init__(self):
+                self.calls = []
+
+            async def __aenter__(self):
+                return self
+
+            async def __aexit__(self, *_):
+                return None
+
+            async def post(self, url, **kwargs):
+                self.calls.append((url, kwargs))
+                return MockResponse()
+
+        fake = MockHTTPClient()
+        with patch.dict(os.environ, {
+            "WISHCATCHER_CONTEXT_LLM_ENABLED": "1",
+            "WISHCATCHER_CONTEXT_LLM_URL": "http://127.0.0.1:11434/v1/chat/completions",
+            "WISHCATCHER_CONTEXT_MODEL": "test-model",
+            "WISHCATCHER_CONTEXT_LLM_TIMEOUT_SEC": "180",
+            "WISHCATCHER_CONTEXT_ALLOW_REMOTE": "0",
+        }):
+            interpreter = OpenAICompatibleContextInterpreter()
+            with patch("httpx.AsyncClient", return_value=fake) as transport:
+                result = await interpreter.resolve([
+                    ContextMessage("p1", "owner", "I tried 3 accounting programs"),
+                    ContextMessage("c1", "owner", "I want to finish invoices faster"),
+                ])
+            self.assertTrue(result["actionable"])
+            self.assertEqual(result["intent"], "Reduce administrative time")
+            self.assertEqual(len(fake.calls), 1)
+            request = fake.calls[0][1]["json"]
+            self.assertEqual(request["model"], "test-model")
+            self.assertEqual(request["temperature"], 0)
+            self.assertEqual(request["response_format"], {"type": "json_object"})
+            self.assertEqual(request["messages"][0]["role"], "system")
+            self.assertEqual(transport.call_args.kwargs["timeout"], 180.0)
+
+    async def test_remote_provider_cannot_run_without_explicit_opt_in(self):
+        import os
+        from unittest.mock import patch
+        from app.wishcatcher.contextual.context_resolver import (
+            ContextMessage, OpenAICompatibleContextInterpreter,
+        )
+        with patch.dict(os.environ, {
+            "WISHCATCHER_CONTEXT_LLM_ENABLED": "1",
+            "WISHCATCHER_CONTEXT_LLM_URL": "https://api.external.example/v1/chat/completions",
+            "WISHCATCHER_CONTEXT_ALLOW_REMOTE": "0",
+        }):
+            result = await OpenAICompatibleContextInterpreter().resolve([
+                ContextMessage("a", "owner", "I want automatic bookkeeping")
+            ])
+        self.assertIsNone(result)
+
+
 if __name__ == "__main__":
     unittest.main()
