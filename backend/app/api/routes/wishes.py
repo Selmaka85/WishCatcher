@@ -68,12 +68,12 @@ async def collect_wishes(
             print(f"[DEBUG] Collecting from {source}...")
             try:
                 contexts = await collector.collect_from_source(
-                    source=source,
+                    source=context_source,
                     filters=request.filters,
                     limit=request.limit // len(request.sources)
                 )
                 print(f"[DEBUG] Collected {len(contexts)} contexts from {source}")
-                all_contexts.extend(contexts)
+                all_contexts.extend((source, collected_context) for collected_context in contexts)
             except Exception as e:
                 print(f"[ERROR] Error collecting from {source}: {e}")
                 import traceback
@@ -120,7 +120,7 @@ async def collect_wishes(
             language_filter = request.filters.get("language")
             print(f"[DEBUG] Language filter: {language_filter}")
         
-        for context in all_contexts:
+        for context_source, context in all_contexts:
             contexts_processed += 1
             try:
                 # Reconstruct the original speaker's need from the FULL thread first.
@@ -297,7 +297,7 @@ async def collect_wishes(
                     "structured": reformulated.get("structured", {}),
                     "domain": intent_data.get("domain", "other"),
                     "trigger_analysis": trigger_data,
-                    "source": source,
+                    "source": context_source,
                     "context": raw_context,
                     "context_frame": context_frame.to_dict(),
                     "frequency": 1,  # Will be updated after clustering
