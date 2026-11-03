@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import DiscoveryStudio from './DiscoveryStudio'
 
 type Evidence = { message_id: string; author: string; excerpt: string }
 type Frame = {
@@ -103,7 +104,7 @@ export default function ContextStudio() {
   const [published, setPublished] = useState('')
   const [publishedItems, setPublishedItems] = useState<{id: string; intent: string; domain: string}[]>([])
   const [status, setStatus] = useState<PluginConfig | null>(null)
-  const [tab, setTab] = useState<'analyze' | 'knowledge'>('analyze')
+  const [tab, setTab] = useState<'analyze' | 'knowledge' | 'discovery'>('analyze')
   const [docId, setDocId] = useState('knowledge:invoice-integration')
   const [docText, setDocText] = useState('Accounting tools often need bank synchronization and faster invoice processing.')
   const [docSource, setDocSource] = useState('operator-reviewed')
@@ -224,9 +225,11 @@ export default function ContextStudio() {
             onClick={() => setTab('analyze')}>Conversational Context</button>
           <button className={tab === 'knowledge' ? button : 'rounded-xl border border-slate-700 px-5 py-3 text-sm text-slate-300'}
             onClick={() => setTab('knowledge')}>Knowledge / Graph RAG</button>
+          <button className={tab === 'discovery' ? button : 'rounded-xl border border-slate-700 px-5 py-3 text-sm text-slate-300'}
+            onClick={() => setTab('discovery')}>Autonomous Discovery</button>
         </nav>
 
-        {tab === 'analyze' ? (
+        {tab === 'discovery' ? <DiscoveryStudio accessToken={accessToken} /> : tab === 'analyze' ? (
           <>
             <section className={section}>
               <h2 className="mb-1 text-lg font-semibold">Fir de conversație</h2>
