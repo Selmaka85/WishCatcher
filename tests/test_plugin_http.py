@@ -39,6 +39,7 @@ class ActualPluginAPITests(unittest.IsolatedAsyncioTestCase):
         self.patch_env = patch.dict(os.environ, {
             "WISHCATCHER_PLUGIN_ACCESS_TOKEN": "test_only_secret_from_env",
             "WISHCATCHER_RAG_DB": str(Path(self.temp.name) / "rag.sqlite3"),
+            "WISHCATCHER_WISH_DIR": str(Path(self.temp.name) / "wishes"),
             "WISHCATCHER_CONTEXT_LLM_ENABLED": "0",
             "WISHCATCHER_WEB_SEARCH_ENABLED": "0",
             "WISHCATCHER_MCP_ENABLED": "0",
