@@ -116,3 +116,80 @@ async def compose_solution(request: SolutionRequest) -> Dict[str, Any]:
         return GenesisContextBridge.compose(frame)
     except ValueError as exc:
         raise HTTPException(422, detail=str(exc)) from exc
+
+
+class PublishRequest(BaseModel):
+    conversation: Dict[str, Any]
+    source: str = Field(default="manual", min_length=1, max_length=100)
+
+
+@router.post("/publish", dependencies=[Depends(require_plugin_token)])
+async def publish_context(request: PublishRequest) -> Dict[str, Any]:
+    """Publish a grounded opportunity into the original WishStorage contract.
+
+    Publishing is explicit. Unverified opportunity remains unverified; this
+    endpoint does not fabricate prices, market sizes or financial projections.
+    """
+    import hashlib
+    from datetime import datetime, timezone
+    from app.api.models import WishData
+    from app.storage.wish_storage import WishStorage
+
+    if len(str(request.conversation)) > 200_000:
+        raise HTTPException(413, detail="Thread too large")
+    frame = (await WishCatcherPlugin().analyze(request.conversation)).frame
+    if not frame.get("actionable") or not frame.get("evidence"):
+        raise HTTPException(422, detail="A grounded, actionable intent is required before publishing")
+    seed = "|".join(str(frame.get(k) or "") for k in (
+        "source_id", "primary_actor", "intent",
+    ))
+    ident = "ctx_" + hashlib.sha256(seed.encode("utf-8")).hexdigest()[:24]
+    structured = {
+        "what": frame.get("desired_outcome") or frame["intent"],
+        "why": frame.get("problem") or "",
+        "who": "unknown",
+        "when": "unknown",
+        "how": "requires_solution_validation",
+        "problem": frame.get("problem") or "",
+        "desired_outcome": frame.get("desired_outcome") or "",
+        "constraints": frame.get("constraints") or [],
+        "attempted_solutions": frame.get("attempted_solutions") or [],
+        "evidence": frame["evidence"],
+        "epistemic_status": frame.get("epistemic_status") or "unknown",
+    }
+    wish = WishData(
+        id=ident,
+        intent=str(frame["intent"])[:500],
+        intent_full=str(frame["intent"])[:1000],
+        structured=structured,
+        context_frame=frame,
+        domain=str(frame.get("domain") or "other"),
+        score=float(frame.get("confidence") or 0.0),
+        business_score=0.0,
+        feasibility="unverified",
+        technologies=[],
+        source=request.source,
+        timestamp=datetime.now(timezone.utc),
+        market_analysis=None,
+        monetization=None,
+        market_readiness="not_validated",
+    )
+    store = WishStorage()
+    store.save_wishes([wish])
+    return {
+        "published": True, "wish_id": ident,
+        "validation_status": "UNVERIFIED",
+        "source_evidence_count": len(frame["evidence"]),
+    }
+
+
+@router.get("/wishes", dependencies=[Depends(require_plugin_token)])
+def published_wishes(limit: int = 25, offset: int = 0) -> Dict[str, Any]:
+    """Read published opportunities. Access limited to operator token."""
+    from app.storage.wish_storage import WishStorage
+    limit = max(1, min(limit, 100))
+    offset = max(0, min(offset, 100000))
+    items = WishStorage().list_wishes(limit=limit, offset=offset)
+    return {"total_returned": len(items), "wishes": [
+        item.model_dump(mode="json") for item in items
+    ]}
