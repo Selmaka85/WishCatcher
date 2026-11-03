@@ -39,7 +39,7 @@ intent automatically.
 
 From the backend working directory (with 'backend' on PYTHONPATH):
 
-\`\`\`python
+```python
 import asyncio
 from app.wishcatcher.integrations.plugin_runtime import WishCatcherPlugin
 
@@ -64,7 +64,7 @@ async def main():
     print(analysis.knowledge)
 
 asyncio.run(main())
-\`\`\`
+```
 
 With real LLM semantics turned off, the rules baseline is only a conservative
 filter and context assembler. For strong coreference, contradiction handling,
@@ -77,23 +77,23 @@ It is deliberately OFF unless explicitly configured.
 
 Local Ollama example:
 
-\`\`\`shell
+```shell
 export WISHCATCHER_CONTEXT_LLM_ENABLED=1
 export WISHCATCHER_CONTEXT_LLM_URL=http://127.0.0.1:11434/v1/chat/completions
 export WISHCATCHER_CONTEXT_MODEL=qwen2.5:3b-instruct
 # Run Ollama and ensure the model is available separately.
-\`\`\`
+```
 
 For LM Studio or another local compatible server, replace URL and model.
 For OpenAI or a compatible remote provider, explicitly set:
 
-\`\`\`shell
+```shell
 export WISHCATCHER_CONTEXT_LLM_ENABLED=1
 export WISHCATCHER_CONTEXT_LLM_URL=https://api.openai.com/v1/chat/completions
 export WISHCATCHER_CONTEXT_MODEL=<model-you-have-access-to>
 export WISHCATCHER_CONTEXT_API_KEY=<YOUR_PRIVATE_API_KEY>
 export WISHCATCHER_CONTEXT_ALLOW_REMOTE=1
-\`\`\`
+```
 
 Never commit API keys. The API is not free by default; check provider
 prices/quotas before enabling remote calls. No endpoint is auto-called merely
@@ -106,7 +106,7 @@ The default store is
 'backend/data/context_graph_rag.sqlite3'. Override with
 'WISHCATCHER_RAG_DB=/secure/path/knowledge.sqlite3'.
 
-\`\`\`python
+```python
 from app.wishcatcher.integrations.plugin_runtime import SQLiteGraphRAG
 
 rag = SQLiteGraphRAG()
@@ -118,7 +118,7 @@ rag.put("pain_2", "Invoice reconciliation needs banking integration",
 rag.link("pain_1", "pain_2", "related_problem")
 for hit in rag.retrieve("accounting costs", graph_hops=1):
     print(hit["id"], hit["matched_via"], hit["excerpt"])
-\`\`\`
+```
 
 Source texts must be lawfully obtained, cleared for storage and preferably
 pseudonymized. Use only trusted knowledge sources for persistent RAG.
@@ -127,10 +127,10 @@ Avoid persisting private chat histories by default.
 
 ## Optional web research
 
-\`\`\`shell
+```shell
 export WISHCATCHER_WEB_SEARCH_ENABLED=1
 export WISHCATCHER_BRAVE_API_KEY=<YOUR_PRIVATE_KEY>
-\`\`\`
+```
 
 Only 'plugin.analyze(..., research=True)' attempts a web search.
 'False' is the default. Treat retrieved search snippets as untrusted evidence,
@@ -143,12 +143,12 @@ Current adapter uses the 2026 Python MCP SDK (install optional dependency
 not arbitrary subprocess launch. Example for a *trusted locally running*
 read-only MCP search server:
 
-\`\`\`shell
+```shell
 export WISHCATCHER_MCP_ENABLED=1
 export WISHCATCHER_MCP_ENDPOINT=http://127.0.0.1:9000/mcp
 export WISHCATCHER_MCP_SEARCH_TOOL=search
 export WISHCATCHER_MCP_READ_ONLY_TOOLS=search,search_web
-\`\`\`
+```
 
 To connect a remote TLS endpoint, separately set
 'WISHCATCHER_MCP_ALLOW_REMOTE=1'. Do not enable write/destructive tools.
@@ -158,9 +158,9 @@ default execution path.
 
 Custom search adapters may be injected:
 
-\`\`\`python
+```python
 plugin = WishCatcherPlugin(web_search=my_search, mcp_search=my_mcp)
-\`\`\`
+```
 
 Each adapter implements 'async search(query: str, *, limit: int)' and
 returns a list of dictionaries. Retrieval and tool results enrich research;
