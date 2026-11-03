@@ -20,8 +20,8 @@ router = APIRouter()
 
 def require_plugin_token(x_wishcatcher_key: Optional[str] = Header(default=None)) -> None:
     expected = os.getenv("WISHCATCHER_PLUGIN_ACCESS_TOKEN", "")
-    if not expected:
-        raise HTTPException(503, detail="Plugin API disabled: configure access token")
+    if not expected or expected.startswith("REPLACE_ME"):
+        raise HTTPException(503, detail="Plugin API disabled: configure a strong access token")
     if not x_wishcatcher_key or not secrets.compare_digest(x_wishcatcher_key, expected):
         raise HTTPException(401, detail="Unauthorized")
 
