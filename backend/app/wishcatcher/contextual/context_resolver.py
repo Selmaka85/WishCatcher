@@ -98,7 +98,13 @@ class ContextStateBuilder:
         # Never attribute anonymous third-party replies to an anonymous OP.
         if actor == "__unknown_root_author__":
             return [messages[0]]
-        return [m for m in messages if m.author == actor]
+        own = [m for m in messages if m.author == actor]
+        # A forum may return threaded replies in display order rather than
+        # chronological order. Sort when all timestamps are available;
+        # otherwise preserve original order instead of inventing chronology.
+        if len(own) > 1 and all(m.timestamp > 0 for m in own):
+            own.sort(key=lambda m: m.timestamp)
+        return own
 
     @staticmethod
     def infer_language(text: str) -> str:
@@ -399,8 +405,12 @@ class ConversationContextResolver:
             for m in selected[:20]
         ]
         baseline.epistemic_status = epistemic
-        baseline.confidence = confidence if actionable else baseline.confidence
-        baseline.actionable = actionable or baseline.actionable
-        baseline.needs_review = not actionable  # Market validation is always separate.
+        # When an evidence-linked semantic model explicitly abstains,
+        # it must be able to DISPROVE a permissive rule-based guess.
+        # Keeping baseline.actionable via OR would silently resurrect
+        # rejected/hypothetical intents and create false opportunities.
+        baseline.confidence = confidence if actionable else 0.0
+        baseline.actionable = actionable
+        baseline.needs_review = True  # Even a grounded model claim is not market validation.
         baseline.interpretation_method = "llm_contextual"
         return baseline
