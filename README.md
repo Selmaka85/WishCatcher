@@ -1,5 +1,7 @@
 # WishCatcher Context Studio — Local-first Plugin (2026)
 
+**Autonomous discovery:** [Sources, clustering, quality and scheduler](docs/DISCOVERY_ENGINE.md)
+
 **Start here:** [Self-hosted Studio quickstart](docs/QUICKSTART_CONTEXT_STUDIO.md) |
 [Plugin & provider guide](docs/PLUGIN_RUNTIME.md) |
 [Contextual architecture](docs/CONTEXTUAL_INTENT_GENESIS.md).
