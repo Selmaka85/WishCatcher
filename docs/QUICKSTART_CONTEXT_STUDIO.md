@@ -155,6 +155,60 @@ Genesis gives three alternative solution hypotheses and a dependency
 structure. Its MARKET DEMAND and WILLINGNESS TO PAY are UNKNOWN until
 verified. It does not invent revenue forecasts.
 
+## Automatic login-free needs discovery
+
+WishCatcher Studio now has an **Autonomous Discovery** tab. After entering
+the Dashboard token, choose Hacker News Ask/Show/New, an approved RSS/Atom feed,
+an approved JSONL import, or Search -> HN (requires Brave Search API key).
+Click **Pornește descoperirea** to run a bounded batch, then inspect clustered
+needs, independent author/thread counts and evidence-backed Genesis briefs.
+
+No forum logins are required for public Hacker News and syndicated RSS.
+We do **not** bypass Facebook/Reddit logins or private-group restrictions.
+Search engine results are unverified INDEX LEADS, not a person's stated desire;
+the supported search hydrator resolves HN item URLs using its official API.
+Other site URLs require a lawful operator-approved feed or connector.
+
+Direct CLI:
+
+    python scripts/discover.py run --sources hn_ask hn_show --limit 3
+    python scripts/discover.py clusters
+    python scripts/discover.py runs
+
+To enable the periodic worker (not enabled by default), configure .env:
+
+    WISHCATCHER_AUTODISCOVERY_ENABLED=1
+    WISHCATCHER_DISCOVERY_SOURCES=hn_ask,hn_show
+    WISHCATCHER_DISCOVERY_INTERVAL_SEC=21600
+
+Then start the optional Compose profile:
+
+    docker compose --profile autodiscovery up -d --build
+
+The minimum schedule interval is one hour and each run is source-limited.
+The worker has a SQLite mutex and can share its local discovery journal
+with the API. To stop it:
+
+    docker compose --profile autodiscovery stop discovery-worker
+
+For local authorized archives, put JSONL files under ./imports and set
+WISHCATCHER_IMPORT_JSONL=/imports/your-file.jsonl and
+WISHCATCHER_IMPORTED_DATA_APPROVED=1. Compose mounts ./imports read-only.
+For approved RSS, configure WISHCATCHER_RSS_APPROVED=1 and an HTTPS
+WISHCATCHER_APPROVED_RSS_URL. Only import public content you may store.
+
+For Brave-index discovery use WISHCATCHER_SEARCH_DISCOVERY_ENABLED=1
+and WISHCATCHER_BRAVE_API_KEY. Search API usage may incur costs.
+No surprise calls occur unless the adapter is explicitly enabled.
+
+Quality regression benchmark (synthetic RO/EN fixtures, not real-world
+model accuracy):
+
+    python scripts/evaluate_context.py --dataset benchmarks/context_gold_v1.jsonl
+
+See docs/DISCOVERY_ENGINE.md for source restrictions, data schema,
+validation gates, clustering and how we keep independent signals apart.
+
 ## Troubleshooting and limits
 
 - 503 on config: missing or example backend secret; rotate placeholders.
