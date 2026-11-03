@@ -20,6 +20,7 @@ from typing import Any, Dict, List, Optional, Sequence
 
 from app.astra_genesis.context_bridge import GenesisContextBridge
 from app.wishcatcher.contextual.context_resolver import ConversationContextResolver
+from app.wishcatcher.contextual.quality import ContextQualityGate
 from app.wishcatcher.discovery.sources import ConversationSource, SourceConversation, configured_source
 from app.wishcatcher.discovery.rss_source import PublicRSSSource
 from app.wishcatcher.discovery.search_discovery import BraveIndexDiscovery, OfficialThreadHydrator
@@ -270,6 +271,7 @@ class DiscoveryRunner:
                  sources: Optional[Dict[str, ConversationSource]] = None) -> None:
         self.index = index or DiscoveryIndex()
         self.resolver = resolver or ConversationContextResolver()
+        self.quality = ContextQualityGate()
         self.sources = sources or {}
 
     async def _get_source(self, name: str, max_per_source: int) -> List[SourceConversation]:
@@ -322,9 +324,13 @@ class DiscoveryRunner:
                     metrics["collected"] += 1
                     try:
                         frame = (await self.resolver.resolve(item.conversation)).to_dict()
-                        if not frame.get("actionable"):
+                        quality = self.quality.assess(item.conversation, frame)
+                        if not quality.accepted:
                             metrics["skipped"] += 1
                             continue
+                        frame["quality_status"] = quality.status
+                        frame["quality_flags"] = quality.flags
+                        frame["field_evidence"] = quality.field_evidence
                         metrics["accepted"] += 1
                         result = self.index.ingest(item, frame)
                         if result.startswith("need_"):
