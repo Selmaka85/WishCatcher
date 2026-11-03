@@ -11,6 +11,7 @@ from bs4 import BeautifulSoup
 import praw
 import time
 import re
+import os
 
 
 @dataclass
@@ -234,7 +235,7 @@ class ContextCollector:
                                             print(f"[WARNING] Error creating search context: {e}")
                                             continue
                         
-                        time.sleep(1)
+                        await asyncio.sleep(1)
                     except Exception as e:
                         print(f"[ERROR] Error searching r/{subreddit_name} with query '{query}': {e}")
                         continue
@@ -297,7 +298,7 @@ class ContextCollector:
                                     print(f"[WARNING] Error creating context for post {post.get('id')}: {e}")
                                     continue
                 
-                time.sleep(1)  # Rate limiting
+                await asyncio.sleep(1)  # Rate limiting
             
             except Exception as e:
                 print(f"[ERROR] Error collecting from r/{subreddit_name}: {e}")
@@ -305,8 +306,59 @@ class ContextCollector:
                 traceback.print_exc()
                 continue
         
+        # Contextual understanding needs same-author clarifications. The old
+        # collector returned only opening posts (comments=[]), even though a
+        # full post+replies reader already existed. Hydrate a bounded number
+        # of unique threads before intent extraction; keep originals when
+        # Reddit denies access or replies are missing.
+        if os.getenv("WISHCATCHER_REDDIT_FETCH_COMMENTS", "1") == "1":
+            try:
+                maximum = min(max(int(os.getenv("WISHCATCHER_REDDIT_MAX_ENRICHED", "8")), 0), 30)
+            except ValueError:
+                maximum = 8
+            contexts = await self._enrich_reddit_threads(contexts, max_threads=maximum)
+
         print(f"[DEBUG] Reddit collection complete: {len(contexts)} contexts collected")
         return contexts
+
+    async def _enrich_reddit_threads(
+        self, contexts: List[RedditContext], max_threads: int = 8
+    ) -> List[RedditContext]:
+        """Hydrate post+comments for a bounded set, retaining original metadata.
+
+        No new query sources are introduced, no secrets are required, and
+        failures are recoverable. Respect platform permissions and rate limits.
+        """
+        if max_threads <= 0 or not contexts:
+            return contexts
+        seen = set()
+        enriched_count = 0
+        result = []
+        for original in contexts:
+            ident = (original.subreddit, original.post_id)
+            if ident in seen:
+                # Search and new-post feeds frequently overlap; avoid re-scoring
+                # the same Reddit discussion as independent market demand.
+                continue
+            seen.add(ident)
+            if enriched_count < max_threads and original.post_id and original.subreddit:
+                enriched_count += 1
+                try:
+                    full = await self._collect_reddit_post_context(
+                        original.post_id, original.subreddit
+                    )
+                except Exception:
+                    full = None
+                if full:
+                    full.metadata = {**original.metadata, **full.metadata}
+                    if not full.post_text:
+                        full.post_text = original.post_text
+                    if not full.post_title:
+                        full.post_title = original.post_title
+                    result.append(full)
+                    continue
+            result.append(original)
+        return result
     
     async def _collect_reddit_post_context(
         self,
@@ -320,7 +372,9 @@ class ContextCollector:
             
             await self.rate_limiter.wait_if_needed()
             
-            async with aiohttp.ClientSession() as session:
+            headers = {"User-Agent": "WishCatcher/1.1 (context research; contact operator)"}
+            timeout = aiohttp.ClientTimeout(total=15)
+            async with aiohttp.ClientSession(timeout=timeout, headers=headers) as session:
                 async with session.get(url) as response:
                     if response.status == 200:
                         data = await response.json()
