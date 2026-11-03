@@ -94,6 +94,21 @@ class IntentReformulator:
                 if context_text and context_text != intent:
                     parts.append(context_text)
         
+        # Keep original-speaker evidence from the broad conversation. The original
+        # text remains authoritative; third-party suggestions must not become
+        # first-person needs without attribution.
+        if context and isinstance(context.get("context_frame"), dict):
+            frame = context["context_frame"]
+            for item in frame.get("evidence", [])[:16]:
+                if item.get("author") == frame.get("primary_actor"):
+                    excerpt = str(item.get("excerpt") or "").strip()
+                    if excerpt and excerpt not in parts:
+                        parts.append(excerpt)
+            for key in ("problem", "desired_outcome"):
+                value = str(frame.get(key) or "").strip()
+                if value and value not in parts:
+                    parts.append(value)
+
         # Adaugă trigger text
         if trigger_analysis:
             if isinstance(trigger_analysis, dict):
