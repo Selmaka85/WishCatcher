@@ -1,5 +1,6 @@
 """Provider-free tests for permissioned discovery, evidence quality and clustering."""
 import json
+import os
 import sys
 import tempfile
 import unittest
@@ -125,9 +126,15 @@ class QualityGateTests(unittest.IsolatedAsyncioTestCase):
 class ClusterTests(unittest.IsolatedAsyncioTestCase):
     async def asyncSetUp(self):
         self.tmp = tempfile.TemporaryDirectory()
+        self.env_patch = unittest.mock.patch.dict(os.environ, {
+            "WISHCATCHER_RAG_DB": str(Path(self.tmp.name) / "local-knowledge.sqlite3"),
+            "WISHCATCHER_DISCOVERY_PERSIST_RAG": "1",
+        })
+        self.env_patch.start()
         self.index = DiscoveryIndex(str(Path(self.tmp.name) / "discovery.db"))
 
     async def asyncTearDown(self):
+        self.env_patch.stop()
         self.tmp.cleanup()
 
     async def test_independent_threads_promote_corroboration_not_market_validation(self):
@@ -142,6 +149,12 @@ class ClusterTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(clusters[0]["status"], "CORROBORATED_NEED_HYPOTHESIS")
         self.assertEqual(clusters[0]["market_demand"], "UNKNOWN")
         self.assertEqual(clusters[0]["willingness_to_pay"], "UNKNOWN")
+        from app.wishcatcher.integrations.plugin_runtime import SQLiteGraphRAG
+        rag = SQLiteGraphRAG()
+        hit_ids = [h["id"] for h in rag.retrieve("accounting invoice", graph_hops=1)]
+        self.assertTrue(any(id.startswith("wish:") for id in hit_ids), hit_ids)
+        self.assertIn(clusters[0]["cluster_id"], hit_ids)
+
         again = await engine.run(["hn_ask"], max_per_source=5)
         self.assertEqual(again["inserted"], 0)
         self.assertEqual(len(self.index.clusters()), 1)
