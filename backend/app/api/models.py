@@ -65,6 +65,7 @@ class WishData(BaseModel):
     # Câmpuri noi pentru structură completă
     intent_full: Optional[str] = None  # Intent complet (3-5 propoziții)
     structured: Optional[Dict[str, Any]] = None  # Structură detaliată (what, why, who, when, how, etc.)
+    context_frame: Optional[Dict[str, Any]] = None  # Evidence-backed multi-turn interpretation
     # Câmpuri noi pentru prioritizare și validare
     priority_score: Optional[float] = None  # Priority score (0-1)
     urgency: Optional[str] = None  # "low", "medium", "high", "critical"
