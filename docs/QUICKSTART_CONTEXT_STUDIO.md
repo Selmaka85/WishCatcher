@@ -7,6 +7,17 @@ search and MCP read/search adapter. No paid provider is required.
 This does NOT claim parity with proprietary OpenAI ad systems or proven market
 demand. Context-inference quality with a real LLM must be benchmarked.
 
+## Get the tested feature branch
+
+Clone the GitHub repository and switch to the release-candidate branch
+until PR #1 is reviewed/merged:
+
+    git clone https://github.com/Selmaka85/WishCatcher.git
+    cd WishCatcher
+    git switch feature/contextual-intent-genesis-20261103
+
+If you already have the repository, fetch and switch to that branch.
+
 ## Docker Compose: start the product
 
 Requirements: Docker Engine/Desktop with Compose v2, ports 3000/8000 free.
@@ -46,7 +57,7 @@ Terminal 1, from repository root:
     python -m venv .venv
     source .venv/bin/activate
     python -m pip install -r requirements-plugin.txt
-    export WISHCATCHER_PLUGIN_ACCESS_TOKEN=<strong-random-secret>
+    export WISHCATCHER_PLUGIN_ACCESS_TOKEN='YOUR_BACKEND_SECRET'
     export WISHCATCHER_RAG_DB=./local_data/knowledge.sqlite3
     export WISHCATCHER_WISH_DIR=./local_data/wishes
     python -m uvicorn app.plugin_app:app --app-dir backend --host 127.0.0.1 --port 8000
@@ -56,8 +67,8 @@ Terminal 2, from repo root:
     cd frontend
     npm ci
     export WISHCATCHER_INTERNAL_API_URL=http://127.0.0.1:8000
-    export WISHCATCHER_PLUGIN_ACCESS_TOKEN=<same-backend-secret>
-    export WISHCATCHER_DASHBOARD_ACCESS_TOKEN=<different-random-secret>
+    export WISHCATCHER_PLUGIN_ACCESS_TOKEN='YOUR_BACKEND_SECRET'
+    export WISHCATCHER_DASHBOARD_ACCESS_TOKEN='YOUR_DASHBOARD_SECRET'
     npm run dev
 
 Open http://127.0.0.1:3000. Windows PowerShell uses $env:NAME='value'
