@@ -21,7 +21,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Compile affected backend and tests
-        run: python -m compileall -q backend/app/wishcatcher/contextual backend/app/api/routes/wishes.py backend/app/api/models.py backend/app/wishcatcher/parser/intent_reformulator.py tests
+        run: python -m compileall -q backend/app/wishcatcher/contextual backend/app/wishcatcher/integrations backend/app/api/routes/wishes.py backend/app/api/routes/context_plugin.py backend/app/api/models.py backend/app/wishcatcher/parser/intent_reformulator.py backend/app/main.py tests
       - name: Provider-free contextual intent tests
         env:
           WISHCATCHER_CONTEXT_LLM_ENABLED: "0"
