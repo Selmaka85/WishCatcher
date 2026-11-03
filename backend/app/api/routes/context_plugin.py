@@ -13,6 +13,7 @@ from fastapi import APIRouter, Depends, Header, HTTPException
 from pydantic import BaseModel, Field
 
 from app.wishcatcher.integrations.plugin_runtime import SQLiteGraphRAG, WishCatcherPlugin
+from app.astra_genesis.context_bridge import GenesisContextBridge
 
 router = APIRouter()
 
@@ -30,6 +31,10 @@ class ContextAnalysisRequest(BaseModel):
     retrieve_knowledge: bool = False
     research: bool = False
     remember: bool = False  # Explicit local persistence, never on by default
+
+
+class SolutionRequest(BaseModel):
+    conversation: Dict[str, Any]
 
 
 class KnowledgeDocument(BaseModel):
@@ -77,3 +82,37 @@ async def link_knowledge(link: KnowledgeLink) -> Dict[str, Any]:
         return {"linked": True}
     except (ValueError, OSError) as exc:
         raise HTTPException(400, detail=str(exc)) from exc
+
+
+@router.get("/config", dependencies=[Depends(require_plugin_token)])
+def plugin_config() -> Dict[str, Any]:
+    """Return capabilities, never provider keys, tokens or private endpoints."""
+    from urllib.parse import urlparse
+    enabled = os.getenv("WISHCATCHER_CONTEXT_LLM_ENABLED", "0") == "1"
+    endpoint = os.getenv("WISHCATCHER_CONTEXT_LLM_URL", "http://127.0.0.1:11434/v1/chat/completions")
+    host = urlparse(endpoint).hostname
+    endpoint_type = (
+        "local" if host in {"localhost", "127.0.0.1", "::1"}
+        else "remote" if enabled else "none"
+    ) if enabled else "none"
+    return {
+        "version": "1.0.0",
+        "interpreter": "openai-compatible" if enabled else "rules",
+        "llm_enabled": enabled,
+        "llm_endpoint_type": endpoint_type,
+        "rag": "sqlite-fts5-graph",
+        "web_search_enabled": os.getenv("WISHCATCHER_WEB_SEARCH_ENABLED", "0") == "1",
+        "mcp_enabled": os.getenv("WISHCATCHER_MCP_ENABLED", "0") == "1",
+    }
+
+
+@router.post("/solution", dependencies=[Depends(require_plugin_token)])
+async def compose_solution(request: SolutionRequest) -> Dict[str, Any]:
+    """Generate a traceable Genesis brief, not a fabricated financial plan."""
+    if len(str(request.conversation)) > 200_000:
+        raise HTTPException(413, detail="Thread too large")
+    frame = (await WishCatcherPlugin().analyze(request.conversation)).frame
+    try:
+        return GenesisContextBridge.compose(frame)
+    except ValueError as exc:
+        raise HTTPException(422, detail=str(exc)) from exc
