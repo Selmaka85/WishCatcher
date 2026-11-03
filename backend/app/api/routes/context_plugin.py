@@ -14,6 +14,7 @@ from pydantic import BaseModel, Field
 
 from app.wishcatcher.integrations.plugin_runtime import SQLiteGraphRAG, WishCatcherPlugin
 from app.astra_genesis.context_bridge import GenesisContextBridge
+from app.wishcatcher.discovery.pipeline import DiscoveryRunner, DiscoveryIndex
 
 router = APIRouter()
 
@@ -193,3 +194,46 @@ def published_wishes(limit: int = 25, offset: int = 0) -> Dict[str, Any]:
     return {"total_returned": len(items), "wishes": [
         item.model_dump(mode="json") for item in items
     ]}
+
+
+class DiscoveryRunRequest(BaseModel):
+    sources: list[str] = Field(default_factory=lambda: ["hn_ask"], min_length=1, max_length=6)
+    max_per_source: int = Field(default=4, ge=1, le=10)
+    max_contexts: int = Field(default=30, ge=1, le=70)
+
+
+@router.post("/discovery/run", dependencies=[Depends(require_plugin_token)])
+async def discover_needs(request: DiscoveryRunRequest) -> Dict[str, Any]:
+    """Explicitly launch a bounded, permission-aware discovery batch.
+
+    Public sources require no platform login. Paid Brave search and operator
+    imports remain disabled unless separately configured by the operator.
+    """
+    import asyncio
+    try:
+        return await asyncio.wait_for(
+            DiscoveryRunner().run(
+                request.sources,
+                max_per_source=request.max_per_source,
+                max_contexts=request.max_contexts,
+            ),
+            timeout=210,
+        )
+    except ValueError as exc:
+        raise HTTPException(400, detail=str(exc)) from exc
+    except RuntimeError as exc:
+        raise HTTPException(409, detail=str(exc)) from exc
+    except TimeoutError as exc:
+        raise HTTPException(504, detail="Discovery budget exceeded; use a smaller batch") from exc
+
+
+@router.get("/discovery/clusters", dependencies=[Depends(require_plugin_token)])
+def list_need_clusters(limit: int = 30) -> Dict[str, Any]:
+    """Return distinct needs with independent-actor/thread counts."""
+    index = DiscoveryIndex()
+    return {"clusters": index.clusters(limit=limit)}
+
+
+@router.get("/discovery/runs", dependencies=[Depends(require_plugin_token)])
+def list_discovery_runs(limit: int = 10) -> Dict[str, Any]:
+    return {"runs": DiscoveryIndex().recent_runs(limit=limit)}
