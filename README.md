@@ -1,3 +1,33 @@
+# WishCatcher Context Studio — Local-first Plugin (2026)
+
+**Start here:** [Self-hosted Studio quickstart](docs/QUICKSTART_CONTEXT_STUDIO.md) |
+[Plugin & provider guide](docs/PLUGIN_RUNTIME.md) |
+[Contextual architecture](docs/CONTEXTUAL_INTENT_GENESIS.md).
+
+WishCatcher now ships an independent, evidence-grounded conversational intent
+plugin and web Studio. It reconstructs the original person's underlying need
+from multi-turn conversations, keeps source-message evidence, distinguishes
+explicit statements from inferences, and can publish a validated-context
+candidate to the existing WishStorage / ASTRA Genesis pipeline.
+
+The plugin is **model/provider-neutral**: rule fallback by default, opt-in
+Ollama/LM Studio or an OpenAI-compatible API, local SQLite FTS5 + graph-link
+RAG, optional Brave internet search and an allowlisted MCP search adapter.
+No external AI, browsing or MCP execution occurs by default.
+
+Quick use: copy .env.example to .env, replace both secret placeholders, then
+run docker compose up -d --build and open http://127.0.0.1:3000.
+The earlier business intelligence dashboard remains at /legacy (requires the
+full historical backend); standalone Context Studio is the default homepage.
+
+**Release scope:** a locally deployable single-operator v1 under active review.
+Financial projections, willingness to pay and market-demand claims are NOT
+generated as facts. Real provider inference quality and live external search/MCP
+are separate validation steps. Never publicly expose the local stack without
+hardening authentication, network controls and tenancy.
+
+---
+
 # 🚀 Astra Genesis WishCatcher - AI-Powered Wish Detection & Business Intelligence Platform
 
 [![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/)
