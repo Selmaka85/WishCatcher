@@ -335,6 +335,28 @@ class DiscoveryRunner:
                         result = self.index.ingest(item, frame)
                         if result.startswith("need_"):
                             metrics["inserted"] += 1
+                            # Optional local knowledge memory: useful for
+                            # future retrieval, not new customer evidence.
+                            if os.getenv("WISHCATCHER_DISCOVERY_PERSIST_RAG", "1") == "1":
+                                try:
+                                    from app.wishcatcher.integrations.plugin_runtime import SQLiteGraphRAG
+                                    rag = SQLiteGraphRAG()
+                                    doc_id = rag.remember_context_frame(frame)
+                                    if doc_id:
+                                        rag.put(
+                                            result,
+                                            "Need category: " + str(frame.get("domain") or "") +
+                                            "\nProblem: " + str(frame.get("problem") or "")[:350] +
+                                            "\nGoal: " + str(frame.get("desired_outcome") or "")[:350],
+                                            source="discovery_cluster",
+                                            metadata={"market_validation": "UNKNOWN",
+                                                      "kind": "unverified_need_cluster"},
+                                        )
+                                        rag.link(doc_id, result, "observed_as")
+                                except Exception as rag_exc:
+                                    metrics["errors"].append(
+                                        f"local RAG enrichment: {type(rag_exc).__name__}"
+                                    )
                         else:
                             metrics["skipped"] += 1
                     except Exception as exc:
