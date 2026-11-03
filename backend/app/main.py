@@ -22,12 +22,9 @@ app = FastAPI(
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
     """Handler pentru erori de validare - returnează mesaje clare"""
-    # Log request body pentru debugging
-    try:
-        body = await request.body()
-        print(f"[DEBUG] Validation error - Request body: {body.decode('utf-8')}")
-    except:
-        pass
+    # Privacy: contextual plugin requests may contain private conversations.
+    # Never log full request bodies, even when validation fails.
+    print(f"[WARN] Request validation failed: path={request.url.path}")
     
     errors = []
     for error in exc.errors():
