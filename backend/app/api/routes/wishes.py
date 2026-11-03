@@ -26,6 +26,7 @@ from app.wishcatcher.analyzer.market_research_validator import MarketResearchVal
 from app.wishcatcher.analyzer.feedback_loop import FeedbackLoop
 from app.wishcatcher.prioritizer.smart_prioritizer import SmartPrioritizer
 from app.wishcatcher.extractor.precise_context_extractor import PreciseContextExtractor
+from app.wishcatcher.contextual.context_resolver import ConversationContextResolver
 from app.storage.wish_storage import WishStorage
 from app.product_gaps.auto_gap_finder import AutoGapFinder
 from app.storage.product_gap_storage import ProductGapStorage
@@ -102,6 +103,7 @@ async def collect_wishes(
         
         # Extragere precisă de context (ca ChatGPT/Google)
         precise_extractor = PreciseContextExtractor()
+        contextual_resolver = ConversationContextResolver()
         
         wishes = []
         contexts_processed = 0
@@ -121,11 +123,23 @@ async def collect_wishes(
         for context in all_contexts:
             contexts_processed += 1
             try:
-                # Detect intent (this also detects language)
+                # Reconstruct the original speaker's need from the FULL thread first.
+                # Never discard a vague opening post before reading its clarifications.
+                raw_context = context.to_dict()
+                context_frame = await contextual_resolver.resolve(raw_context)
+                contextual_intent = bool(context_frame.actionable and context_frame.confidence >= 0.5)
                 intent_data = intent_detector.detect_intent(
                     text=context.post_text,
-                    context=context.to_dict()
+                    context=raw_context
                 )
+                if contextual_intent and (not intent_data.get("intent") or context_frame.interpretation_method == "llm_contextual"):
+                    intent_data = {
+                        **intent_data,
+                        "intent": context_frame.intent,
+                        "confidence": context_frame.confidence,
+                        "language": context_frame.language,
+                        "domain": context_frame.domain,
+                    }
                 
                 # Filter by language if specified
                 detected_language = intent_data.get("language", "unknown")
@@ -140,7 +154,7 @@ async def collect_wishes(
                 intent = intent_data.get("intent")
                 confidence = intent_data.get("confidence", 0.0)
                 
-                if not intent or confidence < 0.3:
+                if (not intent or confidence < 0.3) and not contextual_intent:
                     if contexts_processed % 10 == 0:
                         print(f"[DEBUG] Skipped {contexts_processed} contexts, found {contexts_with_intent} with intent")
                     continue
@@ -153,7 +167,7 @@ async def collect_wishes(
                 )
                 
                 # Dacă nu e valid (garbage), skip
-                if not precise_context or not precise_context.get("is_valid", False):
+                if (not precise_context or not precise_context.get("is_valid", False)) and not contextual_intent:
                     contexts_filtered += 1
                     rejection_reason = precise_context.get("rejection_reason", "Not specific enough") if precise_context else "No precise context"
                     if contexts_filtered % 10 == 0:
@@ -163,7 +177,7 @@ async def collect_wishes(
                 # Dacă specificitatea sau relevanța e prea scăzută, skip
                 specificity = precise_context.get("specificity_score", 0.0)
                 relevance = precise_context.get("relevance_score", 0.0)
-                if specificity < 0.5 or relevance < 0.5:
+                if (specificity < 0.5 or relevance < 0.5) and not contextual_intent:
                     contexts_filtered += 1
                     if contexts_filtered % 10 == 0:
                         print(f"[DEBUG] Filtered {contexts_filtered} wishes (specificity: {specificity:.2f}, relevance: {relevance:.2f})")
@@ -171,19 +185,6 @@ async def collect_wishes(
                 
                 contexts_with_intent += 1
                 print(f"[DEBUG] Found valid intent in {detected_language}: {intent[:50]}... (specificity: {specificity:.2f}, relevance: {relevance:.2f})")
-                
-                # Validate wish (filtrează nonsensuri și imposibilități) - validare suplimentară
-                is_valid, validation_reason, validation_confidence = reality_checker.validate_wish(
-                    intent=intent,
-                    language=detected_language,
-                    context=context.to_dict()
-                )
-                
-                if not is_valid:
-                    contexts_filtered += 1
-                    if contexts_filtered % 10 == 0:
-                        print(f"[DEBUG] Filtered {contexts_filtered} wishes (reality check: {validation_reason})")
-                    continue
                 
                 # Detectează wish-uri proactivi (din pattern-uri de frustrare/eșec)
                 proactive_wish = proactive_detector.detect_proactive_wish(
@@ -239,10 +240,25 @@ async def collect_wishes(
                     final_intent = comparison_wish.get("wish", intent)
                     print(f"[DEBUG] Comparison wish detected: {final_intent[:50]}...")
                 
-                # Analyze trigger
+                # A contextual reconstruction of the whole thread takes precedence
+                # over a regex fragment, while the original detectors stay active.
+                if contextual_intent:
+                    final_intent = context_frame.intent
+
+                # Validate the ACTUAL selected intent, not an earlier fragment.
+                is_valid, validation_reason, validation_confidence = reality_checker.validate_wish(
+                    intent=final_intent,
+                    language=detected_language,
+                    context=raw_context,
+                )
+                if not is_valid:
+                    contexts_filtered += 1
+                    continue
+
+                # Analyze triggers with the resolved intent and original provenance.
                 trigger_data = trigger_analyzer.analyze(
-                    text=context.post_text,
-                    full_context=context.to_dict()
+                    text=final_intent,
+                    full_context=raw_context,
                 )
                 
                 # Reformulate intent (construiește structură completă)
@@ -250,9 +266,26 @@ async def collect_wishes(
                 reformulated = intent_reformulator.reformulate_intent(
                     intent=final_intent,  # Folosește wish-ul final (proactiv/implicit/etc)
                     language=detected_language,
-                    context=context.to_dict(),
+                    context={**raw_context, "context_frame": context_frame.to_dict()},
                     trigger_analysis=trigger_data
                 )
+                if contextual_intent:
+                    structured = reformulated.setdefault("structured", {})
+                    structured.update({
+                        "problem": context_frame.problem,
+                        "desired_outcome": context_frame.desired_outcome,
+                        "constraints": context_frame.constraints,
+                        "attempted_solutions": context_frame.attempted_solutions,
+                        "rejected_alternatives": context_frame.rejected_alternatives,
+                        "evidence": context_frame.evidence,
+                        "epistemic_status": context_frame.epistemic_status,
+                    })
+                    reformulated["intent_short"] = final_intent[:500]
+                    reformulated["intent_full"] = (
+                        f"Problem: {context_frame.problem}. "
+                        f"Desired outcome: {context_frame.desired_outcome}. "
+                        f"Resolved intent: {final_intent}"
+                    )
                 
                 # Calculate business score
                 # Adaugă informații precise extrase
@@ -265,7 +298,8 @@ async def collect_wishes(
                     "domain": intent_data.get("domain", "other"),
                     "trigger_analysis": trigger_data,
                     "source": source,
-                    "context": context.to_dict(),
+                    "context": raw_context,
+                    "context_frame": context_frame.to_dict(),
                     "frequency": 1,  # Will be updated after clustering
                     # Informații precise extrase
                     "precise_context": {
@@ -314,6 +348,7 @@ async def collect_wishes(
                     source=source,
                     timestamp=datetime.fromtimestamp(context.post_timestamp) if hasattr(context, 'post_timestamp') and context.post_timestamp else datetime.now(),
                     frequency=1,
+                    context_frame=context_frame.to_dict(),
                     market_analysis=scorer.get_market_analysis(wish_data),
                     monetization=scorer.get_monetization_analysis(wish_data)
                 )
