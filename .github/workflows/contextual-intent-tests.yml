@@ -1,12 +1,14 @@
 name: Contextual Intent Regression
 
 on:
-  push:
-    branches:
-      - feature/contextual-intent-genesis-20261103
   pull_request:
     branches:
       - main
+  workflow_dispatch:
+
+concurrency:
+  group: context-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
