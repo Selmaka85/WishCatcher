@@ -1,0 +1,28 @@
+name: Contextual Intent Regression
+
+on:
+  push:
+    branches:
+      - feature/contextual-intent-genesis-20261103
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  context-contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Compile affected backend and tests
+        run: python -m compileall -q backend/app/wishcatcher/contextual backend/app/api/routes/wishes.py backend/app/api/models.py backend/app/wishcatcher/parser/intent_reformulator.py tests
+      - name: Provider-free contextual intent tests
+        env:
+          WISHCATCHER_CONTEXT_LLM_ENABLED: "0"
+        run: python -m unittest discover -s tests -v
