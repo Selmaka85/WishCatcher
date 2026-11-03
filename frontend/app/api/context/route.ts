@@ -4,7 +4,7 @@ export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 export const maxDuration = 300
 
-type Action = 'analyze' | 'knowledge' | 'knowledgeLink' | 'config' | 'solution' | 'publish' | 'wishes'
+type Action = 'analyze' | 'knowledge' | 'knowledgeLink' | 'config' | 'solution' | 'publish' | 'wishes' | 'discoveryRun' | 'discoveryClusters' | 'discoveryRuns'
 const ROUTES: Record<Action, { method: 'POST' | 'GET'; path: string }> = {
   analyze: { method: 'POST', path: '/api/context/analyze' },
   knowledge: { method: 'POST', path: '/api/context/knowledge' },
@@ -13,6 +13,9 @@ const ROUTES: Record<Action, { method: 'POST' | 'GET'; path: string }> = {
   solution: { method: 'POST', path: '/api/context/solution' },
   publish: { method: 'POST', path: '/api/context/publish' },
   wishes: { method: 'GET', path: '/api/context/wishes' },
+  discoveryRun: { method: 'POST', path: '/api/context/discovery/run' },
+  discoveryClusters: { method: 'GET', path: '/api/context/discovery/clusters' },
+  discoveryRuns: { method: 'GET', path: '/api/context/discovery/runs' },
 }
 
 function jsonError(message: string, status: number): Response {
