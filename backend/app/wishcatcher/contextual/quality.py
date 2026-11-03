@@ -98,15 +98,21 @@ class ContextQualityGate:
             flags.append("inferred_not_explicit")
         if frame.get("interpretation_method") == "rules":
             flags.append("rules_only_no_semantic_entailment")
+        if frame.get("interpretation_method") == "llm_contextual" and not frame.get("field_evidence"):
+            flags.append("llm_global_ids_only_no_field_entailment")
         if len(own) > 1 and any(self.NEGATED_REQUEST.search(m.text) for m in own[1:]):
             flags.append("possible_superseded_constraint_review")
         # These references identify which *messages* inform a field. They do
         # not prove semantic entailment of a generated field's wording.
+        frame_fields = frame.get("field_evidence") or {}
+        mapped = {}
+        for field_name in ("problem", "desired_outcome", "intent"):
+            claims = frame_fields.get(field_name) if isinstance(frame_fields, dict) else None
+            mapped[field_name] = (
+                [str(i) for i in claims if str(i) in original_ids][:12]
+                if isinstance(claims, list) and claims else evidence_ids[:12]
+            )
         return QualityResult(
             True, "CANDIDATE_NEEDS_REVIEW", flags,
-            field_evidence={
-                "problem": evidence_ids[:12],
-                "desired_outcome": evidence_ids[:12],
-                "intent": evidence_ids[:12],
-            },
+            field_evidence=mapped,
         )
