@@ -1,0 +1,33 @@
+{
+  "post_id": "example-accounting",
+  "post_title": "Ce contabilitate să folosesc?",
+  "post_text": "Am încercat trei programe de contabilitate. Toate sunt o porcărie.",
+  "post_author": "owner",
+  "post_timestamp": 1,
+  "comments": [
+    {
+      "id": "comment-1",
+      "author": "owner",
+      "timestamp": 2,
+      "text": "Primul era scump, al doilea complicat, iar al treilea nu se conecta cu banca."
+    },
+    {
+      "id": "comment-2",
+      "author": "owner",
+      "timestamp": 3,
+      "text": "Eu vreau doar să termin facturile seara, fără să stau două ore."
+    },
+    {
+      "id": "comment-3",
+      "author": "owner",
+      "timestamp": 4,
+      "text": "Dacă ar face cineva unul simplu, l-aș încerca imediat."
+    },
+    {
+      "id": "other-1",
+      "author": "friend",
+      "timestamp": 5,
+      "text": "Eu vreau mai degrabă un CRM offline."
+    }
+  ]
+}
