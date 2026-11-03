@@ -119,3 +119,22 @@ jobs:
       - name: Stop smoke services
         if: always()
         run: docker compose down --remove-orphans
+
+
+  live-hn-scout:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install only provider-free plugin dependencies
+        run: python -m pip install -r requirements-plugin.txt
+      - name: Real public Hacker News discovery (no account / no AI charges)
+        timeout-minutes: 6
+        env:
+          WISHCATCHER_CONTEXT_LLM_ENABLED: "0"
+          WISHCATCHER_WEB_SEARCH_ENABLED: "0"
+          WISHCATCHER_MCP_ENABLED: "0"
+        run: python -u scripts/live_discovery_probe.py
