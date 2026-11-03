@@ -57,7 +57,7 @@ thread = {
 
 async def main():
     plugin = WishCatcherPlugin()
-    analysis = await plugin.analyze(thread, retrieve_knowledge=True, research=False)
+    analysis = await plugin.analyze(thread, retrieve_knowledge=True, research=False, remember=False)
     print(analysis.frame["problem"])
     print(analysis.frame["desired_outcome"])
     print(analysis.frame["evidence"])
@@ -125,6 +125,19 @@ pseudonymized. Use only trusted knowledge sources for persistent RAG.
 Preserve 'source', evidence URL and validation status in metadata.
 Avoid persisting private chat histories by default.
 
+## Optional long-lived context memory
+
+The plug-in does NOT store conversations by default. To retain a summarized
+unmet need in local SQLite for comparison with future contexts, explicitly set
+`remember=True` in Python or `"remember": true` in the plugin HTTP request.
+This stores a bounded problem/goal/intent/constraint summary, a stable
+hashed document key and epistemic metadata, NOT raw speaker IDs or full
+comment threads. It creates explicit `wish -> domain` links for graph
+expansion. A retained summary is still an unverified hypothesis; review
+before treating it as commercial evidence. This is currently single-tenant
+local storage; use separate DBs and real access control before any SaaS
+multi-tenant deployment.
+
 ## Optional web research
 
 ```shell
@@ -174,7 +187,7 @@ their pre-existing security configuration; this token only protects the
 new '/api/context/*' endpoints.
 
 - POST /api/context/analyze
-  JSON: {"conversation": {...}, "retrieve_knowledge": true, "research": false}
+  JSON: {"conversation": {...}, "retrieve_knowledge": true, "research": false, "remember": false}
   Reply: {frame, knowledge, external_research, warnings}
 - POST /api/context/knowledge
   JSON: {"id": "d1", "text": "...", "source": "approved", "metadata": {}}
