@@ -110,6 +110,37 @@ class ActualPluginAPITests(unittest.IsolatedAsyncioTestCase):
         )
         self.assertEqual(response.status_code, 422)
 
+
+    async def test_published_opportunity_persists_grounded_evidence_and_deduplicates(self):
+        first = await self.client.post(
+            "/api/context/publish", headers=self.auth,
+            json={"conversation": sample(), "source": "studio-demo"}
+        )
+        self.assertEqual(first.status_code, 200, first.text)
+        self.assertEqual(first.json()["validation_status"], "UNVERIFIED")
+        listing = await self.client.get("/api/context/wishes", headers=self.auth)
+        self.assertEqual(listing.status_code, 200, listing.text)
+        self.assertEqual(listing.json()["total_returned"], 1)
+        wish = listing.json()["wishes"][0]
+        self.assertEqual(wish["context_frame"]["source_id"], "acct1")
+        self.assertEqual(wish["business_score"], 0.0)
+        self.assertEqual(wish["feasibility"], "unverified")
+        again = await self.client.post(
+            "/api/context/publish", headers=self.auth,
+            json={"conversation": sample(), "source": "studio-demo"}
+        )
+        self.assertEqual(again.json()["wish_id"], wish["id"])
+        self.assertEqual(
+            (await self.client.get("/api/context/wishes", headers=self.auth)).json()["total_returned"], 1
+        )
+
+    async def test_example_placeholder_secret_is_never_valid(self):
+        with patch.dict(os.environ, {"WISHCATCHER_PLUGIN_ACCESS_TOKEN": "REPLACE_ME_WITH_SECRET"}):
+            response = await self.client.get(
+                "/api/context/config", headers={"X-WishCatcher-Key": "REPLACE_ME_WITH_SECRET"}
+            )
+            self.assertEqual(response.status_code, 503)
+
     async def test_document_ingestion_graph_and_search(self):
         for item in (
             {"id": "a", "text": "Accounting invoice banking integration", "source": "approved"},
