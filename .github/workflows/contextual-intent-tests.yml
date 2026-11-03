@@ -76,7 +76,16 @@ jobs:
           content = file.read_text()
           content = content.replace("REPLACE_ME_WITH_A_RANDOM_SECRET", token_urlsafe(48))
           content = content.replace("REPLACE_ME_WITH_ANOTHER_RANDOM_SECRET", token_urlsafe(48))
+          content = content.replace("WISHCATCHER_IMPORTED_DATA_APPROVED=0",
+                                    "WISHCATCHER_IMPORTED_DATA_APPROVED=1")
+          content = content.replace("WISHCATCHER_IMPORT_JSONL=",
+                                    "WISHCATCHER_IMPORT_JSONL=/imports/ci.jsonl")
           file.write_text(content)
+          import json
+          folder = Path("imports")
+          folder.mkdir(exist_ok=True)
+          sample = json.loads(Path("examples/accounting_thread.json").read_text())
+          (folder / "ci.jsonl").write_text(json.dumps(sample) + "\n")
           PY
       - name: Build and start the actual backend and Studio containers
         run: docker compose up -d --build --wait
@@ -90,6 +99,13 @@ jobs:
             -H "X-WishCatcher-Key: $secret" -H 'Content-Type: application/json' \
             -d '{"conversation":{"post_id":"ci1","post_author":"owner","post_text":"I tried three accounting apps and all are too expensive.","comments":[{"id":"one","author":"owner","text":"I want to finish my invoices faster without spending two hours every day."}]}}' \
             | python -c 'import json,sys; j=json.load(sys.stdin); assert j["frame"]["actionable"],j'
+          curl --fail --silent --show-error -X POST 'http://127.0.0.1:8000/api/context/discovery/run' \
+            -H "X-WishCatcher-Key: $secret" -H 'Content-Type: application/json' \
+            -d '{"sources":["approved_jsonl"],"max_per_source":3,"max_contexts":5}' \
+            | python -c 'import json,sys; j=json.load(sys.stdin); assert j["inserted"] == 1,j'
+          curl --fail --silent --show-error 'http://127.0.0.1:8000/api/context/discovery/clusters' \
+            -H "X-WishCatcher-Key: $secret" \
+            | python -c 'import json,sys; j=json.load(sys.stdin); assert len(j["clusters"]) == 1,j'
           dashboard="$(grep '^WISHCATCHER_DASHBOARD_ACCESS_TOKEN=' .env | cut -d= -f2-)"
           curl --fail --silent --show-error -X POST 'http://127.0.0.1:3000/api/context' \
             -H "X-WishCatcher-Admin: $dashboard" -H 'Content-Type: application/json' \
