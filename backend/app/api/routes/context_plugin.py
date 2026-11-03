@@ -29,6 +29,7 @@ class ContextAnalysisRequest(BaseModel):
     conversation: Dict[str, Any]
     retrieve_knowledge: bool = False
     research: bool = False
+    remember: bool = False  # Explicit local persistence, never on by default
 
 
 class KnowledgeDocument(BaseModel):
@@ -54,6 +55,7 @@ async def analyze_context(request: ContextAnalysisRequest) -> Dict[str, Any]:
         request.conversation,
         retrieve_knowledge=request.retrieve_knowledge,
         research=request.research,
+        remember=request.remember,
     )).to_dict()
 
 
