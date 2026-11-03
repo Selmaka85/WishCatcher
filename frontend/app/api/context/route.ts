@@ -32,7 +32,7 @@ export async function POST(request: Request): Promise<Response> {
   // dashboard secret is checked server-side and never persisted in the browser.
   const dashboardSecret = process.env.WISHCATCHER_DASHBOARD_ACCESS_TOKEN || ''
   const backendSecret = process.env.WISHCATCHER_PLUGIN_ACCESS_TOKEN || ''
-  if (!dashboardSecret || !backendSecret) {
+  if (!dashboardSecret || !backendSecret || dashboardSecret.startsWith('REPLACE_ME') || backendSecret.startsWith('REPLACE_ME')) {
     return jsonError('Dashboard not configured. Set both server secrets.', 503)
   }
   const supplied = request.headers.get('x-wishcatcher-admin') || ''
