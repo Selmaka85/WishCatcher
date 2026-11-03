@@ -4,13 +4,15 @@ export const runtime = 'nodejs'
 export const dynamic = 'force-dynamic'
 export const maxDuration = 300
 
-type Action = 'analyze' | 'knowledge' | 'knowledgeLink' | 'config' | 'solution'
+type Action = 'analyze' | 'knowledge' | 'knowledgeLink' | 'config' | 'solution' | 'publish' | 'wishes'
 const ROUTES: Record<Action, { method: 'POST' | 'GET'; path: string }> = {
   analyze: { method: 'POST', path: '/api/context/analyze' },
   knowledge: { method: 'POST', path: '/api/context/knowledge' },
   knowledgeLink: { method: 'POST', path: '/api/context/knowledge/link' },
   config: { method: 'GET', path: '/api/context/config' },
   solution: { method: 'POST', path: '/api/context/solution' },
+  publish: { method: 'POST', path: '/api/context/publish' },
+  wishes: { method: 'GET', path: '/api/context/wishes' },
 }
 
 function jsonError(message: string, status: number): Response {
