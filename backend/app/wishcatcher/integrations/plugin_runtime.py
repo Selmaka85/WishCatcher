@@ -291,7 +291,12 @@ class WishCatcherPlugin:
     ) -> AnalysisOutput:
         frame = await self.resolver.resolve(conversation)
         output = AnalysisOutput(frame=frame.to_dict())
-        topic = frame.problem or frame.desired_outcome or frame.intent
+        # Include the normalized domain so cross-language lexical RAG can find
+        # documents even when the forum uses different terminology.
+        topic = " ".join(p for p in (
+            frame.domain if frame.domain != "other" else "",
+            frame.problem, frame.desired_outcome, frame.intent,
+        ) if p).strip()[:1000]
 
         if retrieve_knowledge and topic:
             try:
