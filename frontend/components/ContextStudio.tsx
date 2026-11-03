@@ -100,6 +100,8 @@ export default function ContextStudio() {
   const [remember, setRemember] = useState(false)
   const [analysis, setAnalysis] = useState<Analysis | null>(null)
   const [solution, setSolution] = useState<Solution | null>(null)
+  const [published, setPublished] = useState('')
+  const [publishedItems, setPublishedItems] = useState<{id: string; intent: string; domain: string}[]>([])
   const [status, setStatus] = useState<PluginConfig | null>(null)
   const [tab, setTab] = useState<'analyze' | 'knowledge'>('analyze')
   const [docId, setDocId] = useState('knowledge:invoice-integration')
@@ -132,7 +134,7 @@ export default function ContextStudio() {
     return result
   }
 
-  async function execute(action: 'analyze' | 'solution' | 'config' | 'knowledge' | 'knowledgeLink') {
+  async function execute(action: 'analyze' | 'solution' | 'config' | 'knowledge' | 'knowledgeLink' | 'publish' | 'wishes') {
     setBusy(action); setError(''); setNotice('')
     try {
       if (action === 'analyze') {
@@ -140,7 +142,7 @@ export default function ContextStudio() {
           conversation: parseConversation(conversationText),
           retrieve_knowledge: retrieveKnowledge, research, remember,
         })
-        setAnalysis(result); setSolution(null)
+        setAnalysis(result); setSolution(null); setPublished('')
         setNotice('Analiza conversației a fost finalizată.')
       } else if (action === 'solution') {
         const result = await invoke<Solution>('solution', {
@@ -148,6 +150,16 @@ export default function ContextStudio() {
         })
         setSolution(result)
         setNotice('Genesis a produs o schiță de soluție verificabilă.')
+      } else if (action === 'publish') {
+        const saved = await invoke<{published: boolean; wish_id: string}>('publish', {
+          conversation: parseConversation(conversationText), source: 'manual-studio',
+        })
+        setPublished(saved.wish_id)
+        setNotice('Oportunitate salvată în WishStorage: ' + saved.wish_id + ' (nevalidată comercial).')
+      } else if (action === 'wishes') {
+        const saved = await invoke<{wishes: {id: string; intent: string; domain: string}[]}>('wishes', {})
+        setPublishedItems(saved.wishes)
+        setNotice('Istoricul oportunităților a fost încărcat.')
       } else if (action === 'config') {
         setStatus(await invoke<PluginConfig>('config', {}))
         setNotice('Conexiune verificată.')
@@ -245,11 +257,22 @@ export default function ContextStudio() {
                 </button>
                 <button className="rounded-xl border border-violet-400/60 px-5 py-3 text-sm text-violet-200 disabled:opacity-40"
                   disabled={!!busy} onClick={() => execute('solution')}>Generează schița Genesis</button>
+                <button className="rounded-xl border border-emerald-600 px-5 py-3 text-sm text-emerald-200 disabled:opacity-40"
+                  disabled={!!busy} onClick={() => execute('publish')}>Publică oportunitatea în Genesis Storage</button>
                 <button className="rounded-xl border border-slate-700 px-5 py-3 text-sm text-slate-300"
-                  onClick={() => { setConversationText(SAMPLE); setAnalysis(null); setSolution(null) }}>
+                  onClick={() => { setConversationText(SAMPLE); setAnalysis(null); setSolution(null); setPublished('') }}>
                   Exemplul contabilitate
                 </button>
               </div>
+              {published && <p className="mt-3 break-all text-xs text-emerald-300">Persistat: {published}</p>}
+              <button className="mt-5 text-sm text-violet-300 underline disabled:opacity-40"
+                disabled={!!busy} onClick={() => execute('wishes')}>Arată oportunitățile salvate</button>
+              {publishedItems.length > 0 && <div className="mt-3 space-y-2">
+                {publishedItems.map(item => <p key={item.id} className="rounded-xl bg-slate-950 p-3 text-sm text-slate-200">
+                  <span className="mr-3 font-mono text-xs text-violet-300">{item.id}</span>{item.intent}
+                  <span className="ml-2 text-xs text-slate-400">({item.domain})</span>
+                </p>)}
+              </div>}
             </section>
 
             {analysis && (
