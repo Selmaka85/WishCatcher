@@ -1,0 +1,2 @@
+# Optional install after requirements-plugin.txt when MCP access is needed.
+mcp>=1.15,<3
