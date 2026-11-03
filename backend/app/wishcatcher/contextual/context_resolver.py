@@ -267,11 +267,16 @@ clarifications take precedence over old assumptions."""
         self.api_key = os.getenv("WISHCATCHER_CONTEXT_API_KEY", "")
         self.allow_remote = os.getenv("WISHCATCHER_CONTEXT_ALLOW_REMOTE", "0") == "1"
         self.max_chunk_chars = 9000
+        try:
+            requested_timeout = float(os.getenv("WISHCATCHER_CONTEXT_LLM_TIMEOUT_SEC", "180"))
+        except ValueError:
+            requested_timeout = 180.0
+        self.timeout_seconds = min(max(requested_timeout, 15.0), 600.0)
 
     def _permitted(self) -> bool:
         from urllib.parse import urlparse
         url = urlparse(self.endpoint)
-        local_hosts = {"127.0.0.1", "localhost", "::1"}
+        local_hosts = {"127.0.0.1", "localhost", "::1", "host.docker.internal"}
         return url.scheme in {"http", "https"} and bool(url.hostname) and (
             self.allow_remote or url.hostname in local_hosts
         )
@@ -308,7 +313,7 @@ clarifications take precedence over old assumptions."""
         try:
             import httpx
             state: Dict[str, Any] = {}
-            async with httpx.AsyncClient(timeout=40.0) as client:
+            async with httpx.AsyncClient(timeout=self.timeout_seconds, follow_redirects=False) as client:
                 for window in self._chunks(messages, self.max_chunk_chars):
                     payload = json.dumps({
                         "primary_actor": messages[0].author,
@@ -337,7 +342,7 @@ clarifications take precedence over old assumptions."""
                     if not isinstance(state, dict):
                         return None
             return state
-        except (ValueError, KeyError, TypeError, OSError, Exception):
+        except Exception:
             # Provider errors must never silently fabricate an intent.
             return None
 
