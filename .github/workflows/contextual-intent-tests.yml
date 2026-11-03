@@ -21,9 +21,9 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install standalone plugin dependencies
-        run: python -m pip install -r requirements-plugin.txt
+        run: python -m pip install -r requirements-plugin.txt 'aiohttp>=3.9,<4' 'beautifulsoup4>=4.12,<5' 'praw>=7.7,<9'
       - name: Compile affected backend and tests
-        run: python -m compileall -q backend/app/wishcatcher/contextual backend/app/wishcatcher/integrations backend/app/astra_genesis/context_bridge.py backend/app/plugin_app.py backend/app/api/routes/wishes.py backend/app/api/routes/context_plugin.py backend/app/api/models.py backend/app/wishcatcher/parser/intent_reformulator.py backend/app/main.py tests
+        run: python -m compileall -q backend/app/wishcatcher/contextual backend/app/wishcatcher/integrations backend/app/astra_genesis/context_bridge.py backend/app/plugin_app.py backend/app/api/routes/wishes.py backend/app/api/routes/context_plugin.py backend/app/api/models.py backend/app/wishcatcher/parser/intent_reformulator.py backend/app/storage/wish_storage.py backend/app/wishcatcher/scraper/context_collector.py backend/app/main.py scripts tests
       - name: Provider-free contextual intent tests
         env:
           WISHCATCHER_CONTEXT_LLM_ENABLED: "0"
