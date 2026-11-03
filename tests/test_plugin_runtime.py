@@ -116,6 +116,23 @@ class PluginSafetyTests(unittest.IsolatedAsyncioTestCase):
                 e["message_id"] == "accounting-guide" for e in out.frame["evidence"]
             ))
 
+    async def test_opt_in_memory_persists_problem_without_raw_personal_profile(self):
+        with tempfile.TemporaryDirectory() as d:
+            rag = SQLiteGraphRAG(str(Path(d) / "rag.sqlite3"))
+            plugin = WishCatcherPlugin(rag=rag)
+            empty = await plugin.analyze(sample())
+            self.assertIsNone(empty.memory_record_id)
+            self.assertEqual(rag.retrieve("accounting"), [])
+
+            saved = await plugin.analyze(sample(), remember=True)
+            self.assertTrue(saved.memory_record_id.startswith("wish:"))
+            records = rag.retrieve("accounting", graph_hops=1)
+            doc = next(x for x in records if x["id"] == saved.memory_record_id)
+            self.assertEqual(doc["source"], "wishcatcher_context")
+            self.assertNotIn("original", doc["excerpt"])
+            self.assertIn("Goal:", doc["excerpt"])
+            self.assertFalse(doc["metadata"]["needs_review"] is False)
+
     async def test_no_network_with_default_web_adapter(self):
         with patch.dict(os.environ, {
             "WISHCATCHER_WEB_SEARCH_ENABLED": "0",
