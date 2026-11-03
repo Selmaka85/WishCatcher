@@ -156,7 +156,8 @@ class WishStorage:
             "timestamp": wish.timestamp.isoformat() if isinstance(wish.timestamp, datetime) else str(wish.timestamp),
             "frequency": wish.frequency,
             "market_analysis": wish.market_analysis,
-            "monetization": wish.monetization
+            "monetization": wish.monetization,
+            "context_frame": wish.context_frame,
         }
         
         # Adaugă câmpurile noi dacă există
