@@ -271,7 +271,7 @@ class MCPResearchBridge:
 
     def _permitted(self) -> bool:
         parsed = urlparse(self.endpoint)
-        local = parsed.hostname in {"localhost", "127.0.0.1", "::1"}
+        local = parsed.hostname in {"localhost", "127.0.0.1", "::1", "host.docker.internal"}
         return (
             self.enabled and bool(parsed.hostname)
             and self.tool_name in self.allowlist
