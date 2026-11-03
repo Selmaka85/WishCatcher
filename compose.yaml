@@ -4,11 +4,15 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.plugin
+      args:
+        INSTALL_MCP: ${WISHCATCHER_INSTALL_MCP:-false}
     restart: unless-stopped
+    extra_hosts: ["host.docker.internal:host-gateway"]
     ports: ["127.0.0.1:8000:8000"]
     environment:
       WISHCATCHER_PLUGIN_ACCESS_TOKEN: ${WISHCATCHER_PLUGIN_ACCESS_TOKEN:?Set a long random backend token}
       WISHCATCHER_RAG_DB: /data/knowledge.sqlite3
+      WISHCATCHER_WISH_DIR: /data/wishes
       WISHCATCHER_CONTEXT_LLM_ENABLED: ${WISHCATCHER_CONTEXT_LLM_ENABLED:-0}
       WISHCATCHER_CONTEXT_LLM_URL: ${WISHCATCHER_CONTEXT_LLM_URL:-http://127.0.0.1:11434/v1/chat/completions}
       WISHCATCHER_CONTEXT_MODEL: ${WISHCATCHER_CONTEXT_MODEL:-qwen2.5:3b-instruct}
