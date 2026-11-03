@@ -14,6 +14,7 @@ provider configuration. This module imports only Python stdlib at import time.
 from __future__ import annotations
 
 import asyncio
+import hashlib
 import json
 import os
 import re
@@ -42,6 +43,7 @@ class AnalysisOutput:
     knowledge: List[Dict[str, Any]] = field(default_factory=list)
     external_research: List[Dict[str, Any]] = field(default_factory=list)
     warnings: List[str] = field(default_factory=list)
+    memory_record_id: Optional[str] = None
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -49,6 +51,7 @@ class AnalysisOutput:
             "knowledge": self.knowledge,
             "external_research": self.external_research,
             "warnings": self.warnings,
+            "memory_record_id": self.memory_record_id,
         }
 
 
@@ -167,6 +170,46 @@ class SQLiteGraphRAG:
                             seen.add(neighbor["id"])
                             result.append(self._to_hit(neighbor, "graph"))
             return result
+
+    def remember_context_frame(self, frame: Dict[str, Any]) -> Optional[str]:
+        """Explicitly persist a grounded need, not the entire conversation.
+
+        Actor/source identifiers are hashed into a stable key. Raw author IDs,
+        full conversation text and evidence excerpts are deliberately omitted.
+        """
+        if not frame.get("actionable") or not frame.get("intent"):
+            return None
+        actor = str(frame.get("primary_actor") or "")
+        source = str(frame.get("source_id") or "")
+        if not actor or not source:
+            return None
+        digest = hashlib.sha256((actor + "|" + source).encode("utf-8")).hexdigest()[:24]
+        doc_id = "wish:" + digest
+        domain = str(frame.get("domain") or "other").lower()[:60]
+        safe_values = [
+            "Problem: " + str(frame.get("problem") or "")[:500],
+            "Goal: " + str(frame.get("desired_outcome") or "")[:500],
+            "Need: " + str(frame.get("intent") or "")[:500],
+        ]
+        constraints = frame.get("constraints") or []
+        if isinstance(constraints, list):
+            safe_values.append("Constraints: " + "; ".join(
+                str(c)[:180] for c in constraints[:10]
+            ))
+        self.put(
+            doc_id, "\n".join(safe_values), source="wishcatcher_context",
+            metadata={
+                "domain": domain,
+                "epistemic_status": str(frame.get("epistemic_status") or "unknown"),
+                "needs_review": bool(frame.get("needs_review", True)),
+            }
+        )
+        if domain != "other" and re.fullmatch(r"[a-z0-9_]{2,60}", domain):
+            domain_id = "domain:" + domain
+            self.put(domain_id, "Known need category: " + domain,
+                     source="wishcatcher_taxonomy", metadata={"kind": "domain"})
+            self.link(doc_id, domain_id, "belongs_to_domain")
+        return doc_id
 
     @staticmethod
     def _to_hit(row: sqlite3.Row, matched_via: str) -> Dict[str, Any]:
@@ -288,6 +331,7 @@ class WishCatcherPlugin:
     async def analyze(
         self, conversation: Dict[str, Any], *,
         retrieve_knowledge: bool = False, research: bool = False,
+        remember: bool = False,
     ) -> AnalysisOutput:
         frame = await self.resolver.resolve(conversation)
         output = AnalysisOutput(frame=frame.to_dict())
@@ -316,4 +360,10 @@ class WishCatcherPlugin:
                     output.warnings.append(
                         f"{name} research unavailable: {type(exc).__name__}"
                     )
+        if remember and frame.actionable:
+            try:
+                rag = self.rag or SQLiteGraphRAG()
+                output.memory_record_id = rag.remember_context_frame(frame.to_dict())
+            except Exception as exc:
+                output.warnings.append(f"Context memory unavailable: {type(exc).__name__}")
         return output
