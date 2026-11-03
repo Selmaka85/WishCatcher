@@ -46,6 +46,8 @@ class ContextFrame:
     actionable: bool = False
     needs_review: bool = True
     message_count: int = 0
+    field_evidence: Dict[str, List[str]] = field(default_factory=dict)
+    grounding_status: str = "not_semantically_verified"
 
     def to_dict(self) -> Dict[str, Any]:
         return asdict(self)
@@ -250,7 +252,8 @@ Distinguish pain/need from a proposed product and from willingness to pay.
 Do not invent facts, solutions, prices, market demand, or identities.
 Return JSON ONLY with keys: problem, desired_outcome, intent, domain,
 constraints (array), attempted_solutions (array), rejected_alternatives (array),
-unmet_needs (array), evidence_ids (array), epistemic_status
+unmet_needs (array), evidence_ids (array), field_evidence (object mapping
+problem/desired_outcome/intent to arrays of message IDs), epistemic_status
 (explicit/inferred/unknown), actionable (boolean), confidence (0..1).
 Every material conclusion must be supported by evidence_ids from the supplied
 messages. If an exchange is fiction, hypothetical or not actionable, abstain.
@@ -397,6 +400,55 @@ class ConversationContextResolver:
                 return []
             return [v[:300] for v in raw[:20] if isinstance(v, str) and v.strip()]
 
+        # Validate per-field citations when provided. Merely finding a real
+        # message ID is NOT proof of entailment, but invalid speaker IDs or
+        # citations are enough to reject the model interpretation.
+        field_refs = result.get("field_evidence")
+        grounded_refs: Dict[str, List[str]] = {}
+        if field_refs is not None:
+            if not isinstance(field_refs, dict):
+                return baseline
+            owner_ids = {m.message_id for m in actor_evidence}
+            for field_name, field_value in (
+                ("problem", problem), ("desired_outcome", goal), ("intent", intent)
+            ):
+                if not field_value:
+                    continue
+                raw_field = field_refs.get(field_name)
+                if not isinstance(raw_field, list) or not raw_field:
+                    return baseline
+                validated = []
+                for raw_id in raw_field:
+                    doc_id = str(raw_id).split(":part:")[0]
+                    if doc_id not in owner_ids:
+                        return baseline
+                    if doc_id not in validated:
+                        validated.append(doc_id)
+                grounded_refs[field_name] = validated
+
+        # Reject obviously unrelated claims with valid-but-irrelevant IDs:
+        # low-cost lexical overlap is only a falsification guard, not a
+        # complete semantic verifier. Cross-language aliases cover the common
+        # RO/EN accounting example without inventing new evidence.
+        if actionable and intent:
+            equivalents = {
+                "facturi": "invoice", "facturile": "invoice",
+                "invoicing": "invoice", "invoices": "invoice",
+                "contabilitate": "accounting", "bookkeeping": "accounting",
+                "banca": "bank", "bancă": "bank", "banking": "bank",
+                "ore": "time", "hours": "time", "automated": "automate",
+                "program": "software", "programe": "software",
+            }
+            stops = {"the", "to", "and", "for", "with", "a", "an", "my", "i",
+                     "want", "need", "using", "more", "one", "some", "from"}
+            def meaningful_tokens(text: str) -> set[str]:
+                words = re.findall(r"[a-zăâîșț]{3,}", text.lower())
+                return {equivalents.get(w, w) for w in words if w not in stops}
+            claim_words = meaningful_tokens(intent)
+            source_words = meaningful_tokens(" ".join(m.text for m in actor_evidence))
+            if len(claim_words) >= 3 and not (claim_words & source_words):
+                return baseline
+
         baseline.problem = problem or baseline.problem
         baseline.desired_outcome = goal or baseline.desired_outcome
         baseline.intent = intent or baseline.intent
@@ -418,4 +470,7 @@ class ConversationContextResolver:
         baseline.actionable = actionable
         baseline.needs_review = True  # Even a grounded model claim is not market validation.
         baseline.interpretation_method = "llm_contextual"
+        baseline.field_evidence = grounded_refs
+        baseline.grounding_status = ("message_ids_checked_not_entailment"
+                                     if grounded_refs else "global_ids_only_not_entailment")
         return baseline
