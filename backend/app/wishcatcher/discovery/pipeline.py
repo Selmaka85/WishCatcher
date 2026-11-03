@@ -158,6 +158,19 @@ class DiscoveryIndex:
                  json.dumps(metrics["errors"])[:10000], int(time.time()), ident))
             db.execute("DELETE FROM lock WHERE id=1")
 
+    def already_seen(self, item: SourceConversation) -> bool:
+        """Avoid repeated inference costs on identical source IDs.
+
+        Current v1 treats a discovered thread as a snapshot; incremental
+        re-evaluation of edited/new replies needs versioned fingerprints.
+        """
+        key = self._digest(item.source + "|" + item.source_id)
+        with self.connect() as db:
+            return db.execute(
+                "SELECT 1 FROM findings WHERE source=? AND source_key=?",
+                (item.source, key),
+            ).fetchone() is not None
+
     def ingest(self, item: SourceConversation, frame: Dict[str, Any],
                *, match_threshold: float = 0.74) -> str:
         if not frame.get("actionable") or not frame.get("evidence"):
@@ -322,6 +335,11 @@ class DiscoveryRunner:
                         continue
                     inspected.add(dedupe_key)
                     metrics["collected"] += 1
+                    # Cost guard: repeated scheduled polls must not send
+                    # already-indexed discussions to remote/local LLM again.
+                    if self.index.already_seen(item):
+                        metrics["skipped"] += 1
+                        continue
                     try:
                         frame = (await self.resolver.resolve(item.conversation)).to_dict()
                         quality = self.quality.assess(item.conversation, frame)
