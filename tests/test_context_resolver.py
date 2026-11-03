@@ -179,6 +179,63 @@ class ContextResolverTests(unittest.IsolatedAsyncioTestCase):
         frame = await self.resolver.resolve(data)
         self.assertIn("offline", frame.desired_outcome)
 
+    async def test_llm_real_citation_cannot_ground_unrelated_flying_car_claim(self):
+        data = accounting_thread()
+        model = StubInterpreter({
+            "actionable": True, "confidence": 0.98,
+            "evidence_ids": ["t1", "c1", "c2"],
+            "intent": "Buy a flying car",
+            "problem": "Accounting programs are expensive",
+            "desired_outcome": "Finish invoices quickly",
+            "epistemic_status": "inferred",
+        })
+        frame = await ConversationContextResolver(model).resolve(data)
+        self.assertEqual(frame.interpretation_method, "rules")
+        self.assertNotIn("flying car", frame.intent)
+
+    async def test_llm_field_evidence_rejects_other_author(self):
+        data = accounting_thread()
+        data["comments"].append({
+            "id": "outsider", "author": "other",
+            "text": "I also need invoicing tools",
+        })
+        model = StubInterpreter({
+            "actionable": True, "confidence": 0.84,
+            "evidence_ids": ["t1", "c1", "c2", "outsider"],
+            "field_evidence": {
+                "problem": ["t1"],
+                "desired_outcome": ["outsider"],
+                "intent": ["c2"],
+            },
+            "problem": "Accounting apps fail",
+            "desired_outcome": "Finish invoices quickly",
+            "intent": "Faster invoicing for accounting",
+            "epistemic_status": "inferred",
+        })
+        frame = await ConversationContextResolver(model).resolve(data)
+        self.assertEqual(frame.interpretation_method, "rules")
+        self.assertFalse(frame.field_evidence)
+
+    async def test_llm_accepts_valid_per_field_source_ids(self):
+        data = accounting_thread()
+        model = StubInterpreter({
+            "actionable": True, "confidence": 0.84,
+            "evidence_ids": ["t1", "c1", "c2"],
+            "field_evidence": {
+                "problem": ["t1", "c1"],
+                "desired_outcome": ["c2"],
+                "intent": ["c2"],
+            },
+            "problem": "Accounting apps are expensive",
+            "desired_outcome": "Finish invoices quickly",
+            "intent": "Faster invoice processing with bank integration",
+            "epistemic_status": "inferred",
+        })
+        frame = await ConversationContextResolver(model).resolve(data)
+        self.assertEqual(frame.interpretation_method, "llm_contextual")
+        self.assertEqual(frame.field_evidence["desired_outcome"], ["c2"])
+        self.assertEqual(frame.grounding_status, "message_ids_checked_not_entailment")
+
     async def test_llm_cannot_assert_other_speakers_intent(self):
         data = {
             "post_id": "t1", "post_author": "alex",
