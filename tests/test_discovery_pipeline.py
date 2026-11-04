@@ -428,6 +428,37 @@ class ClusterTests(unittest.IsolatedAsyncioTestCase):
 
 
 class PublicSourceTests(unittest.IsolatedAsyncioTestCase):
+    async def test_public_comment_does_not_promote_quoted_third_party_goals(self):
+        from app.wishcatcher.discovery.sources import clean_html
+        from app.wishcatcher.contextual.quality import ContextQualityGate
+        raw = (
+            "<p>&gt; I want to first say thanks for engaging directly"
+            "<p>Of course :)"
+            "<p>&gt; As I said earlier, I want to thank you again"
+            "<p>Could you explain why this Azure callback is forgeable?"
+        )
+        text = clean_html(raw)
+        self.assertNotIn("I want to first say thanks", text)
+        self.assertNotIn("I want to thank", text)
+        self.assertIn("Could you explain", text)
+        context = {
+            "post_id": "hn:azure:comment", "post_author": "actor",
+            "post_text": text, "comments": [],
+        }
+        frame = (await ConversationContextResolver().resolve(context)).to_dict()
+        self.assertFalse(ContextQualityGate().assess(context, frame).accepted)
+
+    async def test_real_first_person_pain_not_removed_by_quote_filter(self):
+        from app.wishcatcher.discovery.sources import clean_html
+        text = clean_html(
+            "<p>&gt; Why not just keep using Slack?"
+            "<p>I absolutely despise what Slack has become and would "
+            "love to replace it, but I cannot see how to connect my old messages."
+        )
+        self.assertIn("despise", text)
+        self.assertIn("connect my old messages", text)
+        self.assertNotIn("Why not just keep using Slack", text)
+
     async def test_official_hacker_news_reader_preserves_replies_and_actor_boundaries(self):
         fake = StubHTTP({
             "item/10.json": {"type": "story", "id": 10, "by": "alice",
