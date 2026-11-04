@@ -277,7 +277,16 @@ unmet_needs (array), evidence_ids (array), field_evidence (object mapping
 problem/desired_outcome/intent to arrays of message IDs), epistemic_status
 (explicit/inferred/unknown), actionable (boolean), confidence (0..1).
 Every material conclusion must be supported by evidence_ids from the supplied
-messages. If an exchange is fiction, hypothetical or not actionable, abstain.
+messages. The IDs are OPAQUE STRINGS: copy EXACT values from each message's
+"id" or "source_id" property, NEVER numeric array positions (0, 1) or
+invented IDs. When actionable=true, evidence_ids MUST contain original
+primary-actor message IDs. For each nonempty problem/desired_outcome/intent,
+field_evidence MUST contain the exact string IDs supporting that field.
+For example, if the message has "id":"msg-7", use
+"evidence_ids":["msg-7"], "field_evidence":{"problem":["msg-7"],
+"desired_outcome":["msg-7"],"intent":["msg-7"]}; never use [0].
+If support is missing, use actionable=false instead of guessing.
+If an exchange is fiction, hypothetical or not actionable, abstain.
 When PREVIOUS_STATE is provided, update it with new evidence and correct any
 earlier interpretation contradicted by subsequent messages. The latest
 clarifications take precedence over old assumptions."""
