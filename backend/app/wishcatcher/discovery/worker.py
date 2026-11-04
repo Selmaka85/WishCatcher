@@ -22,7 +22,7 @@ logger = logging.getLogger("wishcatcher.discovery")
 
 def schedule_config() -> tuple[list[str], int, int, int]:
     names = [n.strip() for n in os.getenv(
-        "WISHCATCHER_DISCOVERY_SOURCES", "hn_ask,hn_show").split(",") if n.strip()]
+        "WISHCATCHER_DISCOVERY_SOURCES", "hn_need_search,hn_ask").split(",") if n.strip()]
     if not names or any(name not in DiscoveryRunner.SUPPORTED for name in names):
         raise ValueError("Unsupported scheduled discovery source")
     interval = max(3600, min(int(os.getenv("WISHCATCHER_DISCOVERY_INTERVAL_SEC", "21600")), 86400))
