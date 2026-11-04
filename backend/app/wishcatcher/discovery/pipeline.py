@@ -38,12 +38,22 @@ _ALIASES = {
     "integrate": "connect", "integration": "connect",
     "conecteaza": "connect", "conectează": "connect",
     "pierd": "waste", "pierde": "waste", "hours": "time", "ore": "time",
+    "termin": "finish", "terminat": "finish", "finaliza": "finish",
+    "repede": "fast", "rapid": "fast", "rapidă": "fast", "rapida": "fast",
+    "reconciling": "reconciliation", "reconcile": "reconciliation",
+    "reconciliere": "reconciliation", "invoicing": "invoice",
 }
 _STOP = set(("the this that what with have has had from were was want need needs "
              "and or to for are is it of on in a i am do does but my we me "
              "eu ca cu sa să iar un una e si și mi ma mea care ceva pot doar "
              "vreau dar asta ale unei unui ar fi trebuie din nu de la mai "
-             "daca dacă as ai încercat tried tool tools get them").split())
+             "daca dacă as ai încercat tried tool tools get them "
+             "potential unmet workflow inferred first person pain repeated "
+             "problem statements").split())
+# Domain is already checked separately; generic workflow adjectives must NOT
+# be allowed to merge banking reconciliations with PDF invoice exports.
+_GENERIC = {"software", "manual", "manually", "slow", "time",
+            "spend", "spent", "waste", "cost", "expensive", "simple", "fast"}
 _SENSITIVE_DOMAINS = {"health"}
 _SENSITIVE_TEXT = re.compile(
     r"\b(?:medical|patient|diagnos|medic|doctor|political affiliation|"
@@ -57,13 +67,24 @@ def tokens(value: str) -> set[str]:
 
 
 def similarity(left: Dict[str, Any], right: Dict[str, Any]) -> float:
+    """Conservative grouping by shared specific need, not generic LLM text.
+
+    This is lexical RO/EN normalization, not an embedding similarity model.
+    False merges are particularly costly because they inflate independence.
+    """
     if left.get("domain") != right.get("domain"):
         return 0.0
     def key(frame: Dict[str, Any]) -> set[str]:
         return tokens(" ".join(str(frame.get(k) or "") for k in (
-            "problem", "desired_outcome", "intent")))
+            "problem", "desired_outcome", "intent"))) - _GENERIC
     a, b = key(left), key(right)
     if not a or not b or len(a & b) < 2:
+        return 0.0
+    goals_a = tokens(str(left.get("desired_outcome") or "")) - _GENERIC
+    goals_b = tokens(str(right.get("desired_outcome") or "")) - _GENERIC
+    # Different explicit outcomes cannot be grouped merely because the same
+    # tools or pains are described in both posts.
+    if goals_a and goals_b and not (goals_a & goals_b):
         return 0.0
     dice = 2 * len(a & b) / (len(a) + len(b))
     overlap = len(a & b) / min(len(a), len(b))
