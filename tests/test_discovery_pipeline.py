@@ -173,6 +173,130 @@ class QualityGateTests(unittest.IsolatedAsyncioTestCase):
         self.assertFalse(self.gate.assess(conv, frame).accepted)
 
 
+
+class TargetedNeedSearchTests(unittest.IsolatedAsyncioTestCase):
+    """Search index finds a comment; only Firebase can prove its author."""
+
+    class SearchStub:
+        def __init__(self, *, tampered=False, wrong_story=False):
+            self.calls = []
+            self.tampered = tampered
+            self.wrong_story = wrong_story
+
+        async def get(self, url, **kwargs):
+            self.calls.append((url, kwargs.get("params", {})))
+            tags = kwargs.get("params", {}).get("tags", "")
+            if tags == "comment":
+                return StubResponse({"hits": [{
+                    "objectID": "101", "story_id": 900,
+                    "author": "attacker" if self.tampered else "speaker",
+                    "comment_text": "I wish there was a simple invoice app.",
+                }]})
+            if tags == "comment,story_900,author_speaker":
+                return StubResponse({"hits": [
+                    {"objectID": "101", "story_id": 900, "author": "speaker"},
+                    {"objectID": "102", "story_id": 900, "author": "speaker"},
+                    {"objectID": "103", "story_id": 900, "author": "another"},
+                ]})
+            raise AssertionError("Unexpected search request: " + tags)
+
+    class HNStub:
+        def __init__(self, *, wrong_story=False):
+            self.paths = []
+            self.wrong_story = wrong_story
+
+        async def get(self, url, **kwargs):
+            self.paths.append(url)
+            if url.endswith("item/101.json"):
+                return StubResponse({
+                    "id": 101, "type": "comment", "by": "speaker",
+                    "parent": 900, "time": 30,
+                    "text": "I spend hours manually checking invoice imports. Every app fails."
+                })
+            if url.endswith("item/102.json"):
+                return StubResponse({
+                    "id": 102, "type": "comment", "by": "speaker",
+                    "parent": 900, "time": 40,
+                    "text": "I want faster invoice automation so I can finish before evening."
+                })
+            if url.endswith("item/103.json"):
+                return StubResponse({
+                    "id": 103, "type": "comment", "by": "another",
+                    "parent": 900, "time": 20,
+                    "text": "I demand something unrelated, a different product."
+                })
+            if url.endswith("item/900.json"):
+                return StubResponse({
+                    "id": 901 if self.wrong_story else 900, "type": "story",
+                    "title": "Ask HN: What invoicing problems are unsolved?",
+                    "by": "thread_original"
+                })
+            raise AssertionError("Unexpected official HN route " + url)
+
+    async def test_search_hydrates_original_author_and_followups_not_index_text(self):
+        from app.wishcatcher.discovery.need_search import HackerNewsNeedSearch
+        search, hn = self.SearchStub(), self.HNStub()
+        adapter = HackerNewsNeedSearch(
+            search_client=search, hn_client=hn, queries=["I wish there was"],
+            max_queries=1,
+        )
+        records = await adapter.fetch(limit=3)
+        self.assertEqual(len(records), 1)
+        item = records[0]
+        self.assertEqual(item.source, "hackernews")
+        self.assertEqual(item.source_id, "hn:900:actor:speaker")
+        self.assertEqual(item.conversation["post_author"], "speaker")
+        self.assertEqual(item.conversation["post_id"], "hn:101")
+        self.assertIn("checking invoice imports", item.conversation["post_text"])
+        self.assertEqual(len(item.conversation["comments"]), 1)
+        self.assertIn("faster invoice automation", item.conversation["comments"][0]["text"])
+        self.assertNotIn("another", str(item.conversation["comments"]))
+        self.assertEqual(item.conversation["metadata"]["thread_id"], "hn:900")
+        self.assertEqual(item.conversation["metadata"]["coverage"],
+                         "SEARCH_MATCHED_ACTOR_MESSAGES_PARTIAL_THREAD")
+        self.assertTrue(all("hn.algolia.com/api/" in url
+                            for url, _ in search.calls))
+        self.assertTrue(all("hacker-news.firebaseio.com/v0/" in url for url in hn.paths))
+
+    async def test_forged_index_author_fails_closed(self):
+        from app.wishcatcher.discovery.need_search import HackerNewsNeedSearch
+        adapter = HackerNewsNeedSearch(
+            search_client=self.SearchStub(tampered=True),
+            hn_client=self.HNStub(), queries=["I wish there was"], max_queries=1)
+        self.assertEqual(await adapter.fetch(limit=1), [])
+
+    async def test_forged_story_membership_fails_closed(self):
+        from app.wishcatcher.discovery.need_search import HackerNewsNeedSearch
+        adapter = HackerNewsNeedSearch(
+            search_client=self.SearchStub(),
+            hn_client=self.HNStub(wrong_story=True), queries=["I wish there was"], max_queries=1)
+        self.assertEqual(await adapter.fetch(limit=1), [])
+
+    async def test_targeted_source_end_to_end_to_genesis(self):
+        from app.wishcatcher.discovery.need_search import HackerNewsNeedSearch
+        with tempfile.TemporaryDirectory() as directory:
+            from unittest.mock import patch
+            with patch.dict(os.environ, {
+                "WISHCATCHER_DISCOVERY_DB": str(Path(directory) / "need.db"),
+                "WISHCATCHER_RAG_DB": str(Path(directory) / "knowledge.db"),
+            }):
+                adapter = HackerNewsNeedSearch(
+                    search_client=self.SearchStub(), hn_client=self.HNStub(),
+                    queries=["I wish there was"], max_queries=1,
+                )
+                index = DiscoveryIndex()
+                runner = DiscoveryRunner(
+                    index=index, sources={"hn_need_search": adapter})
+                result = await runner.run(["hn_need_search"])
+                self.assertEqual(result["collected"], 1, result)
+                self.assertEqual(result["inserted"], 1, result)
+                self.assertEqual(result["clusters"][0]["market_demand"], "UNKNOWN")
+                self.assertEqual(result["clusters"][0]["unique_threads"], 1)
+                self.assertEqual(result["clusters"][0]["known_actors"], 1)
+                rerun = await runner.run(["hn_need_search"])
+                self.assertEqual(rerun["inserted"], 0)
+                self.assertEqual(rerun["rejection_reasons"]["already_indexed"], 1)
+
 class ClusterTests(unittest.IsolatedAsyncioTestCase):
     async def asyncSetUp(self):
         self.tmp = tempfile.TemporaryDirectory()
