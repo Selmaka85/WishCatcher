@@ -16,6 +16,7 @@ import asyncio
 import hashlib
 import json
 import os
+import re
 import sys
 import time
 from collections import Counter
@@ -37,11 +38,13 @@ DEFAULT_MAX = 12
 MAX_ALLOWED = 20
 
 
-def select_balanced(samples: Dict[str, List[SourceConversation]], limit: int
+def select_balanced(samples: Dict[str, List[SourceConversation]], limit: int,
+                    *, unique_threads: bool = True
                     ) -> List[tuple[str, SourceConversation]]:
     """One candidate per stratum per round; dedupe across indexed HN packs."""
     selected: List[tuple[str, SourceConversation]] = []
     seen: set[tuple[str, str]] = set()
+    seen_threads: set[str] = set()
     order = list(PACKS) + ["hn_ask_neutral"]
     for index in range(max((len(samples.get(pack) or []) for pack in order), default=0)):
         for pack in order:
@@ -52,11 +55,14 @@ def select_balanced(samples: Dict[str, List[SourceConversation]], limit: int
             key = (item.source, item.source_id)
             if key in seen:
                 continue
+            if unique_threads and item.url in seen_threads:
+                continue
             # Only verified public Hacker News. Other sources need separate rights review.
             if item.source != "hackernews" or not item.url.startswith(
                     "https://news.ycombinator.com/item?id="):
                 continue
             seen.add(key)
+            seen_threads.add(item.url)
             selected.append((pack, item))
             if len(selected) >= limit:
                 return selected
@@ -70,12 +76,18 @@ def summary_case(pack: str, item: SourceConversation,
     """No model-generated text or raw source messages in Actions logs."""
     original_method = llm_frame.get("interpretation_method") or "unknown"
     domain = rule_frame.get("domain") or "other"
+    primary_id = str(item.conversation.get("post_id") or "")
+    match = re.fullmatch(r"hn:([0-9]{1,18})", primary_id)
+    # This comment/story ID comes from verified HN source data, not an LLM.
+    primary_url = ("https://news.ycombinator.com/item?id=" + match.group(1)
+                   if match else None)
     # Never publish or persist extracted details from sensitive discussions.
     return {
         "case_hash": hashlib.sha256(
             (item.source + ":" + item.source_id).encode("utf-8")
         ).hexdigest()[:16],
         "source_url": item.url,
+        "primary_evidence_url": primary_url,
         "stratum": pack,
         "domain": domain if domain not in {"health"} else "sensitive_excluded",
         "message_count": int(rule_frame.get("message_count") or 0),
@@ -194,6 +206,8 @@ async def run(args: argparse.Namespace, *, sources: Optional[Dict[str, Any]] = N
         ),
         "source_counts": {key: len(value) for key, value in acquired.items()},
         "selected_by_pack": dict(Counter(pack for pack, _ in selected)),
+        "distinct_threads_selected": len({item.url for _, item in selected}),
+        "sampling_rule": "AT_MOST_ONE_ACTOR_CONTEXT_PER_VERIFIED_THREAD",
         "source_errors": errors,
         "sample": result,
         "precision": None,
