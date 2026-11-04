@@ -370,6 +370,37 @@ class ClusterTests(unittest.IsolatedAsyncioTestCase):
             {"domain": "accounting", "problem": "Bank invoice sync missing", "intent": "automated invoice"},
         ), 0.0)
 
+    async def test_boilerplate_does_not_merge_distinct_workflows(self):
+        # Real similarity bug: legacy score 0.75 >= old merge threshold 0.74
+        bank = {
+            "domain": "accounting",
+            "problem": "I spend hours manually reconciling bank records; the software is slow.",
+            "intent": "Need inferred from repeated problem statements: "
+                      "spend hours reconciling bank records",
+        }
+        pdf = {
+            "domain": "accounting",
+            "problem": "I spend hours manually exporting invoices to PDF; the software is slow.",
+            "intent": "Need inferred from repeated problem statements: "
+                      "spend hours exporting invoices to PDF",
+        }
+        self.assertLess(similarity(bank, pdf), 0.74)
+
+    async def test_equivalent_invoice_need_in_ro_en_can_match(self):
+        ro = {
+            "domain": "accounting",
+            "problem": "Pierd ore la facturi manual.",
+            "intent": "Vreau să termin facturile rapid.",
+            "desired_outcome": "Vreau să termin facturile rapid.",
+        }
+        en = {
+            "domain": "accounting",
+            "problem": "I waste hours on manual invoices.",
+            "intent": "I want to finish invoices fast.",
+            "desired_outcome": "I want to finish invoices fast.",
+        }
+        self.assertGreaterEqual(similarity(ro, en), 0.74)
+
     async def test_source_failure_does_not_stop_healthy_source(self):
         runner = DiscoveryRunner(index=self.index, sources={
             "hn_ask": BrokenSource(), "hn_show": FakeSource([record()]),
