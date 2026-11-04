@@ -266,6 +266,40 @@ class ContextResolverTests(unittest.IsolatedAsyncioTestCase):
                          {str(i) for i in range(90)})
 
 
+
+class ImplicitSingleActorNeedTests(unittest.IsolatedAsyncioTestCase):
+    """A credible single comment must not disappear solely for having no reply."""
+
+    async def test_grounded_single_comment_operational_pain_survives(self):
+        from app.wishcatcher.contextual.quality import ContextQualityGate
+        from app.wishcatcher.contextual.context_resolver import ConversationContextResolver
+        sample = {
+            "post_id": "hn:comment-1",
+            "post_author": "person",
+            "post_text": (
+                "I waste two hours manually exporting invoice rows from our "
+                "software every morning, and none of the apps connect to the bank."
+            ),
+            "comments": [],
+        }
+        frame = (await ConversationContextResolver().resolve(sample)).to_dict()
+        self.assertTrue(frame["actionable"], frame)
+        self.assertEqual(frame["epistemic_status"], "inferred")
+        self.assertTrue(frame["problem"])
+        self.assertTrue(frame["intent"])
+        self.assertTrue(ContextQualityGate().assess(sample, frame).accepted)
+
+    async def test_generic_product_complaint_is_not_sufficient(self):
+        from app.wishcatcher.contextual.context_resolver import ConversationContextResolver
+        sample = {
+            "post_id": "hn:comment-2",
+            "post_author": "person",
+            "post_text": "I tried this accounting app and it is expensive.",
+            "comments": [],
+        }
+        frame = (await ConversationContextResolver().resolve(sample)).to_dict()
+        self.assertFalse(frame["actionable"], frame)
+
 class ProviderTransportContracts(unittest.IsolatedAsyncioTestCase):
     async def test_real_openai_compatible_request_contract_uses_local_mock(self):
         import json
