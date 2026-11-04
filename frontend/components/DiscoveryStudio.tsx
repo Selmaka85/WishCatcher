@@ -15,6 +15,10 @@ type Cluster = {
   signal_score: number
   market_demand: string
   willingness_to_pay: string
+  supporting_sources?: {
+    source: string; url: string; grounding_status: string
+    evidence: { message_id: string; excerpt: string }[]
+  }[]
 }
 type DiscoveryReport = {
   id: string; sources: string[]; status: string; collected: number
@@ -166,6 +170,27 @@ export default function DiscoveryStudio({ accessToken }: { accessToken: string }
               <h4 className="text-sm font-semibold text-white">{item.frame.intent || item.frame.problem}</h4>
               <p className="mt-1 text-xs text-slate-400">{item.frame.desired_outcome}</p>
               <p className="mt-2 text-xs text-amber-300">Potențial comercial: necunoscut; necesită validare.</p>
+              {(item.supporting_sources || []).length > 0 && (
+                <div className="mt-3 space-y-2">
+                  <div className="text-xs font-semibold text-violet-300">Dovezi și proveniență (eșantion pe conversații distincte)</div>
+                  {(item.supporting_sources || []).map((source, i) => (
+                    <div key={source.source + i} className="rounded-lg border border-slate-700 bg-slate-900 p-3 text-xs">
+                      <span className="mr-2 text-slate-400">{source.source}</span>
+                      {source.url.startsWith('https://') && (
+                        <a className="break-all text-violet-300 underline" href={source.url}
+                          target="_blank" rel="noopener noreferrer">Conversația publică</a>
+                      )}
+                      {source.evidence.map((message, j) => (
+                        <p key={message.message_id + j} className="mt-2 text-slate-300">
+                          <span className="mr-2 font-mono text-violet-300">{message.message_id}</span>
+                          {message.excerpt}
+                        </p>
+                      ))}
+                      <p className="mt-1 text-amber-300">Grounding: {source.grounding_status}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
               <button className="mt-3 text-xs text-violet-300 underline"
                 onClick={() => setSelected(selected === item.cluster_id ? null : item.cluster_id)}>
                 {selected === item.cluster_id ? 'Închide' : 'Deschide schița Genesis'}
