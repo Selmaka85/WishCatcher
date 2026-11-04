@@ -39,12 +39,41 @@ class SourceSelectionTests(unittest.TestCase):
             "outcome": [example("o1")],
             "hn_ask_neutral": [example("n1")],
         }
-        selected = select_balanced(samples, 5)
+        selected = select_balanced(samples, 5, unique_threads=False)
         self.assertEqual(len(selected), 5)
         self.assertEqual(
             [source.source_id for _, source in selected],
             ["hn:900:actor:a", "f1", "o1", "n1", "e2"],
         )
+
+    def test_independent_sampling_does_not_count_same_story_as_multiple_threads(self):
+        first = example("hn:901:actor:one")
+        second = example("hn:901:actor:two")
+        third = example("hn:902:actor:other")
+        third.url = "https://news.ycombinator.com/item?id=902"
+        selected = select_balanced({
+            "explicit": [first], "friction": [second],
+            "outcome": [third],
+        }, 10)
+        self.assertEqual(len(selected), 2)
+        self.assertEqual({item.url for _, item in selected}, {
+            "https://news.ycombinator.com/item?id=900",
+            "https://news.ycombinator.com/item?id=902",
+        })
+
+    def test_exact_verified_primary_item_permalink_only(self):
+        from scripts.pilot_real_context import summary_case
+        from types import SimpleNamespace
+        item = example("hn:901:actor:owner")
+        item.conversation["post_id"] = "hn:12345"
+        frame = {"interpretation_method": "llm_contextual", "message_count": 2}
+        quality = SimpleNamespace(accepted=False, flags=[])
+        row = summary_case("explicit", item, frame, quality, frame, quality, 0.1)
+        self.assertEqual(row["primary_evidence_url"],
+                         "https://news.ycombinator.com/item?id=12345")
+        item.conversation["post_id"] = "unknown:private"
+        row = summary_case("explicit", item, frame, quality, frame, quality, 0.1)
+        self.assertIsNone(row["primary_evidence_url"])
 
     def test_unregistered_source_url_cannot_be_published_in_pilot(self):
         unsafe = example("odd")
