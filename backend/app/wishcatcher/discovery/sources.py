@@ -18,18 +18,46 @@ from typing import Any, Dict, List, Optional, Protocol, Sequence
 
 
 class _PlainText(HTMLParser):
+    """Keep paragraph boundaries, ignore explicit blockquoted content."""
+
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
         self.parts: List[str] = []
+        self.quote_depth = 0
+
+    def handle_starttag(self, tag: str, attrs: List[tuple[str, Optional[str]]]) -> None:
+        if tag == "blockquote":
+            self.quote_depth += 1
+        if tag in {"p", "br", "div", "li"}:
+            self.parts.append("\n")
+
+    def handle_endtag(self, tag: str) -> None:
+        if tag == "blockquote":
+            self.quote_depth = max(0, self.quote_depth - 1)
+        if tag in {"p", "div", "li"}:
+            self.parts.append("\n")
 
     def handle_data(self, data: str) -> None:
-        self.parts.append(data)
+        if not self.quote_depth:
+            self.parts.append(data)
 
 
 def clean_html(value: Any, max_length: int = 4000) -> str:
+    """Extract author's prose, not quoted third-party statements.
+
+    Hacker News quote paragraphs frequently start with HTML-escaped '>'.
+    The previous parser flattened all paragraphs and turned those quotes
+    into apparent first-person goals from the current author.
+    """
     parser = _PlainText()
     parser.feed(str(value or "")[:max_length * 2])
-    return re.sub(r"\s+", " ", html.unescape(" ".join(parser.parts))).strip()[:max_length]
+    retained = []
+    for line in html.unescape("".join(parser.parts)).splitlines():
+        sentence = line.strip()
+        if not sentence or re.match(r"^(?:>\s*)", sentence):
+            continue
+        retained.append(sentence)
+    return re.sub(r"\s+", " ", " ".join(retained)).strip()[:max_length]
 
 
 @dataclass
