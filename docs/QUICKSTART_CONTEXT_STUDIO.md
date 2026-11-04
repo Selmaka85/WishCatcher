@@ -178,7 +178,7 @@ Direct CLI:
 To enable the periodic worker (not enabled by default), configure .env:
 
     WISHCATCHER_AUTODISCOVERY_ENABLED=1
-    WISHCATCHER_DISCOVERY_SOURCES=hn_ask,hn_show
+    WISHCATCHER_DISCOVERY_SOURCES=hn_need_search,hn_ask
     WISHCATCHER_DISCOVERY_INTERVAL_SEC=21600
 
 Then start the optional Compose profile:
