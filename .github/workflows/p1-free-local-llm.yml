@@ -1,5 +1,7 @@
 name: P1 free local Qwen integration smoke
 
+# One-shot on introduction/explicit diagnostic revisions. Latest run tests
+# safe reconstitution from validated per-field evidence IDs (global may be empty).
 # One-shot on introduction, manual thereafter. This workflow does not run
 # automatically on every PR and does not use any provider API or secrets.
 on:
