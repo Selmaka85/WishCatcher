@@ -42,8 +42,8 @@ jobs:
       - name: Pull open-weight Qwen2.5 1.5B (no paid API)
         timeout-minutes: 7
         run: ollama pull qwen2.5:1.5b
-      - name: Genuine inference across four balanced synthetic RO/EN cases
-        timeout-minutes: 9
+      - name: Diagnose model schema and admission on a tracked synthetic example
+        timeout-minutes: 7
         env:
           WISHCATCHER_CONTEXT_ALLOW_REMOTE: "0"
           WISHCATCHER_CONTEXT_LLM_ENABLED: "0"
@@ -52,4 +52,4 @@ jobs:
           WISHCATCHER_MCP_ENABLED: "0"
           OLLAMA_NUM_PARALLEL: "1"
         run: |
-          python -u scripts/smoke_local_llm.py --per-stratum 1 --local-model qwen2.5:1.5b
+          python -u scripts/diagnose_local_llm.py
