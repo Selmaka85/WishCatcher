@@ -1,6 +1,7 @@
 name: P1 P2 natural-language HN pilot (free local model)
 
-# One bounded observational experiment; no recurring HN polling, no paid API.
+# Bounded follow-up on independent HN threads and direct verified message URLs.
+# No recurring HN polling, no paid API.
 # Changing code/docs does not relaunch this. Manual dispatch for future runs.
 on:
   push:
@@ -51,4 +52,4 @@ jobs:
           WISHCATCHER_MCP_ENABLED: "0"
           WISHCATCHER_DISCOVERY_PERSIST_RAG: "0"
           OLLAMA_NUM_PARALLEL: "1"
-        run: python -u scripts/pilot_real_context.py --maximum 12 --per-pack 4 --local-model qwen2.5:1.5b
+        run: python -u scripts/pilot_real_context.py --maximum 10 --per-pack 4 --local-model qwen2.5:1.5b
