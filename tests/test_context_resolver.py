@@ -236,6 +236,63 @@ class ContextResolverTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(frame.field_evidence["desired_outcome"], ["c2"])
         self.assertEqual(frame.grounding_status, "message_ids_checked_not_entailment")
 
+    async def test_llm_valid_per_field_ids_recover_missing_redundant_global_ids(self):
+        # Reproduced with real Qwen2.5 1.5B on GitHub Actions: JSON was
+        # syntactically valid and per-field IDs exact, but evidence_ids=[].
+        model = StubInterpreter({
+            "actionable": True, "confidence": 0.84,
+            "evidence_ids": [],
+            "field_evidence": {
+                "problem": ["t1", "c1"],
+                "desired_outcome": ["c2"],
+                "intent": ["c2"],
+            },
+            "problem": "Accounting apps are expensive",
+            "desired_outcome": "Finish invoices quickly",
+            "intent": "Faster invoice processing with bank integration",
+            "epistemic_status": "inferred",
+        })
+        frame = await ConversationContextResolver(model).resolve(accounting_thread())
+        self.assertEqual(frame.interpretation_method, "llm_contextual")
+        self.assertEqual(frame.field_evidence["intent"], ["c2"])
+        self.assertEqual(frame.grounding_status, "message_ids_checked_not_entailment")
+
+    async def test_llm_numeric_field_positions_are_not_accepted_as_source_ids(self):
+        model = StubInterpreter({
+            "actionable": True, "confidence": 0.99,
+            "evidence_ids": [],
+            "field_evidence": {
+                "problem": [0, 1], "desired_outcome": [1], "intent": [1],
+            },
+            "problem": "Accounting apps are expensive",
+            "desired_outcome": "Finish invoices quickly",
+            "intent": "Faster invoice processing with bank integration",
+            "epistemic_status": "inferred",
+        })
+        frame = await ConversationContextResolver(model).resolve(accounting_thread())
+        self.assertEqual(frame.interpretation_method, "rules")
+        self.assertFalse(frame.field_evidence)
+
+    async def test_llm_global_empty_field_ids_from_other_actor_still_rejected(self):
+        data = accounting_thread()
+        data["comments"].append({
+            "id": "outsider", "author": "other", "text": "I want accounting tools",
+        })
+        model = StubInterpreter({
+            "actionable": True, "confidence": 0.95,
+            "evidence_ids": [],
+            "field_evidence": {
+                "problem": ["t1"], "desired_outcome": ["outsider"],
+                "intent": ["c2"],
+            },
+            "problem": "Accounting apps are expensive",
+            "desired_outcome": "Finish invoices quickly",
+            "intent": "Faster invoice processing with bank integration",
+            "epistemic_status": "inferred",
+        })
+        frame = await ConversationContextResolver(model).resolve(data)
+        self.assertEqual(frame.interpretation_method, "rules")
+
     async def test_llm_cannot_assert_other_speakers_intent(self):
         data = {
             "post_id": "t1", "post_author": "alex",
