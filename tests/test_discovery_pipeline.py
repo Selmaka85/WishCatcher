@@ -113,6 +113,56 @@ class QualityGateTests(unittest.IsolatedAsyncioTestCase):
         frame = (await self.resolver.resolve(conv)).to_dict()
         self.assertFalse(self.gate.assess(conv, frame).accepted)
 
+    async def test_live_google_flights_business_model_question_is_not_a_need(self):
+        # Observed false positive in real public HN feed on 2026-11-04.
+        # This test does not pretend we have the original full HN thread.
+        conv = {
+            "post_id": "hn:50358924", "post_author": "original",
+            "post_title": "Ask HN: What is Google Flights' business model and has it changed recently?",
+            "post_text": (
+                "I'm wondering if anyone has any more info than I do regarding "
+                "why Google offers Google Flights? As far as I know there's no "
+                "paid version of the software and Google doesn't take a cut of sales."
+            ),
+            "comments": [],
+        }
+        # Gate must veto an over-permissive fallback interpretation, even
+        # when it has a real message citation and a domain classification.
+        fake_frame = {
+            "actionable": True, "domain": "software",
+            "intent": "How does Google Flights make money?",
+            "problem": "What is Google Flights' business model?",
+            "desired_outcome": "Understand the business model",
+            "interpretation_method": "rules",
+            "evidence": [{"message_id": "hn:50358924", "author": "original",
+                          "excerpt": conv["post_text"]}],
+        }
+        outcome = self.gate.assess(conv, fake_frame)
+        self.assertFalse(outcome.accepted)
+        self.assertIn("informational_question_not_unmet_need", outcome.flags)
+
+    async def test_how_do_i_fix_real_workflow_problem_is_not_rejected_as_curiosity(self):
+        conv = {
+            "post_id": "fix", "post_author": "owner",
+            "post_title": "How can I automate manual invoicing?",
+            "post_text": "I waste hours every day entering invoices manually.",
+            "comments": [{"id": "c1", "author": "owner",
+                          "text": "I want to automate invoicing to finish earlier."}],
+        }
+        frame = {
+            "actionable": True, "domain": "accounting",
+            "intent": "Automate manual invoicing",
+            "problem": "I waste hours every day entering invoices manually.",
+            "desired_outcome": "I want to automate invoicing to finish earlier.",
+            "interpretation_method": "rules",
+            "evidence": [
+                {"message_id": "fix", "author": "owner", "excerpt": conv["post_text"]},
+                {"message_id": "c1", "author": "owner",
+                 "excerpt": conv["comments"][0]["text"]},
+            ],
+        }
+        self.assertTrue(self.gate.assess(conv, frame).accepted)
+
     async def test_other_authors_evidence_not_attributed(self):
         conv = thread()
         conv["comments"].append({"id": "other", "author": "other",
