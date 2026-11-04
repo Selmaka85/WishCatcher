@@ -267,6 +267,35 @@ class ContextResolverTests(unittest.IsolatedAsyncioTestCase):
 
 
 
+
+class ParentChainCausalContractTests(unittest.TestCase):
+    def test_flat_comments_keep_explicit_parent_relation_from_source(self):
+        from app.wishcatcher.contextual.context_resolver import ContextStateBuilder
+        conversation = {
+            "post_id": "hn:root", "post_author": "first",
+            "post_text": "Original question",
+            "comments": [
+                {"id": "hn:reply-one", "author": "second",
+                 "text": "Why would you change that?", "parent_id": "hn:root"},
+                {"id": "hn:reply-two", "author": "first",
+                 "text": "Because I spend hours doing it manually.",
+                 "parent_id": "hn:reply-one"},
+            ],
+        }
+        messages = ContextStateBuilder.flatten(conversation)
+        self.assertEqual(messages[1].parent_id, "hn:root")
+        self.assertEqual(messages[2].parent_id, "hn:reply-one")
+
+    def test_nested_comments_without_parent_id_still_use_nesting(self):
+        from app.wishcatcher.contextual.context_resolver import ContextStateBuilder
+        conversation = {
+            "post_id": "root", "post_author": "owner", "post_text": "My problem",
+            "comments": [{"id": "a", "author": "other", "text": "What problem?",
+                          "replies": [{"id": "b", "author": "owner", "text": "The export."}]}],
+        }
+        messages = ContextStateBuilder.flatten(conversation)
+        self.assertEqual(messages[2].parent_id, "a")
+
 class ImplicitSingleActorNeedTests(unittest.IsolatedAsyncioTestCase):
     """A credible single comment must not disappear solely for having no reply."""
 
