@@ -83,7 +83,10 @@ class ContextStateBuilder:
                     messages.append(ContextMessage(
                         message_id=message_id, author=author, text=text,
                         timestamp=float(comment.get("timestamp") or 0),
-                        parent_id=parent,
+                        # Keep actual parent relation when flat API replies
+                        # carry parent_id. Falling back to traversal parent
+                        # preserves existing nested-reply compatibility.
+                        parent_id=str(comment.get("parent_id") or parent),
                     ))
                 replies = comment.get("replies") or []
                 if isinstance(replies, list):
