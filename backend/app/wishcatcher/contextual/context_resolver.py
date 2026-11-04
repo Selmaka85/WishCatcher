@@ -396,6 +396,17 @@ class ConversationContextResolver:
 
         valid_messages = {m.message_id: m for m in messages}
         raw_ids = result.get("evidence_ids") or []
+        # Some small local models cite exact primary-actor message IDs in
+        # per-field evidence but omit the redundant global evidence_ids.
+        # Recover ONLY from fully declared field citations; downstream
+        # actor/ID and semantic guards stay unchanged and fail closed.
+        if not raw_ids and isinstance(result.get("field_evidence"), dict):
+            citations = result["field_evidence"]
+            material = [name for name in ("problem", "desired_outcome", "intent")
+                        if str(result.get(name) or "").strip()]
+            if material and all(isinstance(citations.get(name), list)
+                                and citations[name] for name in material):
+                raw_ids = [ident for name in material for ident in citations[name]]
         selected: List[ContextMessage] = []
         for item in raw_ids if isinstance(raw_ids, list) else []:
             source_id = str(item).split(":part:")[0]
