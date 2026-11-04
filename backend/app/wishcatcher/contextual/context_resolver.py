@@ -175,6 +175,13 @@ class EvidenceFirstFallback:
         r"^(?:imaginează.ti|imagineaza.ti|imagine|suppose|hypothetically|"
         r"for example|de exemplu|într.un film|in a movie)\b", re.I
     )
+    OPERATIONAL_PAIN = re.compile(
+        r"(?i)\b(?:i|we|my|our)\b[^\n.!?]{0,130}"
+        r"\b(?:waste|wasting|spent|spend|struggle|struggling|"
+        r"manually|manual|can't|cannot|doesn't work|does not work)\b|"
+        r"\b(?:pierd|pierdem|muncesc|mă chinui|ma chinui)\b"
+        r".{0,105}\b(?:ore|timp|manual|facturi|aplicații|aplicatii)\b"
+    )
 
     def resolve(self, context: Dict[str, Any], messages: List[ContextMessage]) -> ContextFrame:
         primary = ContextStateBuilder.primary_messages(messages)
@@ -217,18 +224,29 @@ class EvidenceFirstFallback:
         if goals:
             frame.desired_outcome = goals[-1].text[:320]
         # Preserve the latest explicit goal, not the earliest frustrated guess.
+        # Single HN comments may contain a complete firsthand operational
+        # problem even without replies. The old len(selected)>=2 guard made
+        # these invisible. Require concrete first-person friction, contextual
+        # specificity and a meaningful constraint; plain app dislike stays out.
+        concrete = frame.domain != "other" or len(frame.constraints) >= 2
+        strong_single_pain = bool(
+            len(primary) == 1 and len(combined.split()) >= 12
+            and concrete and problems and frame.constraints
+            and self.OPERATIONAL_PAIN.search(combined)
+        )
         if frame.desired_outcome:
             frame.intent = frame.desired_outcome
             frame.epistemic_status = "explicit"
-        elif frame.problem and len(selected) >= 2:
-            frame.intent = "Need inferred from repeated problem statements: " + frame.problem[:240]
+        elif frame.problem and (len(selected) >= 2 or strong_single_pain):
+            if strong_single_pain and len(selected) == 1:
+                frame.intent = "Potential unmet workflow need inferred from first-person pain: " + frame.problem[:210]
+            else:
+                frame.intent = "Need inferred from repeated problem statements: " + frame.problem[:240]
             frame.epistemic_status = "inferred"
         frame.unmet_needs = [frame.intent] if frame.intent else []
 
-        # Require a problem or a concrete goal, multiple supporting clues, and
-        # meaningful details. One negative opinion does not establish market demand.
-        sufficient_context = len(primary) >= 2 or len(combined.split()) >= 20
-        concrete = frame.domain != "other" or len(frame.constraints) >= 2
+        # No short single-message admission on generic dislike / opinion.
+        sufficient_context = len(primary) >= 2 or len(combined.split()) >= 20 or strong_single_pain
         frame.actionable = bool(
             frame.intent and selected and sufficient_context and concrete
             and (problems or goals)
