@@ -101,6 +101,29 @@ def minimal_frame(frame: Dict[str, Any]) -> Dict[str, Any]:
         result[key] = str(result.get(key) or "")[:500]
     for key in ("constraints", "attempted_solutions"):
         result[key] = [str(x)[:160] for x in (result.get(key) or [])[:8]]
+    # Preserve auditability without archiving full conversations.
+    # The evidence is exclusively from the primary actor as checked by
+    # ContextQualityGate, and obvious contact details/keys are redacted.
+    evidence = []
+    for entry in (frame.get("evidence") or [])[:6]:
+        if not isinstance(entry, dict):
+            continue
+        excerpt = str(entry.get("excerpt") or "")
+        excerpt = re.sub(r"(?i)\b[\w.+-]+@[\w.-]+\.[a-z]{2,}\b",
+                         "[email-redacted]", excerpt)
+        excerpt = re.sub(
+            r"(?i)\b(api[-_ ]?key|password|token)\s*[:=]\s*[^\s,;]{6,}",
+            "[secret-redacted]", excerpt,
+        )
+        excerpt = re.sub(r"(?<!\w)\+?\d[\d ()-]{8,}\d(?!\w)",
+                         "[number-redacted]", excerpt)
+        evidence.append({
+            "message_id": str(entry.get("message_id") or "")[:120],
+            "excerpt": excerpt[:190],
+        })
+    result["evidence"] = evidence
+    result["quality_status"] = str(frame.get("quality_status") or "unknown")[:60]
+    result["grounding_status"] = str(frame.get("grounding_status") or "unverified")[:70]
     return result
 
 
@@ -259,6 +282,31 @@ class DiscoveryIndex:
                 GROUP BY c.id ORDER BY unique_threads DESC,known_actors DESC,
                                    mentions DESC,c.created_at DESC LIMIT ?
             """, (limit,)).fetchall()
+            # Include small per-thread provenance samples for independent
+            # auditing; never expose HMAC person identifiers or full threads.
+            provenance = {}
+            for cluster in rows:
+                candidates = db.execute(
+                    "SELECT source,url,thread_key,frame_json FROM findings "
+                    "WHERE cluster_id=? ORDER BY created_at DESC LIMIT 40",
+                    (cluster["id"],),
+                ).fetchall()
+                seen_threads = set()
+                samples = []
+                for evidence_row in candidates:
+                    if evidence_row["thread_key"] in seen_threads:
+                        continue
+                    seen_threads.add(evidence_row["thread_key"])
+                    parsed = json.loads(evidence_row["frame_json"])
+                    samples.append({
+                        "source": evidence_row["source"],
+                        "url": evidence_row["url"][:1000],
+                        "evidence": (parsed.get("evidence") or [])[:2],
+                        "grounding_status": parsed.get("grounding_status", "unknown"),
+                    })
+                    if len(samples) >= 6:
+                        break
+                provenance[cluster["id"]] = samples
         result = []
         for row in rows:
             # Deliberately NOT "market validated": evidence from multiple
@@ -276,6 +324,7 @@ class DiscoveryIndex:
                           else "SINGLE_SOURCE_HYPOTHESIS",
                 "signal_score": round(signal, 3),
                 "market_demand": "UNKNOWN", "willingness_to_pay": "UNKNOWN",
+                "supporting_sources": provenance.get(row["id"], []),
                 "last_seen": row["last_seen"],
             })
         return result
