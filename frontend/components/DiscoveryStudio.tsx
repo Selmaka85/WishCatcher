@@ -19,6 +19,7 @@ type Cluster = {
 type DiscoveryReport = {
   id: string; sources: string[]; status: string; collected: number
   accepted: number; inserted: number; skipped: number; errors: string[]
+  rejection_reasons?: Record<string, number>
   clusters: Cluster[]
 }
 type Run = {
@@ -28,6 +29,7 @@ type Run = {
 }
 
 const SOURCE_OPTIONS = [
+  { id: 'hn_need_search', label: 'HN — Need Search', note: 'No login · targeted public comments · verified original author' },
   { id: 'hn_ask', label: 'Hacker News — Ask', note: 'Public official API · no login' },
   { id: 'hn_show', label: 'Hacker News — Show', note: 'Public official API · no login' },
   { id: 'hn_new', label: 'Hacker News — New', note: 'Public official API · no login' },
@@ -39,7 +41,7 @@ const button = 'rounded-xl bg-violet-600 px-5 py-3 text-sm font-semibold text-wh
 const secondary = 'rounded-xl border border-slate-600 px-5 py-3 text-sm text-slate-200 hover:bg-slate-800 disabled:opacity-40'
 
 export default function DiscoveryStudio({ accessToken }: { accessToken: string }) {
-  const [sources, setSources] = useState<string[]>(['hn_ask', 'hn_show'])
+  const [sources, setSources] = useState<string[]>(['hn_need_search', 'hn_ask'])
   const [perSource, setPerSource] = useState(3)
   const [report, setReport] = useState<DiscoveryReport | null>(null)
   const [clusters, setClusters] = useState<Cluster[]>([])
@@ -140,6 +142,11 @@ export default function DiscoveryStudio({ accessToken }: { accessToken: string }
             ['Candidate', report.accepted], ['Salvate', report.inserted],
             ['Eliminate / duplicate', report.skipped],
           ].map(([k,v]) => <span key={k} className="rounded-lg bg-slate-800 px-3 py-2">{k}: {v}</span>)}
+          {Object.entries(report.rejection_reasons || {}).map(([reason,count]) => (
+            <span key={reason} className="rounded-lg border border-slate-600 px-3 py-2">
+              {reason.replaceAll('_', ' ')}: {count}
+            </span>
+          ))}
           {report.errors.map((err,i) => <p key={i} className="w-full text-amber-300">⚠ {err}</p>)}
         </div>
       )}
