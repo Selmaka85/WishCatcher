@@ -143,9 +143,9 @@ class EvidenceFirstFallback:
     SIGNAL = re.compile(
         r"\b(?:vreau|aș vrea|as vrea|mi.ar trebui|am nevoie|m.am săturat|m.am saturat|"
         r"am încercat|am incercat|nu funcționează|nu functioneaza|nu există|nu exista|"
-        r"pier[dk]|pierd|dureaz[ăa]|cost[ăa]|scump|complicat|greu|manual|"
+        r"pier[dk]|pierd|dureaz[ăa]|cost[ăa]|scump|complicat|greu|manual(?:ly)?|"
         r"wish|want|need|tried|frustrat|expensive|complicated|takes? hours?|"
-        r"doesn.t work|not working|missing|can.t|cannot|waste time|"
+        r"doesn.t work|not working|missing|can.t|cannot|waste(?:s|d|ing)?(?:\\s+\\w+){0,5}\\s+(?:hours?|time)|"
         r"would try|would use|doesn.t connect|nu se conecteaz[ăa])\b",
         re.I,
     )
