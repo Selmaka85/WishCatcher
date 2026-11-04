@@ -323,6 +323,12 @@ class ClusterTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(clusters[0]["status"], "CORROBORATED_NEED_HYPOTHESIS")
         self.assertEqual(clusters[0]["market_demand"], "UNKNOWN")
         self.assertEqual(clusters[0]["willingness_to_pay"], "UNKNOWN")
+        self.assertEqual(len(clusters[0]["supporting_sources"]), 2)
+        for source in clusters[0]["supporting_sources"]:
+            self.assertTrue(source["evidence"])
+            self.assertTrue(source["url"].startswith("https://"))
+            self.assertTrue(source["evidence"][0]["message_id"])
+
         from app.wishcatcher.integrations.plugin_runtime import SQLiteGraphRAG
         rag = SQLiteGraphRAG()
         hit_ids = [h["id"] for h in rag.retrieve("accounting invoice", graph_hops=1)]
@@ -332,6 +338,23 @@ class ClusterTests(unittest.IsolatedAsyncioTestCase):
         again = await engine.run(["hn_ask"], max_per_source=5)
         self.assertEqual(again["inserted"], 0)
         self.assertEqual(len(self.index.clusters()), 1)
+
+    async def test_minimal_audit_evidence_redacts_contacts(self):
+        from app.wishcatcher.discovery.pipeline import minimal_frame
+        frame = minimal_frame({
+            "domain": "accounting", "problem": "Time-consuming bookkeeping",
+            "intent": "Reduce reconciliation work",
+            "evidence": [{
+                "message_id": "m12",
+                "excerpt": "Contact alice@example.org or token=abcdef123456 "
+                           "to discuss the manual invoice issue."
+            }],
+            "quality_status": "CANDIDATE_NEEDS_REVIEW",
+        })
+        self.assertEqual(frame["evidence"][0]["message_id"], "m12")
+        self.assertNotIn("alice@example.org", frame["evidence"][0]["excerpt"])
+        self.assertNotIn("abcdef123456", frame["evidence"][0]["excerpt"])
+        self.assertEqual(frame["quality_status"], "CANDIDATE_NEEDS_REVIEW")
 
     async def test_second_poll_skips_existing_context_before_llm_inference(self):
         class SpyResolver:
