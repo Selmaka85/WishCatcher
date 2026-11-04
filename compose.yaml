@@ -1,0 +1,95 @@
+# Local-only development deployment. Copy .env.example -> .env and rotate both secrets.
+services:
+  context-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.plugin
+      args:
+        INSTALL_MCP: ${WISHCATCHER_INSTALL_MCP:-false}
+    restart: unless-stopped
+    extra_hosts: ["host.docker.internal:host-gateway"]
+    ports: ["127.0.0.1:8000:8000"]
+    environment:
+      WISHCATCHER_PLUGIN_ACCESS_TOKEN: ${WISHCATCHER_PLUGIN_ACCESS_TOKEN:?Set a long random backend token}
+      WISHCATCHER_RAG_DB: /data/knowledge.sqlite3
+      WISHCATCHER_WISH_DIR: /data/wishes
+      WISHCATCHER_DISCOVERY_DB: /data/discovery.sqlite3
+      WISHCATCHER_DISCOVERY_PERSIST_RAG: ${WISHCATCHER_DISCOVERY_PERSIST_RAG:-1}
+      WISHCATCHER_SEARCH_DISCOVERY_ENABLED: ${WISHCATCHER_SEARCH_DISCOVERY_ENABLED:-0}
+      WISHCATCHER_RSS_APPROVED: ${WISHCATCHER_RSS_APPROVED:-0}
+      WISHCATCHER_APPROVED_RSS_URL: ${WISHCATCHER_APPROVED_RSS_URL:-}
+      WISHCATCHER_IMPORTED_DATA_APPROVED: ${WISHCATCHER_IMPORTED_DATA_APPROVED:-0}
+      WISHCATCHER_IMPORT_JSONL: ${WISHCATCHER_IMPORT_JSONL:-}
+      WISHCATCHER_CONTEXT_LLM_ENABLED: ${WISHCATCHER_CONTEXT_LLM_ENABLED:-0}
+      WISHCATCHER_CONTEXT_LLM_URL: ${WISHCATCHER_CONTEXT_LLM_URL:-http://127.0.0.1:11434/v1/chat/completions}
+      WISHCATCHER_CONTEXT_MODEL: ${WISHCATCHER_CONTEXT_MODEL:-qwen2.5:3b-instruct}
+      WISHCATCHER_CONTEXT_API_KEY: ${WISHCATCHER_CONTEXT_API_KEY:-}
+      WISHCATCHER_CONTEXT_ALLOW_REMOTE: ${WISHCATCHER_CONTEXT_ALLOW_REMOTE:-0}
+      WISHCATCHER_CONTEXT_LLM_TIMEOUT_SEC: ${WISHCATCHER_CONTEXT_LLM_TIMEOUT_SEC:-180}
+      WISHCATCHER_WEB_SEARCH_ENABLED: ${WISHCATCHER_WEB_SEARCH_ENABLED:-0}
+      WISHCATCHER_BRAVE_API_KEY: ${WISHCATCHER_BRAVE_API_KEY:-}
+      WISHCATCHER_MCP_ENABLED: ${WISHCATCHER_MCP_ENABLED:-0}
+      WISHCATCHER_MCP_ENDPOINT: ${WISHCATCHER_MCP_ENDPOINT:-}
+      WISHCATCHER_MCP_SEARCH_TOOL: ${WISHCATCHER_MCP_SEARCH_TOOL:-search}
+      WISHCATCHER_MCP_READ_ONLY_TOOLS: ${WISHCATCHER_MCP_READ_ONLY_TOOLS:-search,search_web}
+      WISHCATCHER_MCP_ALLOW_REMOTE: ${WISHCATCHER_MCP_ALLOW_REMOTE:-0}
+    volumes:
+      - wishcatcher_rag:/data
+      - ./imports:/imports:ro
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  studio:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports: ["127.0.0.1:3000:3000"]
+    environment:
+      WISHCATCHER_INTERNAL_API_URL: http://context-api:8000
+      WISHCATCHER_PLUGIN_ACCESS_TOKEN: ${WISHCATCHER_PLUGIN_ACCESS_TOKEN:?Set backend token}
+      WISHCATCHER_DASHBOARD_ACCESS_TOKEN: ${WISHCATCHER_DASHBOARD_ACCESS_TOKEN:?Set dashboard token}
+    depends_on:
+      context-api:
+        condition: service_healthy
+
+  discovery-worker:
+    profiles: ["autodiscovery"]
+    build:
+      context: .
+      dockerfile: Dockerfile.plugin
+    restart: on-failure:3
+    command: ["python", "-m", "app.wishcatcher.discovery.worker"]
+    extra_hosts: ["host.docker.internal:host-gateway"]
+    environment:
+      WISHCATCHER_AUTODISCOVERY_ENABLED: ${WISHCATCHER_AUTODISCOVERY_ENABLED:-0}
+      WISHCATCHER_DISCOVERY_SOURCES: ${WISHCATCHER_DISCOVERY_SOURCES:-hn_need_search,hn_ask}
+      WISHCATCHER_DISCOVERY_INTERVAL_SEC: ${WISHCATCHER_DISCOVERY_INTERVAL_SEC:-21600}
+      WISHCATCHER_DISCOVERY_PER_SOURCE: ${WISHCATCHER_DISCOVERY_PER_SOURCE:-3}
+      WISHCATCHER_DISCOVERY_MAX_CONTEXTS: ${WISHCATCHER_DISCOVERY_MAX_CONTEXTS:-20}
+      WISHCATCHER_DISCOVERY_DB: /data/discovery.sqlite3
+      WISHCATCHER_DISCOVERY_PERSIST_RAG: ${WISHCATCHER_DISCOVERY_PERSIST_RAG:-1}
+      WISHCATCHER_RAG_DB: /data/knowledge.sqlite3
+      WISHCATCHER_CONTEXT_LLM_ENABLED: ${WISHCATCHER_CONTEXT_LLM_ENABLED:-0}
+      WISHCATCHER_CONTEXT_LLM_URL: ${WISHCATCHER_CONTEXT_LLM_URL:-http://host.docker.internal:11434/v1/chat/completions}
+      WISHCATCHER_CONTEXT_MODEL: ${WISHCATCHER_CONTEXT_MODEL:-qwen2.5:3b-instruct}
+      WISHCATCHER_CONTEXT_API_KEY: ${WISHCATCHER_CONTEXT_API_KEY:-}
+      WISHCATCHER_CONTEXT_ALLOW_REMOTE: ${WISHCATCHER_CONTEXT_ALLOW_REMOTE:-0}
+      WISHCATCHER_BRAVE_API_KEY: ${WISHCATCHER_BRAVE_API_KEY:-}
+      WISHCATCHER_SEARCH_DISCOVERY_ENABLED: ${WISHCATCHER_SEARCH_DISCOVERY_ENABLED:-0}
+      WISHCATCHER_RSS_APPROVED: ${WISHCATCHER_RSS_APPROVED:-0}
+      WISHCATCHER_APPROVED_RSS_URL: ${WISHCATCHER_APPROVED_RSS_URL:-}
+      WISHCATCHER_IMPORTED_DATA_APPROVED: ${WISHCATCHER_IMPORTED_DATA_APPROVED:-0}
+      WISHCATCHER_IMPORT_JSONL: ${WISHCATCHER_IMPORT_JSONL:-}
+    volumes:
+      - wishcatcher_rag:/data
+      - ./imports:/imports:ro
+    depends_on:
+      context-api:
+        condition: service_healthy
+
+volumes:
+  wishcatcher_rag:

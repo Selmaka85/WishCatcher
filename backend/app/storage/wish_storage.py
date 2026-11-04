@@ -12,14 +12,14 @@ from app.api.models import WishData, WishResponse
 class WishStorage:
     """Stocare wish-uri în fișiere JSON"""
     
-    def __init__(self, storage_dir: str = "data/wishes"):
+    def __init__(self, storage_dir: Optional[str] = None):
         """
         Inițializează storage
         
         Args:
             storage_dir: Directorul unde se salvează wish-urile
         """
-        self.storage_dir = Path(storage_dir)
+        self.storage_dir = Path(storage_dir or os.getenv("WISHCATCHER_WISH_DIR") or "data/wishes")
         self.storage_dir.mkdir(parents=True, exist_ok=True)
         
         # Fișier principal pentru toate wish-urile
@@ -156,7 +156,8 @@ class WishStorage:
             "timestamp": wish.timestamp.isoformat() if isinstance(wish.timestamp, datetime) else str(wish.timestamp),
             "frequency": wish.frequency,
             "market_analysis": wish.market_analysis,
-            "monetization": wish.monetization
+            "monetization": wish.monetization,
+            "context_frame": wish.context_frame,
         }
         
         # Adaugă câmpurile noi dacă există

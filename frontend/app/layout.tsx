@@ -1,22 +1,11 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
 
-const inter = Inter({ subsets: ['latin'] })
-
 export const metadata: Metadata = {
-  title: 'WishCatcher + Astra Genesis',
-  description: 'Sistem complet pentru detectare dorințe și generare business plans',
+  title: 'WishCatcher Studio | ASTRA Genesis',
+  description: 'Context-aware unmet needs detection with pluggable AI, RAG and tools',
 }
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
-  )
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return <html lang="ro"><body className="font-sans">{children}</body></html>
 }

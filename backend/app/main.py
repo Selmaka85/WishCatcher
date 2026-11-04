@@ -9,7 +9,7 @@ from fastapi.exceptions import RequestValidationError
 from pydantic import ValidationError
 import uvicorn
 
-from app.api.routes import wishes, business_plans, mvp, storage, product_gaps, software_gaps
+from app.api.routes import wishes, business_plans, mvp, storage, product_gaps, software_gaps, context_plugin
 from app.api.models import HealthResponse
 
 app = FastAPI(
@@ -22,12 +22,9 @@ app = FastAPI(
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request: Request, exc: RequestValidationError):
     """Handler pentru erori de validare - returnează mesaje clare"""
-    # Log request body pentru debugging
-    try:
-        body = await request.body()
-        print(f"[DEBUG] Validation error - Request body: {body.decode('utf-8')}")
-    except:
-        pass
+    # Privacy: contextual plugin requests may contain private conversations.
+    # Never log full request bodies, even when validation fails.
+    print(f"[WARN] Request validation failed: path={request.url.path}")
     
     errors = []
     for error in exc.errors():
@@ -58,6 +55,7 @@ app.add_middleware(
 
 # Include routers
 app.include_router(wishes.router, prefix="/api/wishes", tags=["WishCatcher"])
+app.include_router(context_plugin.router, prefix="/api/context", tags=["Context Plugin"])
 app.include_router(business_plans.router, prefix="/api/business-plans", tags=["Business Plans"])
 app.include_router(mvp.router, prefix="/api/mvp", tags=["MVP"])
 app.include_router(storage.router, prefix="/api/storage", tags=["Storage"])
