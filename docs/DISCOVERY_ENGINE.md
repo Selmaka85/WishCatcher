@@ -23,6 +23,7 @@ still exists but is not silently activated by Context Studio.
 | Name | Network/data | Account login | Limits |
 | --- | --- | --- | --- |
 | hn_ask / hn_show / hn_new | Public Hacker News Firebase read API | None | Up to 10 stories per source, 28 comments per story and 6 other speakers |
+| hn_need_search | Public HN Algolia Search API for candidate comments, verified back through official Firebase item/author/ancestry | None | Up to 10 actor contexts, 4 query phrases by default, 90-day lookback |
 | search_hn | Brave official Search API leads -> official HN thread hydration | No forum login; Brave API key | Opt-in; only known HN URLs become conversation evidence |
 | public_rss | Operator-approved HTTPS RSS/Atom source | None | 25 syndicated entries maximum per request; typically no replies |
 | approved_jsonl | Operator-owned/authorized UTF-8 JSONL | None | Explicit permission acknowledgement + path; local only |
@@ -81,7 +82,7 @@ The periodic worker is OFF by default and isolated from the API process.
 In .env:
 
     WISHCATCHER_AUTODISCOVERY_ENABLED=1
-    WISHCATCHER_DISCOVERY_SOURCES=hn_ask,hn_show
+    WISHCATCHER_DISCOVERY_SOURCES=hn_need_search,hn_ask
     WISHCATCHER_DISCOVERY_INTERVAL_SEC=21600
     WISHCATCHER_DISCOVERY_PER_SOURCE=3
     WISHCATCHER_DISCOVERY_MAX_CONTEXTS=20
