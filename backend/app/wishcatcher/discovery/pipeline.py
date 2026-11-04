@@ -24,6 +24,7 @@ from app.wishcatcher.contextual.quality import ContextQualityGate
 from app.wishcatcher.discovery.sources import ConversationSource, SourceConversation, configured_source
 from app.wishcatcher.discovery.rss_source import PublicRSSSource
 from app.wishcatcher.discovery.search_discovery import BraveIndexDiscovery, OfficialThreadHydrator
+from app.wishcatcher.discovery.need_search import HackerNewsNeedSearch
 
 _ALIASES = {
     "facturi": "invoice", "facturile": "invoice", "factura": "invoice",
@@ -276,8 +277,8 @@ class DiscoveryIndex:
 class DiscoveryRunner:
     """Operator-initiated run; can also be invoked by an opt-in scheduler."""
 
-    SUPPORTED = frozenset(("hn_ask", "hn_show", "hn_new", "approved_jsonl",
-                           "public_rss", "search_hn"))
+    SUPPORTED = frozenset(("hn_ask", "hn_show", "hn_new", "hn_need_search",
+                           "approved_jsonl", "public_rss", "search_hn"))
 
     def __init__(self, *, index: Optional[DiscoveryIndex] = None,
                  resolver: Optional[ConversationContextResolver] = None,
@@ -290,6 +291,8 @@ class DiscoveryRunner:
     async def _get_source(self, name: str, max_per_source: int) -> List[SourceConversation]:
         if name in self.sources:
             return await self.sources[name].fetch(limit=max_per_source)
+        if name == "hn_need_search":
+            return await HackerNewsNeedSearch().fetch(limit=max_per_source)
         if name == "public_rss":
             url = os.getenv("WISHCATCHER_APPROVED_RSS_URL", "")
             if os.getenv("WISHCATCHER_RSS_APPROVED", "0") != "1" or not url:
@@ -316,8 +319,12 @@ class DiscoveryRunner:
         metrics: Dict[str, Any] = {
             "id": ident, "sources": names, "status": "completed",
             "collected": 0, "accepted": 0, "inserted": 0,
-            "skipped": 0, "errors": [],
+            "skipped": 0, "errors": [], "rejection_reasons": {},
         }
+        def reject(reason: str) -> None:
+            metrics["skipped"] += 1
+            counts = metrics["rejection_reasons"]
+            counts[reason] = counts.get(reason, 0) + 1
         inspected: set[tuple[str, str]] = set()
         try:
             for name in names:
@@ -331,20 +338,20 @@ class DiscoveryRunner:
                         break
                     dedupe_key = (item.source, item.source_id)
                     if dedupe_key in inspected:
-                        metrics["skipped"] += 1
+                        reject("duplicate_in_batch")
                         continue
                     inspected.add(dedupe_key)
                     metrics["collected"] += 1
                     # Cost guard: repeated scheduled polls must not send
                     # already-indexed discussions to remote/local LLM again.
                     if self.index.already_seen(item):
-                        metrics["skipped"] += 1
+                        reject("already_indexed")
                         continue
                     try:
                         frame = (await self.resolver.resolve(item.conversation)).to_dict()
                         quality = self.quality.assess(item.conversation, frame)
                         if not quality.accepted:
-                            metrics["skipped"] += 1
+                            reject(quality.flags[0] if quality.flags else "no_quality_verdict")
                             continue
                         frame["quality_status"] = quality.status
                         frame["quality_flags"] = quality.flags
@@ -376,7 +383,7 @@ class DiscoveryRunner:
                                         f"local RAG enrichment: {type(rag_exc).__name__}"
                                     )
                         else:
-                            metrics["skipped"] += 1
+                            reject(result)
                     except Exception as exc:
                         metrics["errors"].append(
                             f"{name} context failure {type(exc).__name__}: {str(exc)[:120]}")
