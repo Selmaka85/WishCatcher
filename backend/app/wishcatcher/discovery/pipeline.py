@@ -375,7 +375,9 @@ class DiscoveryRunner:
         if name in self.sources:
             return await self.sources[name].fetch(limit=max_per_source)
         if name == "hn_need_search":
-            return await HackerNewsNeedSearch().fetch(limit=max_per_source)
+            return await HackerNewsNeedSearch(
+                query_pack=os.getenv("WISHCATCHER_HN_QUERY_PACK", "explicit")
+            ).fetch(limit=max_per_source)
         if name == "public_rss":
             url = os.getenv("WISHCATCHER_APPROVED_RSS_URL", "")
             if os.getenv("WISHCATCHER_RSS_APPROVED", "0") != "1" or not url:
