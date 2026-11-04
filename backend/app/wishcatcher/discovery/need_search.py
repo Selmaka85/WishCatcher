@@ -35,19 +35,55 @@ class HackerNewsNeedSearch:
         "is there a way to automate",
     )
 
+    # P2 exploration packs: independent search strata, not quality labels.
+    # Operators choose a pack explicitly; the historical default remains
+    # unchanged until independently annotated coverage comparisons exist.
+    QUERY_PACKS: Dict[str, Tuple[str, ...]] = {
+        "explicit": DEFAULT_QUERIES,
+        "workaround": (
+            "I ended up writing a script",
+            "we use a spreadsheet instead",
+            "doing this by hand",
+            "copy and paste every day",
+            "we built our own",
+            "I have to manually",
+        ),
+        "friction": (
+            "keeps breaking",
+            "doesn't integrate with",
+            "I spend hours",
+            "we had to switch",
+            "too many steps",
+            "no easy way to",
+        ),
+        "outcome": (
+            "trying to reduce",
+            "would save me time",
+            "our workflow is",
+            "is there a simpler way",
+            "we need to track",
+            "I wish I could",
+        ),
+    }
+
     def __init__(
         self,
         *,
         search_client: Any = None,
         hn_client: Any = None,
         queries: Optional[Sequence[str]] = None,
+        query_pack: str = "explicit",
         max_queries: int = 4,
         lookback_days: int = 90,
         max_actor_messages: int = 5,
     ) -> None:
         self.search_client = search_client
         self.hn_client = hn_client
-        self.queries = tuple(queries or self.DEFAULT_QUERIES)[:6]
+        if query_pack not in self.QUERY_PACKS:
+            raise ValueError("Unknown HN query pack; use explicit, workaround, friction or outcome")
+        self.query_pack = query_pack
+        self.queries = tuple(queries if queries is not None
+                             else self.QUERY_PACKS[query_pack])[:6]
         self.max_queries = max(1, min(max_queries, 6))
         self.lookback_days = max(1, min(lookback_days, 365))
         self.max_actor_messages = max(1, min(max_actor_messages, 8))
