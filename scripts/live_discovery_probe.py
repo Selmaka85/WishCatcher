@@ -19,6 +19,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "backend"))
 
 from app.wishcatcher.discovery.sources import HackerNewsSource
+from app.wishcatcher.discovery.need_search import HackerNewsNeedSearch
 from app.wishcatcher.discovery.pipeline import DiscoveryIndex, DiscoveryRunner
 
 
@@ -38,6 +39,7 @@ async def main():
     with tempfile.TemporaryDirectory(prefix="wishcatcher-live-") as folder:
         os.environ["WISHCATCHER_DISCOVERY_DB"] = str(Path(folder) / "discovery.sqlite3")
         os.environ["WISHCATCHER_RAG_DB"] = str(Path(folder) / "knowledge.sqlite3")
+        total_started = time.monotonic()
         sources = {}
         metadata = []
         source_failures = {}
@@ -61,6 +63,23 @@ async def main():
                     })
             except Exception as exc:
                 source_failures[name] = type(exc).__name__ + ": " + str(exc)[:180]
+        # Target the exact causal gap exposed by the first live smoke:
+        # generic newest-feed sampling rarely contains specific user pains.
+        # Algolia HN search is public, needs no API key, and each returned
+        # actor/comment is subsequently verified against Firebase.
+        try:
+            selected = HackerNewsNeedSearch(max_queries=3, max_actor_messages=4)
+            matched = await asyncio.wait_for(selected.fetch(limit=6), timeout=110)
+            sources["hn_need_search"] = CachedSource(matched)
+            for item in matched:
+                conv = item.conversation
+                metadata.append({
+                    "source": "hn_need_search", "source_id": item.source_id,
+                    "topic": str((conv.get("metadata") or {}).get("thread_topic") or "")[:180],
+                    "url": item.url, "message_count": 1 + len(conv.get("comments") or []),
+                })
+        except Exception as exc:
+            source_failures["hn_need_search"] = type(exc).__name__ + ": " + str(exc)[:180]
         if not sources:
             print("LIVE_WISHCATCHER_PROBE=" + json.dumps({
                 "status": "SOURCE_NETWORK_FAILURE",
@@ -115,7 +134,9 @@ async def main():
                 "new_findings": result["inserted"],
                 "skipped": result["skipped"],
                 "clusters": len(clusters),
-                "elapsed_seconds": round(time.monotonic() - started, 2),
+                "analysis_elapsed_seconds": round(time.monotonic() - started, 2),
+                "total_elapsed_seconds": round(time.monotonic() - total_started, 2),
+                "rejection_reasons": result.get("rejection_reasons", {}),
             },
             "source_failures": source_failures,
             "pipeline_errors": result["errors"],
