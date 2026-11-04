@@ -94,13 +94,13 @@ def similarity(left: Dict[str, Any], right: Dict[str, Any]) -> float:
 def _redact_private_text(value: Any, max_length: int) -> str:
     """Best-effort redaction for small stored extracts (not formal anonymization)."""
     excerpt = str(value or "")
-    excerpt = re.sub(r"(?i)\\b[\\w.+-]+@[\\w.-]+\\.[a-z]{2,}\\b",
+    excerpt = re.sub(r"(?i)\b[\w.+-]+@[\w.-]+\.[a-z]{2,}\b",
                      "[email-redacted]", excerpt)
     excerpt = re.sub(
-        r"(?i)\\b(api[-_ ]?key|password|token)\\s*[:=]\\s*[^\\s,;]{6,}",
+        r"(?i)\b(api[-_ ]?key|password|token)\s*[:=]\s*[^\s,;]{6,}",
         "[secret-redacted]", excerpt,
     )
-    excerpt = re.sub(r"(?<!\\w)\\+?\\d[\\d ()-]{8,}\\d(?!\\w)",
+    excerpt = re.sub(r"(?<!\w)\+?\d[\d ()-]{8,}\d(?!\w)",
                      "[number-redacted]", excerpt)
     return excerpt[:max_length]
 
