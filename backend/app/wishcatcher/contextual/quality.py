@@ -52,6 +52,31 @@ class ContextQualityGate:
         r"nu (?:mai )?am nevoie|"
         r"i am not looking for|not looking for)\b"
     )
+    INFORMATIONAL_ASK = re.compile(
+        r"(?i)\b(?:i(?:'m| am) wondering|i (?:just )?(?:want|need) to "
+        r"(?:know|understand|learn|find out)|curious (?:about|why)|"
+        r"can someone explain|could someone explain|"
+        r"what(?:'s| is) .{0,75} business model|"
+        r"what(?:'s| is) the reason|how does .{0,60} work|"
+        r"de ce (?:este|face|funcționează)|vreau (?:să|sa) (?:știu|stiu|înțeleg|inteleg))\b"
+    )
+    PERSONAL_FRICTION = re.compile(
+        r"(?i)\b(?:i|we|my|our)\b[^\n.!?]{0,120}\b"
+        r"(?:tried|struggl\w*|stuck|wast\w*|manual|problem|"
+        r"fail\w*|slow|complicated|too expensive|cannot|can't|"
+        r"doesn't work|does not work|doesn't connect)\b|"
+        r"\b(?:am încercat|am incercat|mă chinui|ma chinui|"
+        r"pier[dt] ore|pierd timp|nu funcționează|nu functioneaza|"
+        r"nu se conectează|nu se conecteaza|m-am săturat|m-am saturat)\b"
+    )
+    OPERATIONAL_GOAL = re.compile(
+        r"(?i)\b(?:i|we) (?:want|need|wish)(?: to)? "
+        r"(?:finish|automate|reduce|fix|replace|build|connect|save|"
+        r"integrate|simplify|stop|manage|track|organize|streamline)\b|"
+        r"\b(?:vreau|mi-ar trebui|aș vrea|as vrea)\b.{0,90}"
+        r"\b(?:aplicație|aplicatie|automat|termin|reduce|simpl|"
+        r"conect|integra|soluție|solutie|rapid|fără|fara)\b"
+    )
     POSITIVE_GOAL = re.compile(
         r"(?i)\b(?:i want|i need|i wish|i would use|"
         r"i'd try|aș vrea|as vrea|vreau|am nevoie|mi-ar trebui)\b"
@@ -87,6 +112,19 @@ class ContextQualityGate:
             return QualityResult(False, "REJECT", flags + ["third_party_report_not_first_person"])
         if self.RESOLVED.search(latest):
             return QualityResult(False, "REJECT", flags + ["superseded_problem_resolved"])
+        # Live-source regression (2026-11-04): a question about Google
+        # Flights' BUSINESS MODEL was treated as a demand for software.
+        # Asking "how does X work?" is informational curiosity unless
+        # the same actor also describes operational friction or a concrete
+        # outcome. Apply this guard only to the rule fallback: an LLM may
+        # reconstruct a genuine implicit need from richer evidence.
+        if (frame.get("interpretation_method") == "rules"
+                and self.INFORMATIONAL_ASK.search(all_own)
+                and not self.PERSONAL_FRICTION.search(all_own)
+                and not self.OPERATIONAL_GOAL.search(all_own)):
+            return QualityResult(
+                False, "NO_VERDICT", flags + ["informational_question_not_unmet_need"]
+            )
         if (self.NEGATED_REQUEST.search(latest)
                 and not self.POSITIVE_GOAL.search(
                     self.NEGATED_REQUEST.sub("", latest))
