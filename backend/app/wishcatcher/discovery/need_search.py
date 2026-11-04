@@ -109,7 +109,8 @@ class HackerNewsNeedSearch:
         comment_id = self._valid_id(hit.get("objectID"))
         story_id = self._valid_id(hit.get("story_id"))
         actor = str(hit.get("author") or "").strip()
-        if not comment_id or not story_id or not actor or len(actor) > 90:
+        if (not comment_id or not story_id or not actor
+                or not re.fullmatch(r"[A-Za-z0-9_-]{1,40}", actor)):
             return None
 
         original = await self.hn._get(hn, f"item/{comment_id}.json")
@@ -158,8 +159,15 @@ class HackerNewsNeedSearch:
                     or candidate.get("dead") or candidate.get("deleted")
                     or candidate.get("type") != "comment"):
                 continue
-            # The HN search tags constrain this to one thread. The source
-            # item itself is authoritative for author/text, not index snippets.
+            # Search-index story attribution is not an authority, even
+            # when the username is verified. Trace every cited companion
+            # back to the verified source thread to prevent speaker bleed.
+            try:
+                related_story = await self._trace_story(hn, candidate, story_id)
+            except Exception:
+                continue
+            if related_story is None:
+                continue
             text = clean_html(candidate.get("text"), 2400)
             if text:
                 same_author.append({
