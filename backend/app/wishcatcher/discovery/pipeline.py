@@ -91,16 +91,35 @@ def similarity(left: Dict[str, Any], right: Dict[str, Any]) -> float:
     return 0.65 * dice + 0.35 * overlap
 
 
+def _redact_private_text(value: Any, max_length: int) -> str:
+    """Best-effort redaction for small stored extracts (not formal anonymization)."""
+    excerpt = str(value or "")
+    excerpt = re.sub(r"(?i)\\b[\\w.+-]+@[\\w.-]+\\.[a-z]{2,}\\b",
+                     "[email-redacted]", excerpt)
+    excerpt = re.sub(
+        r"(?i)\\b(api[-_ ]?key|password|token)\\s*[:=]\\s*[^\\s,;]{6,}",
+        "[secret-redacted]", excerpt,
+    )
+    excerpt = re.sub(r"(?<!\\w)\\+?\\d[\\d ()-]{8,}\\d(?!\\w)",
+                     "[number-redacted]", excerpt)
+    return excerpt[:max_length]
+
+
 def minimal_frame(frame: Dict[str, Any]) -> Dict[str, Any]:
-    """Bounded synthesis; do not persist full conversations or personal profiles."""
+    """Bounded redacted source summary; no full-thread or actor profile."""
+
     keys = ("language", "domain", "problem", "desired_outcome", "intent",
             "constraints", "attempted_solutions", "epistemic_status",
             "interpretation_method", "confidence", "actionable")
     result = {key: frame.get(key) for key in keys}
     for key in ("problem", "desired_outcome", "intent"):
-        result[key] = str(result.get(key) or "")[:500]
+        result[key] = _redact_private_text(result.get(key), 500)
     for key in ("constraints", "attempted_solutions"):
-        result[key] = [str(x)[:160] for x in (result.get(key) or [])[:8]]
+        result[key] = [_redact_private_text(x, 160)
+                       for x in (result.get(key) or [])[:8]]
+    result["source_id"] = "src_" + hashlib.sha256(
+        str(frame.get("source_id") or "").encode("utf-8")
+    ).hexdigest()[:20]
     # Preserve auditability without archiving full conversations.
     # The evidence is exclusively from the primary actor as checked by
     # ContextQualityGate, and obvious contact details/keys are redacted.
@@ -108,18 +127,9 @@ def minimal_frame(frame: Dict[str, Any]) -> Dict[str, Any]:
     for entry in (frame.get("evidence") or [])[:6]:
         if not isinstance(entry, dict):
             continue
-        excerpt = str(entry.get("excerpt") or "")
-        excerpt = re.sub(r"(?i)\b[\w.+-]+@[\w.-]+\.[a-z]{2,}\b",
-                         "[email-redacted]", excerpt)
-        excerpt = re.sub(
-            r"(?i)\b(api[-_ ]?key|password|token)\s*[:=]\s*[^\s,;]{6,}",
-            "[secret-redacted]", excerpt,
-        )
-        excerpt = re.sub(r"(?<!\w)\+?\d[\d ()-]{8,}\d(?!\w)",
-                         "[number-redacted]", excerpt)
         evidence.append({
-            "message_id": str(entry.get("message_id") or "")[:120],
-            "excerpt": excerpt[:190],
+            "message_id": _redact_private_text(entry.get("message_id"), 120),
+            "excerpt": _redact_private_text(entry.get("excerpt"), 190),
         })
     result["evidence"] = evidence
     result["quality_status"] = str(frame.get("quality_status") or "unknown")[:60]
@@ -252,8 +262,11 @@ class DiscoveryIndex:
             if cluster_id is None:
                 cluster_id = "need_" + uuid.uuid4().hex[:18]
                 # Genesis is a hypothesis composer, not a revenue estimator.
+                # Persist the same minimized, redacted factual material
+                # in both the discovery frame and Genesis hypotheses.
+                # Otherwise the brief reintroduced sensitive raw excerpts.
                 genesis = GenesisContextBridge.compose({
-                    **frame, "evidence": frame.get("evidence") or [],
+                    **safe, "evidence": safe.get("evidence") or [],
                 })
                 db.execute(
                     "INSERT INTO clusters(id,domain,frame_json,genesis_json,created_at)"
