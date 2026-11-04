@@ -123,7 +123,7 @@ jobs:
 
   live-hn-scout:
     # Live network smoke is voluntary; avoid uncontrolled HN traffic and CI charges on every PR.
-    if: github.event_name == 'workflow_dispatch'
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     timeout-minutes: 8
     steps:
