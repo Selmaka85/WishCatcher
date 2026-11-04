@@ -19,7 +19,7 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Sequence
 
 from app.astra_genesis.context_bridge import GenesisContextBridge
-from app.wishcatcher.contextual.context_resolver import ConversationContextResolver
+from app.wishcatcher.contextual.context_resolver import ContextStateBuilder, ConversationContextResolver
 from app.wishcatcher.contextual.quality import ContextQualityGate
 from app.wishcatcher.discovery.sources import ConversationSource, SourceConversation, configured_source
 from app.wishcatcher.discovery.rss_source import PublicRSSSource
@@ -135,6 +135,35 @@ def minimal_frame(frame: Dict[str, Any]) -> Dict[str, Any]:
     result["quality_status"] = str(frame.get("quality_status") or "unknown")[:60]
     result["grounding_status"] = str(frame.get("grounding_status") or "unverified")[:70]
     return result
+
+
+def conversation_revision_fingerprint(item: SourceConversation) -> str:
+    """P3: stable, privacy-minimized revision token for *future* refresh.
+
+    Hash the verified actor-scoped message content and relationships, not the
+    discovery search snippet. Changing a reply must change the digest. This
+    pure function does not alter the DB or reprocess old clusters: persistent
+    source-version state needs a separately approved migration/rebuild plan.
+    """
+    messages = ContextStateBuilder.flatten(item.conversation)
+    canonical = {
+        "source": item.source,
+        "source_id": item.source_id,
+        "messages": [
+            {
+                "id": msg.message_id,
+                "author": msg.author,
+                "parent": msg.parent_id,
+                "time": msg.timestamp,
+                "text": msg.text,
+            }
+            for msg in messages
+        ],
+    }
+    serialized = json.dumps(
+        canonical, sort_keys=True, ensure_ascii=False, separators=(",", ":")
+    )
+    return hashlib.sha256(serialized.encode("utf-8")).hexdigest()
 
 
 class DiscoveryIndex:
